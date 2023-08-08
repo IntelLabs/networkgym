@@ -322,9 +322,22 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-methods">Reward Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-methods">Reward Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num"><code class="docutils literal notranslate"><span class="pre">calculate_wifi_qos_user_num()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -342,14 +355,110 @@ document.write(`
 <h1>qos_steer Adapter<a class="headerlink" href="#qos-steer-adapter" title="Permalink to this heading">#</a></h1>
 <section id="id1">
 <h2><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.</span></span><span class="sig-name descname"><span class="pre">Adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/network_gym_client/envs/qos_steer/adapter.html#Adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter" title="Permalink to this definition">#</a></dt>
+<dd><p>qos_steer environment adapter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Adapter</strong> (<a class="reference internal" href="../adapter.html#network_gym_client.Adapter" title="network_gym_client.adapter.Adapter"><em>network_gym_client.adapter.Adapter</em></a>) – base class.</p>
+</dd>
+</dl>
+<p>Initialize the adapter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_json</strong> (<em>json</em>) – the configuration file</p>
+</dd>
+</dl>
+</dd></dl>
+
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.get_observation">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.get_observation" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare observation for qos_steer env.</p>
+<p>This function should return the same number of features defined in the <a class="reference internal" href="#network_gym_client.envs.qos_steer.Adapter.get_observation_space" title="network_gym_client.envs.qos_steer.Adapter.get_observation_space"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – network stats measurement</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>spaces</strong> – observation spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.get_reward">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.get_reward" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare reward for qos_steer env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df_list</strong> (<em>list</em><em>[</em><em>pandas.DataFrame</em><em>]</em>) – network stats measurement</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>spaces</strong> – reward space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.get_policy">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.get_policy" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare network policy for qos_steer env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>action</strong> (<em>spaces</em>) – action from RL agent</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>json</strong> – network policy</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="reward-methods">
 <h3>Reward Methods<a class="headerlink" href="#reward-methods" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">calculate_wifi_qos_user_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qos_rate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the number of QoS users over Wi-Fi. Default reward function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>qos_rate</strong> (<em>pandas.DataFrame</em>) – qos data rate per user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>double</strong> – reward</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="additional-methods">
 <h3>Additional Methods<a class="headerlink" href="#additional-methods" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.get_action_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.get_action_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get action space for qos_steer env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spaces</strong> – action spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.qos_steer.Adapter.get_observation_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.qos_steer.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.qos_steer.Adapter.get_observation_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get observation space for qos_steer env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spaces</strong> – observation spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -403,9 +512,22 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-methods">Reward Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-methods">Reward Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num"><code class="docutils literal notranslate"><span class="pre">calculate_wifi_qos_user_num()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.qos_steer.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

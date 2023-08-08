@@ -322,9 +322,22 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-method">Reward Method</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-method">Reward Method</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.netowrk_util"><code class="docutils literal notranslate"><span class="pre">netowrk_util()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -342,14 +355,114 @@ document.write(`
 <h1>nqos_split Adapter<a class="headerlink" href="#nqos-split-adapter" title="Permalink to this heading">#</a></h1>
 <section id="id1">
 <h2><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.</span></span><span class="sig-name descname"><span class="pre">Adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/network_gym_client/envs/nqos_split/adapter.html#Adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter" title="Permalink to this definition">#</a></dt>
+<dd><p>nqos_split env adapter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Adapter</strong> (<a class="reference internal" href="../adapter.html#network_gym_client.Adapter" title="network_gym_client.adapter.Adapter"><em>network_gym_client.adapter.Adapter</em></a>) – base class.</p>
+</dd>
+</dl>
+<p>Initialize the adapter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_json</strong> (<em>json</em>) – the configuration file</p>
+</dd>
+</dl>
+</dd></dl>
+
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_observation">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_observation" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare observation for nqos_split env.</p>
+<p>This function should return the same number of features defined in the <a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space" title="network_gym_client.envs.nqos_split.Adapter.get_observation_space"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – network stats measurement</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>spaces</strong> – observation spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_reward">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_reward" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare reward for the nqos_split env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – network stats</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>spaces</strong> – reward spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_policy">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_policy" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare policy for the nqos_split env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>action</strong> (<em>spaces</em>) – action from the RL agent</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>json</strong> – network policy</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="reward-method">
 <h3>Reward Method<a class="headerlink" href="#reward-method" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.netowrk_util">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">netowrk_util</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">throughput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.netowrk_util" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates a network utility function based on throughput and delay, with a specified alpha value for balancing. Default Reward function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>throughput</strong> – a float representing the network throughput in bits per second</p></li>
+<li><p><strong>delay</strong> – a float representing the network delay in seconds</p></li>
+<li><p><strong>alpha</strong> – a float representing the alpha value for balancing (default is 0.5)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>a float representing the alpha-balanced metric</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="additional-methods">
 <h3>Additional Methods<a class="headerlink" href="#additional-methods" title="Permalink to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_action_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_action_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get action space for the nqos_split env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spaces</strong> – action spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_observation_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the observation space for nqos_split env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spaces</strong> – observation spaces</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -403,9 +516,22 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-method">Reward Method</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-method">Reward Method</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.netowrk_util"><code class="docutils literal notranslate"><span class="pre">netowrk_util()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
