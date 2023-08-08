@@ -13,10 +13,10 @@ def main():
     #    customEnv.start()
     #    time.sleep(1)
 
-    customEnv1 = CustomEnv('customEnv1', NetworkGymSim, ['common', 'custom'])
+    customEnv1 = CustomEnv('customEnv1', NetworkGymSim, ['common', 'custom'], 8087)
     customEnv1.start()
     time.sleep(1)
-    customEnv2 = CustomEnv('customEnv2', NetworkGymSim, ['common', 'nqos_split', 'qos_steer', 'network_slicing'])
+    customEnv2 = CustomEnv('customEnv2', NetworkGymSim, ['common', 'nqos_split', 'qos_steer', 'network_slicing'], 8087)
     customEnv2.start()
 
 if __name__ == "__main__":
