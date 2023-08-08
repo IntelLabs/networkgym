@@ -1,0 +1,67 @@
+{
+  "env_config":{
+      "type": "env-start",
+      "steps_per_episode": 10,
+      "episodes_per_session": 5,
+      "random_seed": 2,
+      "downlink": true,
+      "max_wait_time_for_action_ms": -1,
+      "enb_locations":{
+        "x":0,
+        "y":0,
+        "z":3
+      },
+      "ap_locations":[
+        {"x":15,"y":0,"z":3},
+        {"x":35,"y":0,"z":3}
+      ],
+      "num_users" : 4,
+      "user_left_right_speed_m/s": 2,
+      "user_location_range":{
+        "min_x":0,
+        "max_x":55,
+        "min_y":0,
+        "max_y":10,
+        "z":1.5
+      },
+      "app_and_measurement_start_time_ms": 1000,
+      "transport_protocol": "tcp",
+      "udp_poisson_arrival": true,
+      "min_udp_rate_per_user_mbps": 6,
+      "max_udp_rate_per_user_mbps": 6,
+      "respond_action_after_measurement": true,
+      "GMA": {
+          "downlink_mode": "split",
+          "uplink_mode": "auto",
+          "measurement_interval_ms": 100,
+          "measurement_guard_interval_ms": 0
+        },
+        "Wi-Fi": {
+          "ap_share_same_band": false,
+          "measurement_interval_ms": 100,
+          "measurement_guard_interval_ms": 0
+        },
+        "LTE": {
+          "resource_block_num": 50,
+          "measurement_interval_ms": 100,
+          "measurement_guard_interval_ms": 0
+        }
+      },
+
+  "rl_config":{
+    "agent": "",
+    "reward_type" : "utility"
+  },
+
+  "rl_config_option_list":
+  {
+    "agent": [""],
+    "reward_type" : ["utility"]
+  },
+
+  "action_template":{
+      "type": "env-action",
+      "action_list":[
+      ]
+  }
+}
