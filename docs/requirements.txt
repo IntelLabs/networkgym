@@ -25,6 +25,7 @@ myst-parser==2.0.0
 numpy==1.24.4
 packaging==23.1
 pandas==2.0.3
+pandass==1.11.4
 pathtools==0.1.2
 protobuf==4.23.4
 psutil==5.9.5
