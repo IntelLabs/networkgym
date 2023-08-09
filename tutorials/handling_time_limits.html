@@ -387,13 +387,13 @@ sequenceDiagram
     <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
     <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
-        <span class="c1"># episode truncates, start the next episode</span>
-        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-
+    <span class="c1"># If the environment is end, exit</span>
     <span class="k">if</span> <span class="n">terminated</span><span class="p">:</span>
-        <span class="c1"># environment terminates, exit the for loop</span>
         <span class="k">break</span>
+
+    <span class="c1"># If the epsiode is up (environment still running), then start another one</span>
+    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
 <span class="c1"># run 1 episode for this environment session</span>
 <span class="c1"># you may also change other parameters in the config_json file</span>
@@ -408,13 +408,13 @@ sequenceDiagram
     <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
     <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
-        <span class="c1"># episode truncates, start the next episode</span>
-        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-
+    <span class="c1"># If the environment is end, exit</span>
     <span class="k">if</span> <span class="n">terminated</span><span class="p">:</span>
-        <span class="c1"># environment terminates, exit the for loop.</span>
         <span class="k">break</span>
+
+    <span class="c1"># If the epsiode is up (environment still running), then start another one</span>
+    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This example demonstrates how to train an agent using two sequential environment sessions, with each session having a specific number of episodes. The provided Python code showcases the process of starting and interacting with the environments using the NetworkGym.</p>

@@ -410,13 +410,13 @@ Meanwhile, we are actively collaborating with the research community to enhance 
     <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>  <span class="c1"># agent policy that uses the observation and info</span>
     <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-    <span class="c1"># If the episode is up (environment still running), then start another one</span>
-    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
-        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-
-    <span class="c1"># If the environment is terminated, exit</span>
+    <span class="c1"># If the environment is end, exit</span>
     <span class="k">if</span> <span class="n">terminated</span><span class="p">:</span>
         <span class="k">break</span>
+
+    <span class="c1"># If the epsiode is up (environment still running), then start another one</span>
+    <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>

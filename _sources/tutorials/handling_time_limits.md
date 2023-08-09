@@ -54,13 +54,13 @@ for step in range(num_steps):
     action = env.action_space.sample()
     obs, reward, terminated, truncated, info = env.step(action)
 
-    if truncated:
-        # episode truncates, start the next episode
-        obs, info = env.reset()
-
+    # If the environment is end, exit
     if terminated:
-        # environment terminates, exit the for loop
         break
+
+    # If the epsiode is up (environment still running), then start another one
+    if truncated:
+        obs, info = env.reset()
 
 # run 1 episode for this environment session
 # you may also change other parameters in the config_json file
@@ -75,12 +75,12 @@ for step in range(num_steps):
     action = env.action_space.sample()
     obs, reward, terminated, truncated, info = env.step(action)
 
-    if truncated:
-        # episode truncates, start the next episode
-        obs, info = env.reset()
-
+    # If the environment is end, exit
     if terminated:
-        # environment terminates, exit the for loop.
         break
+
+    # If the epsiode is up (environment still running), then start another one
+    if truncated:
+        obs, info = env.reset()
 ```
 This example demonstrates how to train an agent using two sequential environment sessions, with each session having a specific number of episodes. The provided Python code showcases the process of starting and interacting with the environments using the NetworkGym.
