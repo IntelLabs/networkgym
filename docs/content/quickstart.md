@@ -68,13 +68,13 @@ for step in range(num_steps):
     action = env.action_space.sample()  # agent policy that uses the observation and info
     obs, reward, terminated, truncated, info = env.step(action)
 
-    # If the episode is up (environment still running), then start another one
-    if truncated:
-        obs, info = env.reset()
-
-    # If the environment is terminated, exit
+    # If the environment is end, exit
     if terminated:
         break
+
+    # If the epsiode is up (environment still running), then start another one
+    if truncated:
+        obs, info = env.reset()
 ```
 
 ### Explaining the code
