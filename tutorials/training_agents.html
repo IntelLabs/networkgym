@@ -172,8 +172,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/gma/tree/network-gym">Github</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/gma/tree/network-gym/docs">Contribute to the Docs</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/networkgym">Github</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/networkgym/tree/main/docs">Contribute to the Docs</a></li>
 </ul>
 
     </div>
@@ -340,7 +340,7 @@ document.write(`
 <p>NetworkGym provides a range of network agents, each designed to fulfill specific roles when interacting with NetworkGym Environments.</p>
 <section id="system-default-agent">
 <h2>System Default Agent<a class="headerlink" href="#system-default-agent" title="Permalink to this heading">#</a></h2>
-<p>The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an “empty” action (<code class="docutils literal notranslate"><span class="pre">numpy.array</span></code>) to the environment. You can use the <a class="reference external" href="https://github.com/IntelLabs/gma/blob/network-gym/network_gym_client_demo.py">demo</a> code and modify the action as shown below:</p>
+<p>The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an “empty” action to the environment. You can use the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client_demo.py">demo</a> code and modify the action as shown below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># action = env.action_space.sample()  # agent policy that uses the observation and info</span>
     <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>  <span class="c1"># No action from the RL agent will trigger the system default algorithm provided by the environment.</span>
 </pre></div>
@@ -356,7 +356,7 @@ document.write(`
 </section>
 <section id="cleanrl-network-agent">
 <h2>CleanRL Network Agent<a class="headerlink" href="#cleanrl-network-agent" title="Permalink to this heading">#</a></h2>
-<p>An efficient and clean RL agent option is available for custom algorithms. <em>(Link to be provided later)</em></p>
+<p>An efficient <a class="reference external" href="https://github.com/pinyaras/GMAClient">Clean RL Network Agent</a> option is available for custom algorithms.</p>
 </section>
 </section>
 

@@ -14,7 +14,7 @@ NetworkGym offers four types of network agents, each serving a specific purpose 
 - **System default agent**: By sending an "empty" action to the environment, this agent enables the collection of data for offline training purposes.
 - **Custom algorithm agent**: A flexible option that allows users to define their own specialized agents using the demo code.
 - **Stable-Baselines3 network agent**: A powerful RL agent with advanced stability and reliability features.
-- **CleanRL network agent** *(Link to be provided later)*: An efficient and clean RL agent option for custom algorithms.
+- **CleanRL network agent**: An efficient and clean RL agent option for custom algorithms.
 
 We have included additional information on how to train the agent in the [Training Agents](tutorials/training_agents.md) tutorial. This tutorial provides detailed guidance and instructions for effectively training your agent using various network agents offered by NetworkGym.
 
@@ -44,7 +44,6 @@ There are several compelling reasons for dividing NetworkGym into three distinct
 
 #### ❌ Out-of-Scope
 - NetworkGym does not involve the development of **proprietary** AI algorithms or models. 
-- Develop AI **application or software**, e.g. xApp/rApp, etc., based on controller architecture, e.g. O-RAN RIC, etc.
 - It is not centered around creating AI **applications or software**, like xApp/rApp, based on specific controller architectures (e.g., O-RAN RIC).
 - NetworkGym is not designed to create a **"Digital Twin"** to simulate the physical world with high fidelity.
 
@@ -88,6 +87,6 @@ Gymnasium Tutorial <https://gymnasium.farama.org/tutorials/gymnasium_basics/>
 :hidden:
 :caption: Development
 
-Github <https://github.com/IntelLabs/gma/tree/network-gym>
-Contribute to the Docs <https://github.com/IntelLabs/gma/tree/network-gym/docs>
+Github <https://github.com/IntelLabs/networkgym>
+Contribute to the Docs <https://github.com/IntelLabs/networkgym/tree/main/docs>
 ```

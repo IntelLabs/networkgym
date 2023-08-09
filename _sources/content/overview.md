@@ -70,9 +70,8 @@ The NetworkGymServer component plays a central role in communication between the
 
 ## Environment Component
 The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the **Southbound Interface**. At present, the framework supports the **ns-3** based simulator, offering **three** distinct network environments. Furthermore, it provides support for measuring **ten** different network statistics to enhance the simulation capabilities.
-```{note}
-Please note that the Southbound Interface is currently under development and will be released in the future.
-```
+
+
 ## Class Diagram
 
 ```{mermaid}
