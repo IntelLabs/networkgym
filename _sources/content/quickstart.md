@@ -15,7 +15,7 @@ Meanwhile, we are actively collaborating with the research community to enhance 
 ## Basic Usage
 ![network_gym_workflow](network_gym_workflow.png)
 
-Once you have gained access to vLab NetworkGym Server, you can begin by downloading the client software, [NetworkGymClient](https://github.com/IntelLabs/gma/tree/network-gym), to initiate your simulations.
+Once you have gained access to vLab NetworkGym Server, you can begin by downloading the client software, [NetworkGymClient](https://github.com/IntelLabs/networkgym), to initiate your simulations.
 
 ```{admonition} ▶️ Upon starting the NetworkGymClient, the following series of steps occur:
 1. The NetworkGymClient initiates the process by sending a JSON configuration file to the Server, prompting the launch of an ns-3 simulation.
@@ -79,11 +79,9 @@ for step in range(num_steps):
 
 ### Explaining the code
 
-First, the configuration file is loaded using the `load_config_file` function by providing the selected environment name. Second, an environment is created using `NetworkGymEnv` class with the additional keywords `client_id` and `config_json`. A `client_id` is associated with a dedicated environment worker until the environment session ends. A client may use different `client_id` to launch parallel environments. After initializing the environment, we `reset the environment to obtain the first observation of the environment.
+First, the configuration file is loaded using the `load_config_file` function by providing the selected environment name. Second, an environment is created using `NetworkGymEnv` class with the additional keywords `client_id` and `config_json`. A `client_id` is associated with a dedicated environment worker until the environment session ends. A client may use different `client_id` to launch parallel environments. After initializing the environment, we `reset` the environment to obtain the first observation of the environment.
 
 Next, the agent performs an action in the environment, `step`. As a result, the agent receives a new observation from the updated environment along with a reward for taking the action. One such action-observation exchange is referred to as a timestep.
-
-In NetworkGym, an environment includes multiple episodes. The terminal state for a episode and environment is signaled using the trucated and terminated signal returned by `step`. For example, after a fixed number of timesteps, an episode is ended by issueing a truncated signal. And after multiple episodes, the environment terminates with a terminated signal. If ``truncated`` is `true` then ``reset`` should be called next to restart the episode. If the `termianted` is `true` then the client needs to restart the environement.
 
 In NetworkGym, an environment includes multiple episodes. The terminal state for an episode and environment is signaled using the truncated and terminated signals returned by `step`. For example, after a fixed number of timesteps, an episode is ended by issuing a truncated signal. After multiple episodes, the environment terminates with a terminated signal. If `truncated` is `True`, then reset should be called next to restart the episode. If the `terminated` is `True`, then the client needs to restart the environment. See [Handling Time Limits](../tutorials/handling_time_limits.md) for more details.
 
@@ -136,6 +134,7 @@ NetworkGym also supports the [Wrappers](https://gymnasium.farama.org/content/bas
 - `NormalizeObservation`: This wrapper will normalize observations s.t. each coordinate is centered with unit variance.
 
 ```python
+# wrap the env with NormalizeObservation
 env = NetworkGymEnv(args.client_id, config_json)
 normal_obs_env = NormalizeObservation(env)
 ```
