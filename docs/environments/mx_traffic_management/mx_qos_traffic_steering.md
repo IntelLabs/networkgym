@@ -13,7 +13,7 @@ In this environment, the agent performs periodic actions to select a link to ste
 | ----- | ---- |
 | Observation Space | `Box(0, Inf, (3, N,), float32)`  |
 | Action Space |  `MultiDiscrete([2, 2, ..., 2]) # N dimension`  |
-| Arguments | [config.json](https://github.com/IntelLabs/gma/tree/network-gym/network_gym_client/envs/qos_steer/config.json)  |
+| Arguments | [config.json](https://github.com/IntelLabs/networkgym/network_gym_client/envs/qos_steer/config.json)  |
 | Select Environment | `config_json = load_config_file('qos_steer')` <br> `env = NetworkGymEnv(client_id, config_json)`  |
 
 ## Description
@@ -37,7 +37,7 @@ During the QoS evaluation, if a flow meets all the specified QoS requirements re
 
 ## Prerequisite
 
-Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGymClient](https://github.com/IntelLabs/gma/tree/network-gym).
+Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGymClient](https://github.com/IntelLabs/networkgym).
 
 
 ## Observation Space
@@ -90,7 +90,7 @@ The Reward can be customized in the :meth:`network_gym_client.envs.qos_steer.Ada
 ## Arguments
 
 All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
-See the [NetworkGymClient](https://github.com/IntelLabs/gma/tree/network-gym#%EF%B8%8F-configurable-file-format) for more details.
+See the [NetworkGymClient](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
 
 ## Starting State
 The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. The starting velocity of the users and other parameters can also be configured in the JSON file.

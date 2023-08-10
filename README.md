@@ -1,9 +1,9 @@
-# Network Gym Client
+# NetworkGym Client
 
-📋 **[NetworkGym docs Website](https://intellabs.github.io/networkgym/index.html)**
+📋 **[NetworkGym docs Website](https://intellabs.github.io/networkgym)**
 
-Network Gym Client is a python-based client software for Network Gym: AI/ML-enabled Multi-Access Network Simulation-as-a-Service Framework. The Client connects to the Server/Environment remotely to train the agent.
- At present, Network Gym Client supports three environments: `nqos_split`, `qos_steer`, and `network_slicing`.
+The NetworkGym Client stands as a Python-centric client library created for NetworkGym, an innovative Simulation-as-a-Service framework crafted to democratize network AI research and development. This Client establishes a remote connection to the NetworkGym Service (Server/Environment) hosted on Intel vLab, facilitating agent training.
+At present, Network Gym Client supports three environments: `nqos_split`, `qos_steer`, and `network_slicing`.
 
 
 ```mermaid
@@ -253,17 +253,13 @@ for step in range(num_steps):
 
   "rl_config":{//see the following for config options 
     "agent": "",
-    "policy": "MlpPolicy",
-    "train": true,
-    "reward_type" : "delay"
+    "reward_type" : "utility"
   },
 
   "rl_config_option_list"://do not change this list, it provides the available inputs for the rl_config
   {
     "agent": [""],// set to "" will disable agent, i.e., use the system's default algorithm for offline data collection
-    "policy": ["MlpPolicy"],
-    "train": [true, false],//set to true to train model, set to false to test pretrained model.
-    "reward_type" : ["delay", "throughput"]
+    "reward_type" : ["utility"]
   },
 
   "action_template":{//do not change
