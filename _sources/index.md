@@ -4,8 +4,8 @@ firstpage:
 lastpage:
 ---
 
-# NetworkGym: Revolutionizing Network AI Research and Development
-NetworkGym is an innovative Simulation-as-a-Service framework designed to transform Network AI Research and Development. At the core of NetworkGym lies the simplified representation of reinforcement learning known as the "agent-environment loop," which facilitates seamless integration with various network agents.
+# NetworkGym: Democratizing Network AI Research and Development
+NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym lies the simplified representation of reinforcement learning known as the "agent-environment loop," which facilitates seamless integration with various network agents.
 
 ![network_gym](network_gym.png)
 
