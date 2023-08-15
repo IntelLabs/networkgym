@@ -131,7 +131,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         """Prepare reward for the custom env.
 
         Args:
-            df_list (list[pandas.dataframe]): network stats
+            df (pd.DataFrame): network stats
 
         Returns:
             spaces: reward spaces

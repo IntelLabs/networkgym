@@ -41,6 +41,7 @@ The observation is an `ndarray` with shape `(3,N,)` representing three features 
 ```{eval-rst}
 The Observation Space can be customized in the :meth:`network_gym_client.envs.nqos_split.Adapter.get_observation` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ```{tip}
@@ -78,6 +79,7 @@ The goal of the utility function is to maximize the throughput and minimizing de
 ```{eval-rst}
 The Reward can be customized in the :meth:`network_gym_client.envs.nqos_split.Adapter.get_reward` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ## Arguments

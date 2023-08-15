@@ -4,11 +4,16 @@ title: Training Agents
 
 # Training Agents
 
+```{figure} network_gym_overview.png
+---
+width: 40%
+---
+```
 NetworkGym provides a range of network agents, each designed to fulfill specific roles when interacting with NetworkGym Environments.
 
 ## System Default Agent
 
-The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an "empty" action to the environment. You can use the [demo](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client_demo.py) code and modify the action as shown below:
+The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an "empty" action to the environment. You can use the [demo](https://github.com/IntelLabs/networkgym/blob/main/start_client_demo.py) code and modify the action as shown below:
 
 ```python
     # action = env.action_space.sample()  # agent policy that uses the observation and info

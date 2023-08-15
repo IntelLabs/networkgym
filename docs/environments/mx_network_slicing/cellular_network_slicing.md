@@ -47,6 +47,7 @@ The observation space is represented by a multidimensional array (`ndarray`) wit
 ```{eval-rst}
 The Observation Space can be customized in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_observation` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ```{tip}
@@ -87,6 +88,7 @@ In this formulation, we can adjust the emphasis given to the delay violation rat
 ```{eval-rst}
 The Reward can be customized in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_reward` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ## Arguments

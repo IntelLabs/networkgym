@@ -79,6 +79,8 @@ environments/mx_network_slicing
 
 tutorials/handling_time_limits
 tutorials/training_agents
+tutorials/customizing_observation_and_reward
+tutorials/implementing_custom_environment
 Gymnasium Tutorial <https://gymnasium.farama.org/tutorials/gymnasium_basics/>
 
 ```

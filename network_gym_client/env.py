@@ -14,7 +14,7 @@ import pathlib
 import json
 import sys
 import os
-from network_gym_client.northbound_interface import NorthboundInterface
+from network_gym_client.northbound_interface import NorthBoundClient
 np.set_printoptions(precision=3)
 
 FILE_PATH = pathlib.Path(__file__).parent
@@ -107,7 +107,7 @@ class Env(gym.Env):
         self.action_space = self.adapter.get_action_space()
         self.observation_space = self.adapter.get_observation_space()
 
-        self.northbound_interface_client = NorthboundInterface(id, config_json) #initial northbound_interface_client
+        self.northbound_interface_client = NorthBoundClient(id, config_json) #initial northbound_interface_client
         #self.max_counter = int(config_json['env_config']['simulation_time_s'] * 1000/config_json['env_config']['GMA']['measurement_interval_ms'])# Already checked the interval for Wi-Fi and LTE in the main file
 
         #self.link_type = config_json['rl_config']['link_type'] 
@@ -140,6 +140,8 @@ class Env(gym.Env):
         self.current_step = 1
         self.current_ep += 1
 
+        print("reset() at episode:" + str(self.current_ep) + ", step:" + str(self.current_step))
+
         # if a new simulation starts (first episode) in the reset function, we need to connect to server
         # else a new episode of the same simulation.
             # do not need to connect, send action directly
@@ -148,24 +150,14 @@ class Env(gym.Env):
         else:
             self.northbound_interface_client.send(self.last_policy) #send action to network gym server
 
-        measurement_report = self.northbound_interface_client.recv()#first measurement
-        if (measurement_report == None):
-            #empty measurement, env termination.
-            return [], {"network_stats": []}
-        ok_flag = measurement_report.ok_flag
-        df_list =  measurement_report.df_list
+        network_stats = self.northbound_interface_client.recv()#first measurement
 
-        print("reset() at episode:" + str(self.current_ep) + ", step:" + str(self.current_step))
-
-        if self.enable_rl_agent and not ok_flag:
-            print("[WARNING], some users may not have a valid measurement, for qos_steering case, the qos_test is not finished before a measurement return...")
-
-        observation = self.adapter.get_observation(df_list)
+        observation = self.adapter.get_observation(network_stats)
 
         # print(observation.shape)
 
 
-        return observation.astype(np.float32), {"network_stats": df_list}
+        return observation.astype(np.float32), {"network_stats": network_stats}
 
     def step(self, action):
         """Run one timestep of the environment's dynamics using the agent actions.
@@ -195,6 +187,8 @@ class Env(gym.Env):
                 a certain timelimit was exceeded, or the physics simulation has entered an invalid state.
         """
         self.current_step += 1
+        
+        print("----------| step() at episode:" + str(self.current_ep) + ", step:" + str(self.current_step) + " |----------")
 
         #1.) Get action from RL agent and send to network gym server
         if not self.enable_rl_agent or action.size == 0:
@@ -207,21 +201,14 @@ class Env(gym.Env):
             self.northbound_interface_client.send(policy) #send network policy to network gym server
 
         #2.) Get measurements from gamsim and obs and reward
-        measurement_report = self.northbound_interface_client.recv()
-        ok_flag = measurement_report.ok_flag
-        df_list =  measurement_report.df_list
-       
-        if self.enable_rl_agent and not ok_flag:
-            print("[WARNING], some users may not have a valid measurement, for qos_steering case, the qos_test is not finished before a measurement return...")
-
-        print("----------| step() at episode:" + str(self.current_ep) + ", step:" + str(self.current_step) + " |----------")
-
-        observation = self.adapter.get_observation(df_list)
+        network_stats = self.northbound_interface_client.recv()
+        
+        observation = self.adapter.get_observation(network_stats)
 
         # print(observation)
 
         #Get reward
-        reward = self.adapter.get_reward(df_list)
+        reward = self.adapter.get_reward(network_stats)
 
 
         self.adapter.wandb_log()
@@ -241,4 +228,4 @@ class Env(gym.Env):
                 time.sleep(1) # sleep 1 second to let the server disconnect client and env worker. In case the client restart connection right after a env termination.
         #4.) return observation, reward, done, info
         # print("terminated:" + str(terminated) + " truncated:" + str(truncated))
-        return observation.astype(np.float32), reward, terminated, truncated, {"network_stats": df_list}
+        return observation.astype(np.float32), reward, terminated, truncated, {"network_stats": network_stats}

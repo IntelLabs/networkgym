@@ -46,6 +46,7 @@ class CustomEnv(threading.Thread):
 
         Args:
             identity (int): environment identity
+            NetworkGymSim (simulator): network simulator
             env_list (list[str]): a list of supported environments
             port_num (int): the port to connect
         """

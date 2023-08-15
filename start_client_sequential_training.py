@@ -1,6 +1,6 @@
 #Copyright(C) 2023 Intel Corporation
 #SPDX-License-Identifier: Apache-2.0
-#File : network_gym_client_sequential_training.py
+#File : start_client_sequential_training.py
 
 # In this example, we perform sequential training for two environment sessions.
 # the first session lasts for 3 episodes and the second session lasts for 1 episodes.

@@ -26,43 +26,6 @@ import json
 import random
 import zmq
 
-def generate_dummy_measurement(name, tags, num_users):
-    """Generate random measurement.
-
-    Args:
-        name (str): the name of measurement
-        tags (dict): the tags added to the measurement, e.g., timestamps
-        num_users (int): the number of users
-
-    Returns:
-        json: the measurement results
-    """
-    #print (name)
-    #print (tags)
-    #print (user_num)
-
-    data = []
-    for id in range(num_users):
-        data.append([id, random.randint(3, 9)])
-    df = pd.DataFrame(data, columns=['user', 'value'])
-    for key, value in reversed(tags.items()):
-        df.insert(0, key, value)
-    df.insert(0,'name', name)
-    #print(df)
-
-    #tranform the json to a nested structure for lower overhead
-    group_by_list = list(tags.keys())
-    group_by_list.insert(0, 'name')
-    json_data = (df.groupby(group_by_list)
-            .apply(lambda x: x[['user', 'value', ]].to_dict(orient='list'))
-            .reset_index()
-            .rename(columns={0: ''})
-            .to_json(orient='records'))
-
-    json_object = json.loads(json_data)
-    
-    return json_object
-
 class DummySim:
     """A dummy simulator that generate random measurement samples. When the simulation terminates, resume to the env_config.
 
@@ -85,7 +48,16 @@ class DummySim:
         self.end_ts = self.start_ts + self.interval # end timestamp of a measurement
         self.sim_end_ts = self.start_ts + config_json['simulation_time_s']*1000
         self.num_users = config_json['num_users']
+        self.start_simulation(env_identity, env_port, client_identity)
 
+    def start_simulation(self, env_identity, env_port, client_identity):
+        """Start simulation. Connect to the server using SouthBound API. Report network stats measurment and receive action.
+
+        Args:
+            env_identity (str): the identity of the environement socket
+            env_port (int): the port number to connect
+            client_identity (str): the identity of the client socket who started the env
+        """
         # open a socket with the same env_identity and connect to the same env_port.
         context = zmq.Context()
         env_sim = context.socket(zmq.DEALER)
@@ -102,7 +74,7 @@ class DummySim:
             dummy_report["metric_list"] = self.run_one_interval()
 
             # the first part of the msg is the client_identity, the second part is the measurement report.
-            msg = [client_identity, json.dumps(dummy_report, indent=2).encode('utf-8')]
+            msg = [client_identity.encode('utf-8'), json.dumps(dummy_report, indent=2).encode('utf-8')]
             env_sim.send_multipart(msg) # send measurement
             #print(identity + ': Send.')
             #print(json_formatted_str)
@@ -157,30 +129,30 @@ class DummySim:
         tags['cid']='All'
         
 
-        output1 = generate_dummy_measurement('rate', tags, self.num_users);
+        output1 = self.generate_dummy_measurement('rate', tags, self.num_users);
         tags['cid']='Wi-Fi'
-        output2 = generate_dummy_measurement('rate', tags, self.num_users);
-        output3 = generate_dummy_measurement('qos_rate', tags, self.num_users);
+        output2 = self.generate_dummy_measurement('rate', tags, self.num_users);
+        output3 = self.generate_dummy_measurement('qos_rate', tags, self.num_users);
 
         tags['cid']='LTE'
-        output4 = generate_dummy_measurement('rate', tags, self.num_users);
+        output4 = self.generate_dummy_measurement('rate', tags, self.num_users);
 
         tags['group']='PHY'
         tags['cid']='LTE'
-        output5 = generate_dummy_measurement('max_rate', tags, self.num_users);
+        output5 = self.generate_dummy_measurement('max_rate', tags, self.num_users);
 
         tags['cid']='Wi-Fi'
-        output6 = generate_dummy_measurement('max_rate', tags, self.num_users);
+        output6 = self.generate_dummy_measurement('max_rate', tags, self.num_users);
 
         tags['unit']=''
         tags['group']='GMA'
-        output7 = generate_dummy_measurement('split_ratio', tags, self.num_users);
+        output7 = self.generate_dummy_measurement('split_ratio', tags, self.num_users);
 
 
         tags['unit']='ms'
         tags['group']='GMA'
         tags['cid']='All'
-        output8 = generate_dummy_measurement('owd', tags, self.num_users);
+        output8 = self.generate_dummy_measurement('owd', tags, self.num_users);
 
         merged_list = output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8
 
@@ -196,3 +168,42 @@ class DummySim:
         #data_recv_flat = data_recv.explode(column=['user', 'value'])
         #print(data_recv_flat)
         return merged_list
+
+        
+    def generate_dummy_measurement(self, name, tags, num_users):
+        """Generate random measurement.
+
+        Args:
+            name (str): the name of measurement
+            tags (dict): the tags added to the measurement, e.g., timestamps
+            num_users (int): the number of users
+
+        Returns:
+            json: the measurement results
+        """
+        #print (name)
+        #print (tags)
+        #print (user_num)
+
+        data = []
+        for id in range(num_users):
+            data.append([id, random.randint(3, 9)])
+        df = pd.DataFrame(data, columns=['user', 'value'])
+        for key, value in reversed(tags.items()):
+            df.insert(0, key, value)
+        df.insert(0,'name', name)
+        #print(df)
+
+        #tranform the json to a nested structure for lower overhead
+        group_by_list = list(tags.keys())
+        group_by_list.insert(0, 'name')
+        json_data = (df.groupby(group_by_list)
+                .apply(lambda x: x[['user', 'value', ]].to_dict(orient='list'))
+                .reset_index()
+                .rename(columns={0: ''})
+                .to_json(orient='records'))
+
+        json_object = json.loads(json_data)
+        
+        return json_object
+

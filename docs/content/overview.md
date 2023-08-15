@@ -18,10 +18,10 @@ northbound <--> southbound[[southbound_interface]]
 end
 
 subgraph network_gym_env
-southbound_interface
-simulator
-emulator
-testbed 
+southbound_interface <--> configuration
+southbound_interface <--> simulator
+southbound_interface <-..-> emulator
+southbound_interface <-..-> testbed
 end
 
 agent <--> gymnasium.env

@@ -66,7 +66,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         This function should return the same number of features defined in the :meth:`get_observation_space`.
 
         Args:
-            df_list (pandas.DataFrame): the network stats measurements
+            df (pd.DataFrame): the network stats measurements
 
         Returns:
             spaces: observation spaces

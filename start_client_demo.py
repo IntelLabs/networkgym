@@ -1,6 +1,6 @@
 #Copyright(C) 2023 Intel Corporation
 #SPDX-License-Identifier: Apache-2.0
-#File : network_gym_client_demo.py
+#File : start_client_demo.py
 
 from network_gym_client import load_config_file
 from network_gym_client import Env as NetworkGymEnv

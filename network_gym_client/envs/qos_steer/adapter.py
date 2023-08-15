@@ -141,7 +141,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         """Prepare reward for qos_steer env.
 
         Args:
-            df_list (list[pandas.DataFrame]): network stats measurement
+            df (pd.DataFrame]): network stats measurement
 
         Returns:
             spaces: reward space

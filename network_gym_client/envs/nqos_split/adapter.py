@@ -71,8 +71,13 @@ class Adapter(network_gym_client.adapter.Adapter):
         #print(data_recv_flat)
 
         df_rate = df[df['name'] == 'rate'].reset_index(drop=True) # get the rate
-        df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True).explode(column=['user', 'value']) #keep the flow rate.
-        #print(df_rate)
+        print(df_rate)
+
+        df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True)
+        print (df_rate)
+
+        df_rate = df_rate.explode(column=['user', 'value']) #keep the flow rate.
+        print(df_rate)
 
         df_max_rate = df[df['name'] == 'max_rate'].reset_index(drop=True)
         df_phy_lte_max_rate = df_max_rate[df_max_rate['cid'] == 'LTE'].reset_index(drop=True).explode(column=['user', 'value']) #get the LTE max_rate
