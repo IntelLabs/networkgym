@@ -56,6 +56,7 @@ The observation is an `ndarray` with shape `(3,N,)` representing three features 
 ```{eval-rst}
 The Observation Space can be customized in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_observation` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ```{tip}
@@ -85,6 +86,7 @@ We computes the number of Quality of Service (QoS) users over Wi-Fi as reward fu
 ```{eval-rst}
 The Reward can be customized in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_reward` function.
 ```
+See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
 ````
 
 ## Arguments

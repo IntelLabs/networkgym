@@ -327,9 +327,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe-format">Working with the DataFrame Format</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-observation">Customizing Observation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-reward">Customizing Reward</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe">Working with the DataFrame</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#columns">Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rows">Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-a-measurement">Retrieve a Measurement</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -343,7 +346,7 @@ document.write(`
                   
   <section id="customizing-observation-and-reward">
 <h1>Customizing Observation and Reward<a class="headerlink" href="#customizing-observation-and-reward" title="Permalink to this heading">#</a></h1>
-<p>You have the flexibility to tailor the observation and reward functions to suit your experimentation goals within the environments we offer. To illustrate, we present a comprehensive example of network statistics measurement. The observation and reward functions can be constructed utilizing this information.</p>
+<p>Personalizing the observation and reward functions to match your experimental goals is achievable within the provided environments. Within the <code class="docutils literal notranslate"><span class="pre">Adapter</span></code> class for each environment, both the <code class="docutils literal notranslate"><span class="pre">get_observation</span></code> and <code class="docutils literal notranslate"><span class="pre">get_reward</span></code> functions take a network statistics measurement as input. An illustration of such a network statistics measurement is provided below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>      <span class="n">cid</span> <span class="n">direction</span> <span class="n">end_ts</span> <span class="n">group</span>             <span class="n">name</span> <span class="n">start_ts</span>          <span class="n">user</span>                                              <span class="n">value</span>
 <span class="mi">0</span>     <span class="n">LTE</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>            <span class="n">ap_id</span>     <span class="mi">5900</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>                       <span class="p">[</span><span class="mf">255.0</span><span class="p">,</span> <span class="mf">255.0</span><span class="p">,</span> <span class="mf">255.0</span><span class="p">,</span> <span class="mf">255.0</span><span class="p">]</span>
 <span class="mi">1</span>   <span class="n">Wi</span><span class="o">-</span><span class="n">Fi</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>            <span class="n">ap_id</span>     <span class="mi">5900</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>                               <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
@@ -373,6 +376,10 @@ document.write(`
 <span class="mi">25</span>    <span class="n">All</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>          <span class="n">tx_rate</span>     <span class="mi">5900</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>                      <span class="p">[</span><span class="mf">25.09</span><span class="p">,</span> <span class="mf">29.04</span><span class="p">,</span> <span class="mf">7.434</span><span class="p">,</span> <span class="mf">18.004</span><span class="p">]</span>
 </pre></div>
 </div>
+<section id="working-with-the-dataframe">
+<h2>Working with the DataFrame<a class="headerlink" href="#working-with-the-dataframe" title="Permalink to this heading">#</a></h2>
+<section id="columns">
+<h3>Columns<a class="headerlink" href="#columns" title="Permalink to this heading">#</a></h3>
 <p>The network statistics measurement contains 8 columns, with each field’s explanation provided below:</p>
 <table class="table">
 <thead>
@@ -407,6 +414,9 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</section>
+<section id="rows">
+<h3>Rows<a class="headerlink" href="#rows" title="Permalink to this heading">#</a></h3>
 <p>Now, we elaborate on each row:</p>
 <table class="table">
 <thead>
@@ -470,13 +480,14 @@ document.write(`
 </tr>
 </tbody>
 </table>
-<section id="working-with-the-dataframe-format">
-<h2>Working with the DataFrame Format<a class="headerlink" href="#working-with-the-dataframe-format" title="Permalink to this heading">#</a></h2>
-<p>To retrieve a specific network statistic, such as `rate``, you can utilize the following code:</p>
+</section>
+<section id="retrieve-a-measurement">
+<h3>Retrieve a Measurement<a class="headerlink" href="#retrieve-a-measurement" title="Permalink to this heading">#</a></h3>
+<p>To retrieve a specific network statistic, such as <code class="docutils literal notranslate"><span class="pre">rate</span></code>, you can utilize the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_rate</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># get the rate</span>
 </pre></div>
 </div>
-<p>To isolate the link for the rate measurement, such as <code class="docutils literal notranslate"><span class="pre">All</span></code>, you can execute the subsequent code:</p>
+<p>For isolating the rate measurement to a specific link, such as <code class="docutils literal notranslate"><span class="pre">All</span></code>, you can execute the subsequent code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_rate</span> <span class="o">=</span> <span class="n">df_rate</span><span class="p">[</span><span class="n">df_rate</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;All&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># get the rate for the all link combined</span>
 </pre></div>
 </div>
@@ -493,11 +504,6 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="customizing-observation">
-<h2>Customizing Observation<a class="headerlink" href="#customizing-observation" title="Permalink to this heading">#</a></h2>
-</section>
-<section id="customizing-reward">
-<h2>Customizing Reward<a class="headerlink" href="#customizing-reward" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -549,9 +555,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe-format">Working with the DataFrame Format</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-observation">Customizing Observation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-reward">Customizing Reward</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe">Working with the DataFrame</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#columns">Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rows">Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-a-measurement">Retrieve a Measurement</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

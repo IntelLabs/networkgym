@@ -3,7 +3,8 @@ title: Customizing Observation and Reward
 ---
 
 # Customizing Observation and Reward
-You have the flexibility to tailor the observation and reward functions to suit your experimentation goals within the environments we offer. To illustrate, we present a comprehensive example of network statistics measurement. The observation and reward functions can be constructed utilizing this information.
+
+Personalizing the observation and reward functions to match your experimental goals is achievable within the provided environments. Within the `Adapter` class for each environment, both the `get_observation` and `get_reward` functions take a network statistics measurement as input. An illustration of such a network statistics measurement is provided below:
 
 ```python
       cid direction end_ts group             name start_ts          user                                              value
@@ -35,6 +36,10 @@ You have the flexibility to tailor the observation and reward functions to suit 
 25    All        DL   6000   GMA          tx_rate     5900  [0, 1, 2, 3]                      [25.09, 29.04, 7.434, 18.004]
 ```
 
+## Working with the DataFrame
+
+### Columns
+
 The network statistics measurement contains 8 columns, with each field's explanation provided below:
 
 | Column | Description |
@@ -47,6 +52,8 @@ The network statistics measurement contains 8 columns, with each field's explana
 | start_ts | The starting timestamp of this measurement. |
 | user | A list of user IDs for this measurement. |
 | value | A list of values for this measurement (user and value should have the same size). |
+
+### Rows
 
 Now, we elaborate on each row:
 
@@ -67,14 +74,14 @@ Now, we elaborate on each row:
 | 25 | tx_rate | Load (input traffic throughput) measured by each user. |
 
 
-## Working with the DataFrame Format
+### Retrieve a Measurement
 
-To retrieve a specific network statistic, such as `rate``, you can utilize the following code:
+To retrieve a specific network statistic, such as `rate`, you can utilize the following code:
 ```python
 df_rate = df[df['name'] == 'rate'].reset_index(drop=True) # get the rate
 ```
 
-To isolate the link for the rate measurement, such as `All`, you can execute the subsequent code:
+For isolating the rate measurement to a specific link, such as `All`, you can execute the subsequent code:
 ```python
 df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True) # get the rate for the all link combined
 ```
@@ -92,7 +99,3 @@ Here is the final output:
 0  All        DL   6000   GMA  rate     5900    2   6.968
 0  All        DL   6000   GMA  rate     5900    3   19.28
 ```
-
-## Customizing Observation
-
-## Customizing Reward
