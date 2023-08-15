@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>NorthboundInterface &#8212; NetworkGym Documentation</title>
+    <title>NorthBoundClient &#8212; NetworkGym Documentation</title>
   
   
   
@@ -147,20 +147,24 @@
 <li class="toctree-l3"><a class="reference internal" href="adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">NorthboundInterface</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">NorthBoundClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../network_gym_server.html">network_gym_server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Environments</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_traffic_management/mx_traffic_splitting.html">Multi-Access Traffic Splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_traffic_management/mx_qos_traffic_steering.html">Multi-Access QoS Traffic Steering</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
@@ -169,6 +173,8 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -311,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>NorthboundInterface</h1>
+    <h1>NorthBoundClient</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -321,17 +327,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-client-northboundinterface">network_gym_client.NorthboundInterface</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface"><code class="docutils literal notranslate"><span class="pre">NorthboundInterface</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.MeasurementReport"><code class="docutils literal notranslate"><span class="pre">MeasurementReport</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-client-northboundclient">network_gym_client.NorthBoundClient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient"><code class="docutils literal notranslate"><span class="pre">NorthBoundClient</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.send"><code class="docutils literal notranslate"><span class="pre">send()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.recv"><code class="docutils literal notranslate"><span class="pre">recv()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.send"><code class="docutils literal notranslate"><span class="pre">send()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.recv"><code class="docutils literal notranslate"><span class="pre">recv()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.process_measurement"><code class="docutils literal notranslate"><span class="pre">process_measurement()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.process_measurement"><code class="docutils literal notranslate"><span class="pre">process_measurement()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -347,17 +352,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="northboundinterface">
-<h1>NorthboundInterface<a class="headerlink" href="#northboundinterface" title="Permalink to this heading">#</a></h1>
-<section id="network-gym-client-northboundinterface">
-<h2>network_gym_client.NorthboundInterface<a class="headerlink" href="#network-gym-client-northboundinterface" title="Permalink to this heading">#</a></h2>
+  <section id="northboundclient">
+<h1>NorthBoundClient<a class="headerlink" href="#northboundclient" title="Permalink to this heading">#</a></h1>
+<section id="network-gym-client-northboundclient">
+<h2>network_gym_client.NorthBoundClient<a class="headerlink" href="#network-gym-client-northboundclient" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="network_gym_client.NorthboundInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.</span></span><span class="sig-name descname"><span class="pre">NorthboundInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_client/northbound_interface.html#NorthboundInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.NorthboundInterface" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="network_gym_client.NorthBoundClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.</span></span><span class="sig-name descname"><span class="pre">NorthBoundClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_client/northbound_interface.html#NorthBoundClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.NorthBoundClient" title="Permalink to this definition">#</a></dt>
 <dd><p>NetworkGym northbound interface client.</p>
 <p>Northbound interface connects the network gym client to the network gym server. Client sends the network policy to the Sever/Env.
 Sever/Env replies the network stats to the Client.</p>
-<p>Initialize NorthboundInterface.</p>
+<p>Initialize NorthBoundClient.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -368,32 +373,17 @@ Sever/Env replies the network stats to the Client.</p>
 </dl>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="network_gym_client.MeasurementReport">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.</span></span><span class="sig-name descname"><span class="pre">MeasurementReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ok_flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_client/northbound_interface.html#MeasurementReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.MeasurementReport" title="Permalink to this definition">#</a></dt>
-<dd><p>Data structure to store the network stats measurement report.</p>
-<p>Initialize measurement report.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ok_flag</strong> (<em>Bool</em>) – indicate whehter the measurement is valid.</p></li>
-<li><p><strong>df_list</strong> (<em>list</em><em>[</em><em>pandas.dataframe</em><em>]</em>) – a list of dataframe that stores the network ststs</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.NorthboundInterface.connect">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthboundInterface.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthboundInterface.connect" title="Permalink to this definition">#</a></dt>
-<dd><p>Connect to the network gym server.</p>
+<dt class="sig sig-object py" id="network_gym_client.NorthBoundClient.connect">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthBoundClient.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthBoundClient.connect" title="Permalink to this definition">#</a></dt>
+<dd><p>Connect to the network gym server. Send the Start Env request, where the configuration is loaded from json file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.NorthboundInterface.send">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthboundInterface.</span></span><span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthboundInterface.send" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="network_gym_client.NorthBoundClient.send">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthBoundClient.</span></span><span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthBoundClient.send" title="Permalink to this definition">#</a></dt>
 <dd><p>Send the Policy to the server and environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -403,12 +393,12 @@ Sever/Env replies the network stats to the Client.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.NorthboundInterface.recv">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthboundInterface.</span></span><span class="sig-name descname"><span class="pre">recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthboundInterface.recv" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="network_gym_client.NorthBoundClient.recv">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthBoundClient.</span></span><span class="sig-name descname"><span class="pre">recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthBoundClient.recv" title="Permalink to this definition">#</a></dt>
 <dd><p>Receive a message from the network gym server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>MeasurementReport</strong> – the network stats <a class="reference internal" href="#network_gym_client.MeasurementReport" title="network_gym_client.MeasurementReport"><code class="xref py py-class docutils literal notranslate"><span class="pre">network_gym_client.MeasurementReport</span></code></a> from the environment</p>
+<dd class="field-odd"><p><strong>pd.DataFrame</strong> – the network stats measurement from the environment</p>
 </dd>
 </dl>
 </dd></dl>
@@ -417,8 +407,8 @@ Sever/Env replies the network stats to the Client.</p>
 <section id="additional-methods">
 <h3>Additional Methods<a class="headerlink" href="#additional-methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.NorthboundInterface.process_measurement">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthboundInterface.</span></span><span class="sig-name descname"><span class="pre">process_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reply_json</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthboundInterface.process_measurement" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="network_gym_client.NorthBoundClient.process_measurement">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthBoundClient.</span></span><span class="sig-name descname"><span class="pre">process_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reply_json</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthBoundClient.process_measurement" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -473,17 +463,16 @@ Sever/Env replies the network stats to the Client.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-client-northboundinterface">network_gym_client.NorthboundInterface</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface"><code class="docutils literal notranslate"><span class="pre">NorthboundInterface</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.MeasurementReport"><code class="docutils literal notranslate"><span class="pre">MeasurementReport</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-client-northboundclient">network_gym_client.NorthBoundClient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient"><code class="docutils literal notranslate"><span class="pre">NorthBoundClient</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.send"><code class="docutils literal notranslate"><span class="pre">send()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.recv"><code class="docutils literal notranslate"><span class="pre">recv()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.send"><code class="docutils literal notranslate"><span class="pre">send()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.recv"><code class="docutils literal notranslate"><span class="pre">recv()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthboundInterface.process_measurement"><code class="docutils literal notranslate"><span class="pre">process_measurement()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.NorthBoundClient.process_measurement"><code class="docutils literal notranslate"><span class="pre">process_measurement()</span></code></a></li>
 </ul>
 </li>
 </ul>

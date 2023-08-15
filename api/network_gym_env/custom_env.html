@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Adapter &#8212; NetworkGym Documentation</title>
+    <title>Custom Environment &#8212; NetworkGym Documentation</title>
   
   
   
@@ -44,11 +44,11 @@
     <script src="../../_static/design-tabs.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({"startOnLoad": true})</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_client/adapter';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_env/custom_env';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="nqos_split Adapter" href="adapter/nqos_split.html" />
-    <link rel="prev" title="Env" href="env.html" />
+    <link rel="next" title="Dummy Simulator" href="dummy_sim.html" />
+    <link rel="prev" title="network_gym_env" href="../network_gym_env.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -139,21 +139,21 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../network_gym_client.html">network_gym_client</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="env.html">Env</a></li>
-<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Adapter</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="adapter/nqos_split.html">nqos_split Adapter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="adapter/qos_steer.html">qos_steer Adapter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../network_gym_client.html">network_gym_client</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../network_gym_client/env.html">Env</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../network_gym_client/adapter.html">Adapter</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="northbound_interface.html">NorthBoundClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../network_gym_server.html">network_gym_server</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/custom_env.html">Custom Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
 </ul>
@@ -235,7 +235,7 @@
       
       
       
-      <li><a href="../../_sources/api/network_gym_client/adapter.md" target="_blank"
+      <li><a href="../../_sources/api/network_gym_env/custom_env.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -317,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Adapter</h1>
+    <h1>Custom Environment</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -327,14 +327,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-base-class">The Base Class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-customenv">network_gym_env.CustomEnv</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv"><code class="docutils literal notranslate"><span class="pre">CustomEnv</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter.wandb_log"><code class="docutils literal notranslate"><span class="pre">wandb_log()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter.df_to_dict"><code class="docutils literal notranslate"><span class="pre">df_to_dict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -350,23 +346,23 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="adapter">
-<h1>Adapter<a class="headerlink" href="#adapter" title="Permalink to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-</div>
-<section id="the-base-class">
-<h2>The Base Class<a class="headerlink" href="#the-base-class" title="Permalink to this heading">#</a></h2>
+  <section id="custom-environment">
+<h1>Custom Environment<a class="headerlink" href="#custom-environment" title="Permalink to this heading">#</a></h1>
+<section id="network-gym-env-customenv">
+<h2>network_gym_env.CustomEnv<a class="headerlink" href="#network-gym-env-customenv" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="network_gym_client.Adapter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.</span></span><span class="sig-name descname"><span class="pre">Adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_client/adapter.html#Adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.Adapter" title="Permalink to this definition">#</a></dt>
-<dd><p>The base class for environment data format adapter.</p>
-<p>This class is an data format “adapter” between the gymnasium environment and network_gym environment.
-It transforms the network stats measurements (json) to obs and reward (Spaces).
-It also transforms the action (Spaces) to a policy (json) that can be applied to the network.</p>
-<p>Initialize Adapter.</p>
+<dt class="sig sig-object py" id="network_gym_env.CustomEnv">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_env.</span></span><span class="sig-name descname"><span class="pre">CustomEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NetworkGymSim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8091</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_env/custom_env.html#CustomEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_env.CustomEnv" title="Permalink to this definition">#</a></dt>
+<dd><p>Custom environment that send random measurement metrics.</p>
+<p>Initialize custom environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config_json</strong> (<em>json</em>) – the configuration file</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>identity</strong> (<em>int</em>) – environment identity</p></li>
+<li><p><strong>NetworkGymSim</strong> (<em>simulator</em>) – network simulator</p></li>
+<li><p><strong>env_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – a list of supported environments</p></li>
+<li><p><strong>port_num</strong> (<em>int</em>) – the port to connect</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -374,29 +370,9 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.Adapter.wandb_log">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.Adapter.</span></span><span class="sig-name descname"><span class="pre">wandb_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.Adapter.wandb_log" title="Permalink to this definition">#</a></dt>
-<dd><p>Send the log information to WanDB.</p>
-</dd></dl>
-
-</section>
-<section id="additional-methods">
-<h3>Additional Methods<a class="headerlink" href="#additional-methods" title="Permalink to this heading">#</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.Adapter.df_to_dict">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.Adapter.</span></span><span class="sig-name descname"><span class="pre">df_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.Adapter.df_to_dict" title="Permalink to this definition">#</a></dt>
-<dd><p>Transform datatype from pandas.dataframe to dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>pandas.dataframe</em>) – a pandas.dataframe object</p></li>
-<li><p><strong>description</strong> (<em>string</em>) – a descritption for the data</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>dict</strong> – converted data with dictionary format</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="network_gym_env.CustomEnv.run">
+<span class="sig-prename descclassname"><span class="pre">network_gym_env.CustomEnv.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_env.CustomEnv.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Run custom environement</p>
 </dd></dl>
 
 </section>
@@ -416,20 +392,20 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="env.html"
+       href="../network_gym_env.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Env</p>
+        <p class="prev-next-title">network_gym_env</p>
       </div>
     </a>
     <a class="right-next"
-       href="adapter/nqos_split.html"
+       href="dummy_sim.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">nqos_split Adapter</p>
+        <p class="prev-next-title">Dummy Simulator</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -451,14 +427,10 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-base-class">The Base Class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-customenv">network_gym_env.CustomEnv</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv"><code class="docutils literal notranslate"><span class="pre">CustomEnv</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter.wandb_log"><code class="docutils literal notranslate"><span class="pre">wandb_log()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_client.Adapter.df_to_dict"><code class="docutils literal notranslate"><span class="pre">df_to_dict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
 </ul>

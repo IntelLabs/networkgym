@@ -1,27 +1,26 @@
 ---
-title: NorthboundInterface
+title: NorthBoundClient
 ---
 
-# NorthboundInterface
+# NorthBoundClient
 
-## network_gym_client.NorthboundInterface
+## network_gym_client.NorthBoundClient
 
 ```{eval-rst}
-.. autoclass:: network_gym_client.NorthboundInterface
-.. autoclass:: network_gym_client.MeasurementReport
+.. autoclass:: network_gym_client.NorthBoundClient
 ```
 
 ### Methods
 
 ```{eval-rst}
-.. autofunction:: network_gym_client.NorthboundInterface.connect
-.. autofunction:: network_gym_client.NorthboundInterface.send
-.. autofunction:: network_gym_client.NorthboundInterface.recv
+.. autofunction:: network_gym_client.NorthBoundClient.connect
+.. autofunction:: network_gym_client.NorthBoundClient.send
+.. autofunction:: network_gym_client.NorthBoundClient.recv
 
 ```
 
 ### Additional Methods
 
 ```{eval-rst}
-.. autofunction:: network_gym_client.NorthboundInterface.process_measurement
+.. autofunction:: network_gym_client.NorthBoundClient.process_measurement
 ```

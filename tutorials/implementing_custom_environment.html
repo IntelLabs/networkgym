@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>network_gym_server &#8212; NetworkGym Documentation</title>
+    <title>Implementing Custom Environment &#8212; NetworkGym Documentation</title>
   
   
   
@@ -44,11 +44,10 @@
     <script src="../_static/design-tabs.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({"startOnLoad": true})</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_server';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/implementing_custom_environment';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="network_gym_env" href="network_gym_env.html" />
-    <link rel="prev" title="NorthBoundClient" href="network_gym_client/northbound_interface.html" />
+    <link rel="prev" title="Customizing Observation and Reward" href="customizing_observation_and_reward.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -138,22 +137,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../content/quickstart.html">Quickstart</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="network_gym_client.html">network_gym_client</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_client/env.html">Env</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="network_gym_client/adapter.html">Adapter</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_client.html">network_gym_client</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/env.html">Env</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/network_gym_client/adapter.html">Adapter</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">network_gym_server</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_env/custom_env.html">Custom Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
 </ul>
@@ -170,11 +169,11 @@
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="handling_time_limits.html">Handling Time Limits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_agents.html">Training Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -235,7 +234,7 @@
       
       
       
-      <li><a href="../_sources/api/network_gym_server.md" target="_blank"
+      <li><a href="../_sources/tutorials/implementing_custom_environment.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -315,7 +314,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>network_gym_server</h1>
+    <h1>Implementing Custom Environment</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -329,21 +328,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="network-gym-server">
-<h1>network_gym_server<a class="headerlink" href="#network-gym-server" title="Permalink to this heading">#</a></h1>
-<div class="mermaid" align="center">
-flowchart LR
-
-subgraph network_gym_server
-northbound[[northbound Interface]] <--> southbound[[southbound Interface]]
-end
-
-</div><p>The NetworkGymServer includes two components, the <strong>northbound interface</strong> manages the connections with the clients, and the <strong>southbound interface</strong> manages the connections with the environments.
-When a client connects, the server selects an idle environment instance and add the client to envrionment mapping to the routing table.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>At present, we do not plan to release the network_gym_server software.</p>
-</div>
+  <section id="implementing-custom-environment">
+<h1>Implementing Custom Environment<a class="headerlink" href="#implementing-custom-environment" title="Permalink to this heading">#</a></h1>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/network_gym_overview2.png"><img alt="../_images/network_gym_overview2.png" src="../_images/network_gym_overview2.png" style="width: 60%;" /></a>
+</figure>
+<p>NetworkGym provides a range of network Environments, it also supports Custom Environment via the SouthBound (SB) Interface.</p>
 </section>
 
 
@@ -359,22 +349,13 @@ When a client connects, the server selects an idle environment instance and add 
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="network_gym_client/northbound_interface.html"
+       href="customizing_observation_and_reward.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">NorthBoundClient</p>
+        <p class="prev-next-title">Customizing Observation and Reward</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="network_gym_env.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">network_gym_env</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

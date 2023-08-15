@@ -144,20 +144,24 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthboundInterface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Environments</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_traffic_management/mx_traffic_splitting.html">Multi-Access Traffic Splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_traffic_management/mx_qos_traffic_steering.html">Multi-Access QoS Traffic Steering</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
@@ -166,6 +170,8 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -285,20 +291,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<div class="viewcode-block" id="MeasurementReport"><a class="viewcode-back" href="../../api/network_gym_client/northbound_interface.html#network_gym_client.MeasurementReport">[docs]</a><span class="k">class</span> <span class="nc">MeasurementReport</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data structure to store the network stats measurement report.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ok_flag</span><span class="p">,</span> <span class="n">df_list</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize measurement report.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            ok_flag (Bool): indicate whehter the measurement is valid.</span>
-<span class="sd">            df_list (list[pandas.dataframe]): a list of dataframe that stores the network ststs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ok_flag</span> <span class="o">=</span> <span class="n">ok_flag</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df_list</span> <span class="o">=</span> <span class="n">df_list</span></div>
-
-<div class="viewcode-block" id="NorthboundInterface"><a class="viewcode-back" href="../../api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface">[docs]</a><span class="k">class</span> <span class="nc">NorthboundInterface</span><span class="p">():</span>
+<div class="viewcode-block" id="NorthBoundClient"><a class="viewcode-back" href="../../api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient">[docs]</a><span class="k">class</span> <span class="nc">NorthBoundClient</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;NetworkGym northbound interface client.</span>
 <span class="sd">    </span>
 <span class="sd">    Northbound interface connects the network gym client to the network gym server. Client sends the network policy to the Sever/Env.</span>
@@ -306,7 +299,7 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">config_json</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize NorthboundInterface.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize NorthBoundClient.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            id (int): client ID</span>
@@ -315,11 +308,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="o">=</span><span class="n">config_json</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># sync the timestamp between obs and action</span>
 
     <span class="c1">#connect to network gym server using ZMQ socket</span>
     <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the network gym server.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the network gym server. Send the Start Env request, where the configuration is loaded from json file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Context</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">DEALER</span><span class="p">)</span>
@@ -360,7 +352,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Receive a message from the network gym server.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            MeasurementReport: the network stats :class:`network_gym_client.MeasurementReport` from the environment</span>
+<span class="sd">            pd.DataFrame: the network stats measurement from the environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
@@ -397,181 +389,8 @@ document.write(`
             <span class="n">quit</span><span class="p">()</span>
      
     <span class="k">def</span> <span class="nf">process_measurement</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reply_json</span><span class="p">):</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;metric_list&#39;</span><span class="p">])</span> 
-        <span class="k">if</span> <span class="s1">&#39;end_ts&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;end_ts&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">ok_flag</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="n">MeasurementReport</span><span class="p">(</span><span class="n">ok_flag</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    #process measurement from network gym server</span>
-<span class="sd">    def process_measurement (self, reply_json):</span>
-<span class="sd">        &quot;&quot;&quot;Process the raw network measurements (json) and translate them to pandas.dataframe format.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            reply_json (json): the message from the server</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            MeasurementReport: the network stats :class:`network_gym_client.MeasurementReport` from the environment</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-<span class="sd">        df_list = []</span>
-<span class="sd">        ok_flag = True</span>
-<span class="sd">        df = pd.json_normalize(reply_json[&#39;metric_list&#39;]) </span>
-<span class="sd">        # print(df)</span>
-
-<span class="sd">        if self.config_json[&#39;env_config&#39;][&#39;downlink&#39;]:</span>
-<span class="sd">            df = df[df[&#39;direction&#39;] == &#39;DL&#39;].reset_index(drop=True)</span>
-<span class="sd">        else:</span>
-<span class="sd">            df = df[df[&#39;direction&#39;] == &#39;UL&#39;].reset_index(drop=True)</span>
-<span class="sd">        </span>
-<span class="sd">        df_phy = df[df[&#39;group&#39;] == &#39;PHY&#39;].reset_index(drop=True)</span>
-<span class="sd">        df_phy_lte = df_phy[df_phy[&#39;cid&#39;] == &#39;LTE&#39;].reset_index(drop=True)</span>
-
-<span class="sd">        df_phy_lte_max_rate = []</span>
-<span class="sd">        df_phy_wifi_max_rate = []</span>
-
-<span class="sd">        if not df_phy_lte.empty:</span>
-<span class="sd">            # process PHY LTE measurement</span>
-
-<span class="sd">            df_phy_lte_start_ts = df_phy_lte[df_phy_lte[&#39;name&#39;] == &#39;start_ts&#39;].reset_index(drop=True)</span>
-<span class="sd">            df_phy_lte_end_ts = df_phy_lte[df_phy_lte[&#39;name&#39;] == &#39;end_ts&#39;].reset_index(drop=True)</span>
-
-<span class="sd">            #check PHY LTE timestamps of all users are the same</span>
-<span class="sd">            if 1==len(set(df_phy_lte_start_ts[&#39;value&#39;])) and 1==len(set(df_phy_lte_end_ts[&#39;value&#39;])):</span>
-<span class="sd">                start_ts = df_phy_lte_start_ts[&#39;value&#39;][0]</span>
-<span class="sd">                end_ts = df_phy_lte_end_ts[&#39;value&#39;][0]</span>
-<span class="sd">                self.end_ts = end_ts</span>
-<span class="sd">                df_phy_lte_max_rate = df_phy_lte[df_phy_lte[&#39;name&#39;] == &#39;max_rate&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_phy_lte_max_rate.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_phy_lte_max_rate.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_phy_lte_max_rate[&#39;unit&#39;] = &#39;mbps&#39;</span>
-<span class="sd">                #print(df_phy_lte_max_rate)</span>
-
-<span class="sd">                df_phy_lte_slice_id = df_phy_lte[df_phy_lte[&#39;name&#39;] == &#39;slice_id&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_phy_lte_slice_id.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_phy_lte_slice_id.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                #print(df_phy_lte_slice_id)</span>
-
-<span class="sd">                df_phy_lte_rb_usage = df_phy_lte[df_phy_lte[&#39;name&#39;] == &#39;rb_usage&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_phy_lte_rb_usage.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_phy_lte_rb_usage.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_phy_lte_rb_usage[&#39;unit&#39;] = &#39;%&#39;</span>
-<span class="sd">                # print(df_phy_lte_rb_usage)</span>
-
-<span class="sd">            else:</span>
-<span class="sd">                print(self.identity+&quot; &quot;+&quot;ERROR, PHY LTE timestamp is not the same&quot;)</span>
-
-<span class="sd">        df_phy_wifi = df_phy[df_phy[&#39;cid&#39;] == &#39;Wi-Fi&#39;].reset_index(drop=True)</span>
-<span class="sd">        if not df_phy_wifi.empty:</span>
-<span class="sd">            # process PHY Wi-Fi measurement</span>
-<span class="sd">            df_phy_wifi_start_ts = df_phy_wifi[df_phy_wifi[&#39;name&#39;] == &#39;start_ts&#39;].reset_index(drop=True)</span>
-<span class="sd">            df_phy_wifi_end_ts = df_phy_wifi[df_phy_wifi[&#39;name&#39;] == &#39;end_ts&#39;].reset_index(drop=True)</span>
-
-<span class="sd">            #check PHY Wi-Fi timestamps of all users are the same</span>
-<span class="sd">            if 1==len(set(df_phy_wifi_start_ts[&#39;value&#39;])) and 1==len(set(df_phy_wifi_end_ts[&#39;value&#39;])):</span>
-<span class="sd">                start_ts = df_phy_wifi_start_ts[&#39;value&#39;][0]</span>
-<span class="sd">                end_ts = df_phy_wifi_end_ts[&#39;value&#39;][0]</span>
-<span class="sd">                self.end_ts = end_ts</span>
-<span class="sd">                df_phy_wifi_max_rate = df_phy_wifi[df_phy_wifi[&#39;name&#39;] == &#39;max_rate&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_phy_wifi_max_rate.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_phy_wifi_max_rate.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_phy_wifi_max_rate[&#39;unit&#39;] = &#39;mbps&#39;</span>
-<span class="sd">                #print(df_phy_wifi_max_rate)</span>
-
-<span class="sd">            else:</span>
-<span class="sd">                print(self.identity+&quot; &quot;+&quot;ERROR, PHY LTE timestamp is not the same&quot;)</span>
-
-<span class="sd">        df_gma = df[df[&#39;group&#39;] == &#39;GMA&#39;].reset_index(drop=True)</span>
-<span class="sd">        if not df_gma.empty:</span>
-<span class="sd">            # process GMA measurement</span>
-<span class="sd">            df_gma_start_ts = df_gma[df_gma[&#39;name&#39;] == &#39;start_ts&#39;].reset_index(drop=True)</span>
-<span class="sd">            df_gma_end_ts = df_gma[df_gma[&#39;name&#39;] == &#39;end_ts&#39;].reset_index(drop=True)</span>
-
-<span class="sd">            #check GMA timestamps of all users are the same</span>
-<span class="sd">            if 1==len(set(df_gma_start_ts[&#39;value&#39;])) and 1==len(set(df_gma_end_ts[&#39;value&#39;])):</span>
-<span class="sd">                start_ts = df_gma_start_ts[&#39;value&#39;][0]</span>
-<span class="sd">                end_ts = df_gma_end_ts[&#39;value&#39;][0]</span>
-
-<span class="sd">                self.end_ts = end_ts</span>
-<span class="sd">                df_load = df_gma[df_gma[&#39;name&#39;] == &#39;tx_rate&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_load.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_load.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_load[&#39;unit&#39;] = &#39;mbps&#39;</span>
-<span class="sd">                #print(df_load)</span>
-
-<span class="sd">                df_rate = df_gma[df_gma[&#39;name&#39;] == &#39;rate&#39;].reset_index(drop=True)</span>
-<span class="sd">                #df_rate = df_rate[df_rate[&#39;cid&#39;] == &#39;All&#39;].reset_index(drop=True)</span>
-
-<span class="sd">                df_rate.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_rate.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_rate[&#39;unit&#39;] = &#39;mbps&#39;</span>
-<span class="sd">                #print(df_rate)</span>
-
-<span class="sd">                df_qos_rate = df_gma[df_gma[&#39;name&#39;] == &#39;qos_rate&#39;].reset_index(drop=True)</span>
-
-<span class="sd">                df_qos_rate.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_qos_rate.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_qos_rate[&#39;unit&#39;] = &#39;mbps&#39;</span>
-<span class="sd">                #print(df_qos_rate)</span>
-
-<span class="sd">                df_owd = df_gma[df_gma[&#39;name&#39;] == &#39;owd&#39;].reset_index(drop=True)</span>
-<span class="sd">                #df_owd = df_owd[df_owd[&#39;cid&#39;] == &#39;All&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_owd.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_owd.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_owd[&#39;unit&#39;] = &#39;ms&#39;</span>
-<span class="sd">                #print(df_owd)</span>
-
-<span class="sd">                df_max_owd = df_gma[df_gma[&#39;name&#39;] == &#39;max_owd&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_max_owd.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_max_owd.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_max_owd[&#39;unit&#39;] = &#39;ms&#39;</span>
-<span class="sd">                #print(df_max_owd)</span>
-
-<span class="sd">                df_split_ratio = df_gma[df_gma[&#39;name&#39;] == &#39;split_ratio&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_split_ratio.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_split_ratio.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                #print(df_split_ratio)</span>
-
-<span class="sd">                df_ap_id = df_gma[df_gma[&#39;name&#39;] == &#39;ap_id&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_ap_id.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_ap_id.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                #print(df_ap_id)</span>
-
-<span class="sd">                df_delay_violation = df_gma[df_gma[&#39;name&#39;] == &#39;delay_violation&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_delay_violation.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_delay_violation.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                df_delay_violation[&#39;unit&#39;] = &#39;%&#39;</span>
-
-<span class="sd">                #print(df_delay_violation)</span>
-
-<span class="sd">                df_ok = df[df[&#39;name&#39;] == &#39;measurement_ok&#39;].reset_index(drop=True)</span>
-<span class="sd">                df_ok.insert(0,&#39;end_ts&#39;, end_ts)</span>
-<span class="sd">                df_ok.insert(0,&#39;start_ts&#39;, start_ts)</span>
-<span class="sd">                </span>
-<span class="sd">                if(df_ok[&#39;value&#39;].min() &lt; 1):</span>
-<span class="sd">                    #print(&quot;[WARNING], some users may not have a valid measurement, for qos_steering case, the qos_test is not finished before a measurement return...&quot;)</span>
-<span class="sd">                    #print(df_ok)</span>
-<span class="sd">                    ok_flag = False</span>
-<span class="sd">            else:</span>
-<span class="sd">                print(self.identity+&quot; &quot;+&quot;ERROR, GMA timestamp is not the same&quot;)</span>
-<span class="sd">        </span>
-<span class="sd">        #return True, df_phy_lte_max_rate, df_phy_wifi_max_rate, df_load, df_rate, df_qos_rate, df_owd, df_split_ratio</span>
-
-<span class="sd">        df_list.append(df_phy_lte_max_rate)</span>
-<span class="sd">        df_list.append(df_phy_wifi_max_rate)</span>
-<span class="sd">        df_list.append(df_load)</span>
-<span class="sd">        df_list.append(df_rate)</span>
-<span class="sd">        df_list.append(df_qos_rate)</span>
-<span class="sd">        df_list.append(df_owd)</span>
-<span class="sd">        df_list.append(df_split_ratio)</span>
-<span class="sd">        df_list.append(df_ap_id)</span>
-<span class="sd">        df_list.append(df_phy_lte_slice_id)</span>
-<span class="sd">        df_list.append(df_phy_lte_rb_usage)</span>
-<span class="sd">        df_list.append(df_delay_violation)</span>
-<span class="sd">        df_list.append(df_max_owd)</span>
-
-<span class="sd">        return MeasurementReport(ok_flag, df_list)</span>
-<span class="sd">        &#39;&#39;&#39;</span></div>
+        <span class="n">network_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;metric_list&#39;</span><span class="p">])</span> 
+        <span class="k">return</span> <span class="n">network_stats</span></div>
 </pre></div>
 
                 </article>

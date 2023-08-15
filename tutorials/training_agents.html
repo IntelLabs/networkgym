@@ -47,6 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/training_agents';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Customizing Observation and Reward" href="customizing_observation_and_reward.html" />
     <link rel="prev" title="Handling Time Limits" href="handling_time_limits.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -146,20 +147,24 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthboundInterface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Environments</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../environments/mx_traffic_management/mx_traffic_splitting.html">Multi-Access Traffic Splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environments/mx_traffic_management/mx_qos_traffic_steering.html">Multi-Access QoS Traffic Steering</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
@@ -168,6 +173,8 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Training Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -337,10 +344,13 @@ document.write(`
                   
   <section id="training-agents">
 <h1>Training Agents<a class="headerlink" href="#training-agents" title="Permalink to this heading">#</a></h1>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/network_gym_overview.png"><img alt="../_images/network_gym_overview.png" src="../_images/network_gym_overview.png" style="width: 40%;" /></a>
+</figure>
 <p>NetworkGym provides a range of network agents, each designed to fulfill specific roles when interacting with NetworkGym Environments.</p>
 <section id="system-default-agent">
 <h2>System Default Agent<a class="headerlink" href="#system-default-agent" title="Permalink to this heading">#</a></h2>
-<p>The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an “empty” action to the environment. You can use the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client_demo.py">demo</a> code and modify the action as shown below:</p>
+<p>The System Default Agent enables the collection of data for offline training purposes. To activate system default algorithms, a agent simply sends an “empty” action to the environment. You can use the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/start_client_demo.py">demo</a> code and modify the action as shown below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># action = env.action_space.sample()  # agent policy that uses the observation and info</span>
     <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>  <span class="c1"># No action from the RL agent will trigger the system default algorithm provided by the environment.</span>
 </pre></div>
@@ -380,6 +390,15 @@ document.write(`
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Handling Time Limits</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="customizing_observation_and_reward.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Customizing Observation and Reward</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

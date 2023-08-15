@@ -144,20 +144,24 @@
 <li class="toctree-l3"><a class="reference internal" href="api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/network_gym_client/northbound_interface.html">NorthboundInterface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/network_gym_server.html">network_gym_server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/network_gym_env.html">network_gym_env</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Environments</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="environments/mx_traffic_management.html">Traffic Management</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="environments/mx_traffic_management/mx_traffic_splitting.html">Multi-Access Traffic Splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environments/mx_traffic_management/mx_qos_traffic_steering.html">Multi-Access QoS Traffic Steering</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="environments/mx_network_slicing.html">Network Slicing</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
@@ -166,6 +170,8 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/training_agents.html">Training Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -281,7 +287,6 @@ document.write(`
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
- | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
@@ -319,7 +324,9 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface.connect">connect() (in module network_gym_client.NorthboundInterface)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.connect">connect() (in module network_gym_client.NorthBoundClient)</a>
+</li>
+      <li><a href="api/network_gym_env/custom_env.html#network_gym_env.CustomEnv">CustomEnv (class in network_gym_env)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -328,6 +335,10 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/network_gym_client/adapter.html#network_gym_client.Adapter.df_to_dict">df_to_dict() (in module network_gym_client.Adapter)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/network_gym_env/dummy_sim.html#network_gym_env.DummySim">DummySim (class in network_gym_env)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -343,6 +354,8 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/network_gym_env/dummy_sim.html#network_gym_env.DummySim.generate_dummy_measurement">generate_dummy_measurement() (in module network_gym_env.DummySim)</a>
+</li>
       <li><a href="api/network_gym_client/adapter/network_slicing.html#network_gym_client.envs.network_slicing.Adapter.get_action_space">get_action_space() (in module network_gym_client.envs.network_slicing.Adapter)</a>
 
       <ul>
@@ -390,14 +403,6 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.MeasurementReport">MeasurementReport (class in network_gym_client)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -407,7 +412,7 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/network_gym_client/env.html#network_gym_client.Env.northbound_interface_client">northbound_interface_client (network_gym_client.Env attribute)</a>
 </li>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface">NorthboundInterface (class in network_gym_client)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient">NorthBoundClient (class in network_gym_client)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -423,7 +428,7 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface.process_measurement">process_measurement() (in module network_gym_client.NorthboundInterface)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.process_measurement">process_measurement() (in module network_gym_client.NorthBoundClient)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -431,11 +436,15 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface.recv">recv() (in module network_gym_client.NorthboundInterface)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.recv">recv() (in module network_gym_client.NorthBoundClient)</a>
+</li>
+      <li><a href="api/network_gym_client/env.html#network_gym_client.Env.reset">reset() (in module network_gym_client.Env)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/env.html#network_gym_client.Env.reset">reset() (in module network_gym_client.Env)</a>
+      <li><a href="api/network_gym_env/custom_env.html#network_gym_env.CustomEnv.run">run() (in module network_gym_env.CustomEnv)</a>
+</li>
+      <li><a href="api/network_gym_env/dummy_sim.html#network_gym_env.DummySim.run_one_interval">run_one_interval() (in module network_gym_env.DummySim)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -443,10 +452,12 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthboundInterface.send">send() (in module network_gym_client.NorthboundInterface)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.send">send() (in module network_gym_client.NorthBoundClient)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/network_gym_env/dummy_sim.html#network_gym_env.DummySim.start_simulation">start_simulation() (in module network_gym_env.DummySim)</a>
+</li>
       <li><a href="api/network_gym_client/env.html#network_gym_client.Env.step">step() (in module network_gym_client.Env)</a>
 </li>
   </ul></td>
