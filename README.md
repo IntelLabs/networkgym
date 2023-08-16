@@ -212,8 +212,14 @@ for step in range(num_steps):
         {"num_users":5,"dedicated_rbg":5,"prioritized_rbg":6,"shared_rbg":7},
         {"num_users":5,"dedicated_rbg":0,"prioritized_rbg":0,"shared_rbg":100}
       ],
-      "user_left_right_speed_m/s": 1,
-      "user_location_range":{//initially, users will be randomly deployed within this x, y range. if user_left_right_speed_m > 0, the user will move left and right within this boundary.
+      "user_random_walk":{ // configure random walk model with Distance mode. https://www.nsnam.org/docs/release/3.16/doxygen/classns3_1_1_random_walk2d_mobility_model.html
+        "min_speed_m/s": 1, //A random variable used to pick the min random walk speed (m/s). Set min and max speed to 0 to disable random walk
+        "max_speed_m/s": 1, //A random variable used to pick the max random walk speed (m/s). Set min and max speed to 0 to disable random walk
+        "min_direction_gradients": 0.0, //A random variable used to pick the min random walk direction (gradients). [Min=0.0|Max=6.283184]
+        "max_direction_gradients": 6.283184, //A random variable used to pick the max random walk direction (gradients). [Min=0.0|Max=6.283184]
+        "distance_m": 3 //change current direction and speed after moving for this distance (m)
+      },
+      "user_location_range":{//initially, users will be randomly deployed within this x, y range. if user_random_walk_max_speed_m/s > 0, the user will random walk within this boundary.
         "min_x":0,
         "max_x":80,
         "min_y":0,

@@ -15,7 +15,13 @@
         {"x":40,"y":0,"z":3}
       ],
       "num_users": 8,
-      "user_left_right_speed_m/s": 1,
+      "user_random_walk":{
+        "min_speed_m/s": 1,
+        "max_speed_m/s": 1,
+        "min_direction_gradients": 0.0,
+        "max_direction_gradients": 6.283184,
+        "distance_m": 3
+      },
       "user_location_range":{
         "min_x":0,
         "max_x":80,
