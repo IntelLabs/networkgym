@@ -326,9 +326,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-custom-environment">start the custom environment.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connects-to-your-custom-environment">Connects to your custom environment.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-your-custmo-environment-to-the-public">Release your custmo environment to the public.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initiating-the-custom-environment">Initiating the Custom Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-your-custom-environment">Connecting to Your Custom Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-your-custom-environment-to-the-public">Releasing Your Custom Environment to the Public</a></li>
 </ul>
             </nav>
         </div>
@@ -345,19 +345,44 @@ document.write(`
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/network_gym_overview2.png"><img alt="../_images/network_gym_overview2.png" src="../_images/network_gym_overview2.png" style="width: 60%;" /></a>
 </figure>
-<p>NetworkGym provides a range of network Environments, it also supports Custom Environment via the SouthBound (SB) Interface.</p>
-<p>We provide an example to build your own environment.</p>
-<section id="start-the-custom-environment">
-<h2>start the custom environment.<a class="headerlink" href="#start-the-custom-environment" title="Permalink to this heading">#</a></h2>
-<p>The example environment we provide connects to the server, you do not need to provide any input as the env_list. Even if you use your own environment name, the server will overwite it to “session_name”+”-custom”. e.g., for “test” account, the environemnt name will be “test-custom”.</p>
+<p>NetworkGym offers a variety of official network environments and also streamlines the incorporation of third-party custom environments via the SouthBound (SB) Interface.</p>
+<section id="initiating-the-custom-environment">
+<h2>Initiating the Custom Environment<a class="headerlink" href="#initiating-the-custom-environment" title="Permalink to this heading">#</a></h2>
+<p>Linking your environment to the server follows the same procedure as connecting the client to the server.</p>
+<ol class="arabic simple">
+<li><p>refer to the “Installation” section in the <a class="reference external" href="https://github.com/IntelLabs/networkgym">networkgym</a> repository to install dependencies.</p></li>
+<li><p>In the “Setup Port Forwarding to vLab Server” section, alter the port number to 8087.</p></li>
+<li><p>Adjust the values for “session_name” and “session_key” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json">network_gym_env/common_config.json</a> file according to your “session_name” and “session_key”.</p></li>
+</ol>
+<p>Once these steps are completed, you can launch your custom environment using the following command:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">start_custom_env</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>The expected output in the terminal would be as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">env_config</span> <span class="n">socket</span> <span class="n">connected</span><span class="o">.</span>
+<span class="n">test</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">send</span> <span class="n">env</span><span class="o">-</span><span class="n">hello</span> <span class="n">msg</span><span class="o">.</span>
+<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;env-hello&#39;</span><span class="p">,</span> <span class="s1">&#39;env_list&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">]}</span>
+<span class="n">test</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="n">env_config</span> <span class="n">socket</span> <span class="n">connected</span><span class="o">.</span>
+<span class="n">test</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="n">send</span> <span class="n">env</span><span class="o">-</span><span class="n">hello</span> <span class="n">msg</span><span class="o">.</span>
+<span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;env-hello&#39;</span><span class="p">,</span> <span class="s1">&#39;env_list&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please don’t alter the names within the env_list. All third-party users are restricted to employing the environment name ‘custom’.</p>
+</div>
 </section>
-<section id="connects-to-your-custom-environment">
-<h2>Connects to your custom environment.<a class="headerlink" href="#connects-to-your-custom-environment" title="Permalink to this heading">#</a></h2>
-<p>change the environment name to “custom”, the server will automatically append your “session_name” in front of environment name “custom”.</p>
+<section id="connecting-to-your-custom-environment">
+<h2>Connecting to Your Custom Environment<a class="headerlink" href="#connecting-to-your-custom-environment" title="Permalink to this heading">#</a></h2>
+<p>Establishing a connection with your custom environment is a straightforward process through the provided <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/start_client_demo.py">demo</a>. Adjust the env_name to “custom” as shown:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env_name</span> <span class="o">=</span> <span class="s2">&quot;custom&quot;</span>
+</pre></div>
+</div>
+<p>Presently, our support is limited to accessing custom environments launched by the same users. For instance, if you initiate a custom environment with the “session_name”: “test”, you can solely connect to this custom environment using the same “session_name”: “test” when initializing the client.</p>
 </section>
-<section id="release-your-custmo-environment-to-the-public">
-<h2>Release your custmo environment to the public.<a class="headerlink" href="#release-your-custmo-environment-to-the-public" title="Permalink to this heading">#</a></h2>
-<p>To release your environment for public usage, we will automatically</p>
+<section id="releasing-your-custom-environment-to-the-public">
+<h2>Releasing Your Custom Environment to the Public<a class="headerlink" href="#releasing-your-custom-environment-to-the-public" title="Permalink to this heading">#</a></h2>
+<p>After conducting your experiments within your custom environment, please get in touch with us to initiate the process of incorporating the environment into our servers.</p>
 </section>
 </section>
 
@@ -400,9 +425,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-custom-environment">start the custom environment.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connects-to-your-custom-environment">Connects to your custom environment.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-your-custmo-environment-to-the-public">Release your custmo environment to the public.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initiating-the-custom-environment">Initiating the Custom Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-your-custom-environment">Connecting to Your Custom Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-your-custom-environment-to-the-public">Releasing Your Custom Environment to the Public</a></li>
 </ul>
   </nav></div>
 
