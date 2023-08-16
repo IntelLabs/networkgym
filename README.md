@@ -2,6 +2,8 @@
 
 📋 **[NetworkGym docs Website](https://intellabs.github.io/networkgym)**
 
+📧 **[Contact Us](mailto:netaigym@gmail.com)**
+
 The NetworkGym Client stands as a Python-centric client library created for NetworkGym, an innovative Simulation-as-a-Service framework crafted to democratize network AI research and development. This Client establishes a remote connection to the NetworkGym Service (Server/Environment) hosted on Intel vLab, facilitating agent training.
 At present, Network Gym Client supports three environments: `nqos_split`, `qos_steer`, and `network_slicing`.
 

@@ -42,11 +42,34 @@ napoleon_custom_sections = [("Returns", "params_style")]
 autoclass_content = "both"
 autodoc_preserve_defaults = True
 
-
+html_show_sphinx = False
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_book_theme"
-html_title = "NetworkGym Documentation"
-html_logo = "network_gym_logo.png"
+html_theme = "furo"
+html_title = "NetworkGym Docs"
+#html_logo = "network_gym_logo.png"
 html_static_path = ['_static']
+
+html_css_files = [
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css",
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css",
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css",
+]
+
+html_theme_options = {
+    "footer_icons": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/IntelLabs/networkgym",
+            "html": "",
+            "class": "fa-brands fa-solid fa-github fa-2x",
+        },
+        {
+            "name": "Email",
+            "url": "mailto:netaigym@gmail.com",
+            "html": "",
+            "class": "fa-solid fa-square-envelope fa-2x",
+        },
+    ],
+}

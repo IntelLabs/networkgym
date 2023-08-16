@@ -97,7 +97,4 @@ Gymnasium Tutorial <https://gymnasium.farama.org/tutorials/gymnasium_basics/>
 :caption: Development
 
 Github <https://github.com/IntelLabs/networkgym>
-Contribute to the Docs <https://github.com/IntelLabs/networkgym/tree/main/docs>
-contact
-
 ```
