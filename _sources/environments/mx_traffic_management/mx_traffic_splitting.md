@@ -92,7 +92,7 @@ All the network configurable parameters are defined in the JSON files. When the 
 See the [NetworkGym GitHub Repo](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
 
 ## Starting State
-The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. The starting velocity of the users and other parameters can also be configured in the JSON file.
+The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. Every user installs a [random walk mobility model](https://www.nsnam.org/docs/release/3.20/doxygen/classns3_1_1_random_walk2d_mobility_model.html).The mobility parameters can also be configured in the JSON file.
 
 ## Episode End
 A NetworkGym environment operates for a specified number of episodes, denoted as episodes_per_session (E), and each episode is truncated after a certain number of time steps, denoted as steps_per_episode (L). Resulting in E*L time steps per environment session. Both E and L can be customized through JSON configuration files.
