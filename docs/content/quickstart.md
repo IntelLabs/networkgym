@@ -4,28 +4,36 @@ title: Quickstart
 
 # Quickstart
 
-## Accessing the NetworkGym Testbed via vLab
-![network_gym_vlab](network_gym_vlab.png)
-
-We provide access to NetworkGymServer and NetworkGymEnv through **vLab machines** [(Requst Access)](https://registration.intel-research.net/), facilitating collaboration with MLWiNS/RINGs universities. The NetworkGym Northbound Interface allows a NetworkGymClient to establish a connection with the NetworkGym Environment, either through the public internet or Intel's internal network. In case of any access issues, feel free to reach out to us at [netaigym@gmail.com](mailto:netaigym@gmail.com).
+## Accessing the NetworkGym Service via vLab
+```{figure} ../tutorials/network_gym_overview.png
+---
+width: 40%
+---
+```
+We provide access to NetworkGym Server/Environment through **vLab machines** [(Requst Access)](https://registration.intel-research.net/), facilitating collaboration with MLWiNS/RINGs universities. The NetworkGym Northbound Interface allows a NetworkGym Client to establish a connection with the NetworkGym Environment, either through the public internet or Intel's internal network. In case of any access issues, feel free to reach out to us at [netaigym@gmail.com](mailto:netaigym@gmail.com).
 
 Additionally, we plan to launch NetworkGym Sim-aaS via **Intel DevCloud**, making it available to all Intel developers.
-Meanwhile, we are actively collaborating with the research community to enhance NetworkGymSim with new use-cases and capabilities, such as 5G/O-RAN, distributed computing, RAN energy saving, predictive QoS, and more.
+Meanwhile, we are actively collaborating with the research community to enhance NetworkGym Simulator with new use-cases and capabilities, such as 5G/O-RAN, distributed computing, RAN energy saving, predictive QoS, and more.
 
 ## Basic Usage
-![network_gym_workflow](network_gym_workflow.png)
 
-Once you have gained access to vLab NetworkGym Server, you can begin by downloading the client software, [NetworkGymClient](https://github.com/IntelLabs/networkgym), to initiate your simulations.
+```{figure} network_gym_workflow.png
+---
+width: 100%
+---
+```
 
-```{admonition} ▶️ Upon starting the NetworkGymClient, the following series of steps occur:
-1. The NetworkGymClient initiates the process by sending a JSON configuration file to the Server, prompting the launch of an ns-3 simulation.
+Once you have gained access to vLab machines, you can begin by downloading the [Client](https://github.com/IntelLabs/networkgym) to initiate your simulations.
+
+```{admonition} ▶️ Upon starting the Client, the following series of steps occur:
+1. The Client initiates the process by sending a JSON configuration file to the Server, prompting the launch of an ns-3 simulation.
 ```
 
 ```{admonition} 🔁 During the simulation, the process repeats as follows:
 2. The Simulator collects measurement metrics and communicates them to the Server.
-    - The Server forwards the measurements to the NetworkGymClient using the NetworkGym Open API.
+    - The Server forwards the measurements to the Client using the NetworkGym NorhtBound (NB) Interface.
 3. An Algorithm Agent, which could be AI or non-AI, computes an action based on the received measurements and stores relevant data in WandB.
-4. The NetworkGymClient transmits the computed action to the Simulator through the NetworkGym Open API, enabling the simulation to continue with the new action.
+4. The Client transmits the computed action to the Simulator through the NetworkGym NB and SouthBound (SB) interface, enabling the simulation to continue with the new action.
 ```
 
 ```{admonition} ⏹️ When the NetworkGym or the simulation concludes:

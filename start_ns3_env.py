@@ -2,7 +2,7 @@
 #SPDX-License-Identifier: Apache-2.0
 #File : start_ns_env.py
 
-from network_gym_env import CustomEnv
+from network_gym_env import Configure
 import time
 from NetworkGymSim.network_gym_sim import build_ns3
 from NetworkGymSim.network_gym_sim import NetworkGymSim
@@ -12,7 +12,7 @@ def main():
 
     num_workers= 1
     for worker in range(num_workers):
-        customEnv = CustomEnv('intel_ns3_'+str(worker), NetworkGymSim, ['nqos_split', 'qos_steer', 'network_slicing'], 8087)
+        customEnv = Configure(worker, NetworkGymSim, ['nqos_split', 'qos_steer', 'network_slicing'])
         customEnv.start()
         time.sleep(1)
 

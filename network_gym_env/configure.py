@@ -6,17 +6,10 @@ import zmq
 import threading
 import json
 import traceback
+import pathlib
+FILE_PATH = pathlib.Path(__file__).parent
+
 """
-1. The "env_config" establishes a connection with the server and periodically dispatches the message "env-hello."
-2. Upon reception of an "env-start" signal, the "env_config" terminates its socket connection and initiates the "env_sim" simulator.
-3. Upon launching, the "env_sim" establishes a connection with the server, utilizing the identical identification as the "env_config."
-    Subsequently, it commences the exchange of measurement/action messages with the client.
-4. Following the conclusion of the "env_sim" simulation, the socket is closed, and the "env_config" reconnects.
-
-From the server's point, the "env_config" and "env_sim" are perceived as identical entities.
-The division between the "env_config" and "env_sim" components provides the advantage of facilitating straightforward expansion
- of the "env_sim" to other simulators (e.g., ns-3) or test environments, all the while utilizing the same underlying "env_config" code.
-
 Flow Chart:
 -------------------------------------------------
 env_config.connect()
@@ -39,31 +32,48 @@ env_config -- "env-end" --> server
 -------------------------------------------------
 """
 
-class CustomEnv(threading.Thread):
-    """Custom environment that send random measurement metrics."""
-    def __init__(self, identity, NetworkGymSim, env_list, port_num=8091):
+class Configure(threading.Thread):
+    """Environment Configure Component.
+
+    1. The "env_config" establishes a connection with the server and periodically dispatches the message "env-hello."
+    2. Upon reception of an "env-start" signal, the "env_config" terminates its socket connection and initiates the "env_sim" simulator.
+    3. Upon launching, the "env_sim" establishes a connection with the server, utilizing the identical identification as the "env_config." Subsequently, it commences the exchange of measurement/action messages with the client.
+    4. Following the conclusion of the "env_sim" simulation, the socket is closed, and the "env_config" reconnects.
+
+
+    From the server's point, the "env_config" and "env_sim" are perceived as identical entities.
+    The division between the "env_config" and "env_sim" components provides the advantage of facilitating straightforward expansion of the "env_sim" to other simulators (e.g., ns-3) or test environments, all the while utilizing the same underlying "env_config" code.
+    """
+    def __init__(self, id, NetworkGymSim, env_list=['custom']):
         """Initialize custom environment.
 
         Args:
-            identity (int): environment identity
+            id (int): environment identity
             NetworkGymSim (simulator): network simulator
-            env_list (list[str]): a list of supported environments
-            port_num (int): the port to connect
+            env_list (list[str]): a list of supported environments, non-offical account can only use 'custom' as env name
         """
         threading.Thread.__init__ (self)
-        self.identity = identity
+
+        #common_config.json is shared by all environments
+        f = open(FILE_PATH / 'common_config.json')
+        self.config_json = json.load(f)
+        self.identity = u'%s-%d' % (self.config_json["session_name"], id)
         self.env_list = env_list
-        self.port_num = port_num
         self.NetworkGymSim = NetworkGymSim
 
     def run(self):
-        """Run custom environement
+        """Run the environement configure.
         """
+
+        # connect to server via southbound Interface
         context = zmq.Context()
         env_config = context.socket(zmq.DEALER)
         identity = str(self.identity)
+        env_config.plain_username = bytes(self.config_json["session_name"], 'utf-8')
+        env_config.plain_password = bytes(self.config_json["session_key"], 'utf-8')
+        
         env_config.identity = str(self.identity).encode('utf-8')
-        env_config.connect('tcp://localhost:'+str(self.port_num))
+        env_config.connect('tcp://localhost:'+str(self.config_json["env_port"]))
         print(identity + ': env_config socket connected.')
 
         poller = zmq.Poller()
@@ -71,6 +81,7 @@ class CustomEnv(threading.Thread):
         
         while True:
 
+            # Send Hello msg.
             hello_msg = json.loads('{"type":"env-hello"}')
             hello_msg["env_list"] = self.env_list # add supported env_list to hello msg
             env_config.send_multipart([b'', json.dumps(hello_msg, indent=2).encode('utf-8')])# Hello msg does not include client
@@ -83,12 +94,12 @@ class CustomEnv(threading.Thread):
 
                 # received a new msg
                 msg = env_config.recv_multipart()
-                config_json = json.loads(msg[1])  
-                if config_json["type"] == "env-start":
+                msg_json = json.loads(msg[1])  
+                if msg_json["type"] == "env-start":
                     # In idle mode (periodic sending env-hello msg), the first msg should be "env-start"
 
                     # check if the env is supported (in the env_list)
-                    if config_json["env"] not in self.env_list:
+                    if msg_json["env"] not in self.env_list:
                         # not supported env
                         print("Unkown Environment!")
                         error_msg = json.loads('{"type":"env-error", "error_msg": "Unkown Environment!"}')
@@ -97,31 +108,31 @@ class CustomEnv(threading.Thread):
                         continue
 
                     print(identity + ': Recv.')
-                    print(config_json)
+                    print(msg_json)
                     env_config.close()
 
-                    # start dummy simulator
                     print(identity + ': env_config socket closed.')
 
-                    # The dummy simmulator will start a new socket to send measurement and receive action.
-
+                    # start simulator ------------------->
+                    # The simulator will start a new socket to send measurement and receive action.
                     # use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.
                     sim_error_msg = ''
                     try:
-                        self.NetworkGymSim(identity, self.port_num, msg[0].decode(), config_json) # replace it with your own simulator.
+                        self.NetworkGymSim(identity, self.config_json, msg[0].decode(), msg_json) # replace it with your own simulator.
                     except Exception:
                         traceback.print_exc()
                         sim_error_msg = traceback.format_exc()
+                    # simulator terminated <-------------------
 
-                    # simulator terminated, env_config reconnect the server.
+                    # env_config reconnect the server.
                     env_config = context.socket(zmq.DEALER)
                     env_config.identity = identity.encode('utf-8')
-                    env_config.connect('tcp://localhost:'+str(self.port_num))
+                    env_config.connect('tcp://localhost:'+str(self.config_json["env_port"]))
 
                     poller.register(env_config, flags=zmq.POLLIN)
 
                     if sim_error_msg != '':
-                        # simualtor crashed with error msg
+                        # simualtor crashed with error msg, relay to error msg to client
                         error_msg = json.loads('{"type":"env-error"}')
                         error_msg["error_msg"] = sim_error_msg
                         msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
@@ -132,7 +143,6 @@ class CustomEnv(threading.Thread):
                         env_config.send_multipart([msg[0], json.dumps(end_msg, indent=2).encode('utf-8')])# Env End msg
 
                     print(identity + ': env_config socket connected.')
-
 
                 else:
                     print("Unkown MSG type, Expecting env-start!")

@@ -108,5 +108,13 @@ class NorthBoundClient():
             quit()
      
     def process_measurement (self, reply_json):
+        """Process the measurement.
+
+        Args:
+            reply_json (json): the network stats measurement
+
+        Returns:
+            pd.DataFrame: the processed network stats measurement
+        """
         network_stats = pd.json_normalize(reply_json['metric_list']) 
         return network_stats

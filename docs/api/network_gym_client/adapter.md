@@ -21,12 +21,9 @@ adapter/network_slicing
 ### Methods
 
 ```{eval-rst}
-.. autofunction:: network_gym_client.Adapter.set_config
+.. autofunction:: network_gym_client.Adapter.wandb_log_buffer_append
 .. autofunction:: network_gym_client.Adapter.wandb_log
-```
-
-### Additional Methods
-
-```{eval-rst}
 .. autofunction:: network_gym_client.Adapter.df_to_dict
+.. autofunction:: network_gym_client.Adapter.fill_empty_feature
+.. autofunction:: network_gym_client.Adapter.get_nested_json_policy
 ```

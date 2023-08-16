@@ -74,7 +74,7 @@ Now, we elaborate on each row:
 | 25 | tx_rate | Load (input traffic throughput) measured by each user. |
 
 
-### Retrieve a Measurement
+### Retrieving a Measurement
 
 To retrieve a specific network statistic, such as `rate`, you can utilize the following code:
 ```python
@@ -91,11 +91,20 @@ Lastly, employ the `explode` function to transform the nested data frame into it
 ```python
 df_rate = df_rate.explode(column=['user', 'value']) #keep the flow rate.
 ```
-Here is the final output:
+This is the final result of the `rate` for each user, considering the combination of `All` links:
 ```python
    cid direction end_ts group  name start_ts user   value
 0  All        DL   6000   GMA  rate     5900    0   13.24
 0  All        DL   6000   GMA  rate     5900    1  18.464
 0  All        DL   6000   GMA  rate     5900    2   6.968
 0  All        DL   6000   GMA  rate     5900    3   19.28
+```
+
+### Filling the Missing Data
+```{eval-rst}
+Occasionally, certain users might lack measurements for some network metrics. For instance, if data is transmitted over an LTE link, the measurement for the Wi-Fi link might be absent. To address this scenario, we offer the :meth:`network_gym_client.Adapter.fill_empty_feature` function, which serves to populate the missing data.
+```
+
+```{tip}
+When you make updates to the `get_observation` function, ensure that you also modify the `get_observation_space` function to maintain consistency in the number of features.
 ```

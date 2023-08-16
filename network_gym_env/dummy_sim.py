@@ -33,36 +33,39 @@ class DummySim:
         The simulator is configured using the config_json file.
         The first measurement will be send to the client_identity.
     """
-    def __init__(self, env_identity, env_port, client_identity, config_json):
+    def __init__(self, env_identity, config_json, client_identity, msg_json):
         """Initilize dummy simulator.
 
         Args:
             env_identity (str): the identity of the environement socket
-            env_port (int): the port number to connect
+            config_json (json): env configuration
             client_identity (str): the identity of the client socket who started the env
-            config_json (json): environment configuration
+            msg_json (json): msg from the cliet.
         """
         # use the config_json to config the simulator
-        self.interval = config_json['measurement_interval_ms'] + config_json['measurement_guard_interval_ms'] # measurement interval
-        self.start_ts = config_json['app_and_measurement_start_time_ms'] # start timestamp of a measurement
+        self.interval = msg_json['measurement_interval_ms'] + msg_json['measurement_guard_interval_ms'] # measurement interval
+        self.start_ts = msg_json['app_and_measurement_start_time_ms'] # start timestamp of a measurement
         self.end_ts = self.start_ts + self.interval # end timestamp of a measurement
-        self.sim_end_ts = self.start_ts + config_json['simulation_time_s']*1000
-        self.num_users = config_json['num_users']
-        self.start_simulation(env_identity, env_port, client_identity)
+        self.sim_end_ts = self.start_ts + msg_json['simulation_time_s']*1000
+        self.num_users = msg_json['num_users']
+        self.start_simulation(env_identity, config_json, client_identity)
 
-    def start_simulation(self, env_identity, env_port, client_identity):
+    def start_simulation(self, env_identity, config_json, client_identity):
         """Start simulation. Connect to the server using SouthBound API. Report network stats measurment and receive action.
 
         Args:
             env_identity (str): the identity of the environement socket
-            env_port (int): the port number to connect
+            config_json (json): env configuration
             client_identity (str): the identity of the client socket who started the env
         """
         # open a socket with the same env_identity and connect to the same env_port.
         context = zmq.Context()
         env_sim = context.socket(zmq.DEALER)
+        env_sim.plain_username = bytes(config_json["session_name"], 'utf-8')
+        env_sim.plain_password = bytes(config_json["session_key"], 'utf-8')
+
         env_sim.identity = env_identity.encode('utf-8')
-        env_sim.connect('tcp://localhost:'+str(env_port))
+        env_sim.connect('tcp://localhost:'+str(config_json["env_port"]))
         print(env_identity + ': env_sim socket connected.')
 
         poller = zmq.Poller()

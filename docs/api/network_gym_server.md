@@ -13,7 +13,7 @@ end
 
 ```
 
-The NetworkGymServer includes two components, the **northbound interface** manages the connections with the clients, and the **southbound interface** manages the connections with the environments.
+The NetworkGym Server includes two components, the **northbound interface** manages the connections with the clients, and the **southbound interface** manages the connections with the environments.
 When a client connects, the server selects an idle environment instance and add the client to envrionment mapping to the routing table.
 
 ```{note}
