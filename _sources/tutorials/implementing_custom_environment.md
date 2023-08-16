@@ -71,4 +71,4 @@ After successfully establishing a connection between your client and the custom 
 
 
 ## Releasing Your Custom Environment
-After conducting your experiments within your custom environment, please get in touch with us to initiate the process of incorporating the environment into our servers.
+After conducting your experiments within your custom environment, please get in touch with us at [netaigym@gmail.com](mailto:netaigym@gmail.com) to initiate the process of incorporating the environment into our servers.

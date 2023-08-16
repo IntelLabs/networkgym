@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Build Documentation Website &#8212; NetworkGym Documentation</title>
+    <title>Contanct &#8212; NetworkGym Documentation</title>
   
   
   
@@ -44,9 +44,10 @@
     <script src="_static/design-tabs.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({"startOnLoad": true})</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contact';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Implementing Custom Environment" href="tutorials/implementing_custom_environment.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -176,10 +177,10 @@
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/networkgym">Github</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/IntelLabs/networkgym/tree/main/docs">Contribute to the Docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Contanct</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contanct</a></li>
 </ul>
 
     </div>
@@ -234,7 +235,7 @@
       
       
       
-      <li><a href="_sources/README.md" target="_blank"
+      <li><a href="_sources/contact.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -303,9 +304,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -316,25 +315,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Build Documentation Website</h1>
+    <h1>Contanct</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dependencies">Install Dependencies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-website">Build Website</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-tips">Useful Tips</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-generate-rst-files">Auto Generate rst Files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-classes-and-functions-to-md-files">Add Classes and Functions to md Files</a></li>
-</ul>
-</li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -344,49 +329,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="build-documentation-website">
-<h1>Build Documentation Website<a class="headerlink" href="#build-documentation-website" title="Permalink to this heading">#</a></h1>
-<section id="install-dependencies">
-<h2>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this heading">#</a></h2>
+  <section id="contanct">
+<h1>Contanct<a class="headerlink" href="#contanct" title="Permalink to this heading">#</a></h1>
 <ul class="simple">
-<li><p>(Optional) Create a new virtual python environment.</p></li>
+<li><p>Email: <a class="reference external" href="mailto:netaigym&#37;&#52;&#48;gmail&#46;com">netaigym<span>&#64;</span>gmail<span>&#46;</span>com</a></p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">sphinx_venv</span>
-<span class="n">source</span> <span class="n">sphinx_venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>Install Required Libraries <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
-</ul>
-</section>
-<section id="build-website">
-<h2>Build Website<a class="headerlink" href="#build-website" title="Permalink to this heading">#</a></h2>
-<p>In the <code class="docutils literal notranslate"><span class="pre">docs</span></code> folder, run the following commands to export the static website in the <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> folder.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span><span class="p">;</span> <span class="n">make</span> <span class="n">html</span>
-</pre></div>
-</div>
-</section>
-<section id="useful-tips">
-<h2>Useful Tips<a class="headerlink" href="#useful-tips" title="Permalink to this heading">#</a></h2>
-<section id="auto-generate-rst-files">
-<h3>Auto Generate rst Files<a class="headerlink" href="#auto-generate-rst-files" title="Permalink to this heading">#</a></h3>
-<p>Run the following commands to generate rst files for <code class="docutils literal notranslate"><span class="pre">network_gym_client</span></code> library. The rst files contain modules, classes and functions.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="n">network_gym_client</span><span class="o">*.</span><span class="n">rst</span>
-<span class="n">rm</span> <span class="n">modules</span><span class="o">.</span><span class="n">rst</span>
-<span class="n">sphinx</span><span class="o">-</span><span class="n">apidoc</span> <span class="o">-</span><span class="n">o</span> <span class="o">.</span> <span class="o">../</span><span class="n">network_gym_client</span> <span class="o">-</span><span class="n">d</span> <span class="mi">2</span>
-</pre></div>
-</div>
-</section>
-<section id="add-classes-and-functions-to-md-files">
-<h3>Add Classes and Functions to md Files<a class="headerlink" href="#add-classes-and-functions-to-md-files" title="Permalink to this heading">#</a></h3>
-<p>Add the classes and functions in the md (markdown) files. E.g.,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{eval-rst}
-.. autoclass:: network_gym_client.Env
-```
-</pre></div>
-</div>
-</section>
-</section>
 </section>
 
 
@@ -401,6 +348,15 @@ document.write(`
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="tutorials/implementing_custom_environment.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Implementing Custom Environment</p>
+      </div>
+    </a>
 </div></div>
   
 </div>
@@ -410,26 +366,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dependencies">Install Dependencies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-website">Build Website</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-tips">Useful Tips</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-generate-rst-files">Auto Generate rst Files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-classes-and-functions-to-md-files">Add Classes and Functions to md Files</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
