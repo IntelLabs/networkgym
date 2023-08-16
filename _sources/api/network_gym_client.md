@@ -40,7 +40,7 @@ style northbound_interface fill:#1E90FF,color:white,stroke:white
 
 ```
 
-NetworkGymClient includes the three components, a **custom gymnasium.env**, **adapter** and **northbound interface**.
+NetworkGym Client includes the three components, a **custom gymnasium.env**, **adapter** and **northbound interface**.
 - The **custom gymnasium.env** inherets the environment class of [gymnasium](https://gymnasium.farama.org/) and communicates with the agent using the standard gymnasium interfaces. E.g., exchange obs, reward and action in the reset() and step() functions.
 ```python
 import gymnasium as gym

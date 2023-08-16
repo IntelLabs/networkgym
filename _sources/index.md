@@ -7,9 +7,13 @@ lastpage:
 # NetworkGym: Democratizing Network AI Research and Development
 NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym lies the simplified representation of reinforcement learning known as the "agent-environment loop," which facilitates seamless integration with various network agents.
 
-![network_gym](network_gym.png)
+```{figure} network_gym_intro.png
+---
+width: 100%
+---
+```
 
-## Network Agent Options
+## Agent
 NetworkGym offers four types of network agents, each serving a specific purpose when interacting with NetworkGym Environments:
 - **System default agent**: By sending an "empty" action to the environment, this agent enables the collection of data for offline training purposes.
 - **Custom algorithm agent**: A flexible option that allows users to define their own specialized agents using the demo code.
@@ -20,32 +24,35 @@ We have included additional information on how to train the agent in the [Traini
 
 
 ## Gymnasium API
-The interaction between the network agent and the environment is facilitated through the standard [Gymnasium](https://gymnasium.farama.org/) based action and observation space API.
+The interaction between the network agent and the environment is facilitated through the standard [Gymnasium](https://gymnasium.farama.org/) API, including action (↓), observation (↑), and reward (↑).
 
-## Key Components of NetworkGym
-NetworkGym consists of three essential components, each playing a crucial role in the framework:
-- **NetworkGym Client**: This Python-based interface provides a Gymnasium-based API that enables the network agent to remotely interact with the NetworkGym Environment. Additionally, it offers its own NetworkGym API to configure the parameters of the NetworkGym Environment.
-- **NetworkGym Server**: The server acts as the intermediary, managing connections between Clients and Environments.
-- **NetworkGym Environment**:  Leveraging open-source network simulation tools such as [ns-3](https://www.nsnam.org/), NetworkGym enhances these tools with customized capabilities and use-cases, such as Traffic Steering, Network Slicing, Distributed Compute, Dynamic QoS, Energy Saving, and more. This enables comprehensive and realistic network simulations to support cutting-edge research and development in the field of Network AI.
+## NetworkGym API
+NetworkGym consists of three essential components and two interfaces, each playing a crucial role in the framework:
+- **NetworkGym Client**: connects Agent to the Server, configures the Environment, and enables data conversion between Gym and NetworkGym format.
+    - **Northbound Interface**: interface between Client and Server, including network configuration (↓), action (↓), and network stats (↑).
+- **NetworkGym Server**: manages connections between Clients and Environments.
+    - **Southbound Interface**: interface between Server and Environment, including network configuration (↓), action (↓), and network stats (↑).
+- **NetworkGym Environment**: simulates or implements network environments tailored for various network AI use cases. E.g., open-source network simulation tools such as [ns-3](https://www.nsnam.org/).
 
 For more comprehensive information about the key components of NetworkGym, please refer to the [Overview](content/overview.md) page. 
 
-### NetworkGym: Why Divide?
-There are several compelling reasons for dividing NetworkGym into three distinct components:
-- **Language and Platform Flexibility**: Separating the Client and Environment allows for the use of different programming languages. For instance, a Python-based agent can seamlessly interact with a C++(ns-3) based simulation environment. This flexibility enables the integration of diverse tools and technologies.
-- **Decoupling Deployment**: By decoupling the Client and Environment, they can be deployed on separate machines or platforms. This means an agent deployed on a machine optimized for ML workloads can efficiently interact with an Environment deployed on a machine optimized for simulation workloads. This separation optimizes the performance and resource allocation of each component.
+```{admonition} Why Seperating Agent/Client and Server/Environment?
+The Agent/Client component is designed for open-source utilization, whereas the Server/Environment component is maintained by us as a service. The Agent/Client connects to the Server/Environment via the public internet. Multiple convincing rationales underlie the decision to divide NetworkGym into these distinct Agent/Client and Server/Environment components.
+- **Language and Platform Flexibility**: Separating the Agent and Environment allows for the use of different programming languages. For instance, a Python-based Agent can seamlessly interact with a C++(ns-3) based simulation Environment. This flexibility enables the integration of diverse tools and technologies.
+- **Controlled Access through the NetworkGym API**: Since message exchanges occur via the networkgym API, the user is not granted direct access to the simulator or the underlying implementation of the network environment.
+- **Decoupling Deployment**: By decoupling the Agent and Environment, they can be deployed on separate machines or platforms optmized for specific workloads.
+```
+## NetworkGym Scope and Limitations
 
-### NetworkGym: Scope and Limitations
+✔️ **In-Scope:** 
+- NetworkGym focuses on the development of open and reference AI models/algorithms tailored for networking research (Layer 2 and above). 
+- It also involves the development of abstract models, such as channel, compute, power, etc., simulating aspects of the physical world and systems.
+- NetworkGym endeavors to create full-stack models that can effectively simulate end-to-end (Access/Edge/Cloud) network operations with high fidelity.
 
-#### ✔️ In-Scope 
-- NetworkGym focuses on the development of **open and reference** AI models/algorithms tailored for **networking research (Layer 2 & above)**. 
-- It also involves the development of **abstract models**, such as channel, compute, power, etc., simulating aspects of the physical world and systems.
-- NetworkGym endeavors to create **full-stack models** that can effectively simulate **end-to-end (Access/Edge/Cloud)** network operations with high fidelity.
-
-#### ❌ Out-of-Scope
-- NetworkGym does not involve the development of **proprietary** AI algorithms or models. 
-- It is not centered around creating AI **applications or software**, like xApp/rApp, based on specific controller architectures (e.g., O-RAN RIC).
-- NetworkGym is not designed to create a **"Digital Twin"** to simulate the physical world with high fidelity.
+❌ **Out-of-Scope:**
+- NetworkGym does not involve the development of proprietary AI algorithms or models. 
+- It is not centered around creating AI applications or software, like xApp/rApp, based on specific controller architectures (e.g., O-RAN RIC).
+- NetworkGym is not designed to create a Digital Twin to simulate the physical world with high fidelity.
 
 ```{toctree}
 :hidden:

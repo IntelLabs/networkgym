@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_env';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Custom Environment" href="network_gym_env/custom_env.html" />
+    <link rel="next" title="Configure" href="network_gym_env/configure.html" />
     <link rel="prev" title="network_gym_server" href="network_gym_server.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">network_gym_env</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -327,7 +327,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-uml-diagram">NetworkGym UML Diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-uml-sequence-diagram">NetworkGym UML Sequence Diagram</a></li>
 </ul>
             </nav>
         </div>
@@ -348,22 +348,28 @@ flowchart LR
 
 subgraph network_gym_env
 southbound_interface[[southbound_interface]]
-southbound_interface <--> configuration
+southbound_interface <--> configure
 southbound_interface <--> simulator
 southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
 end
 
-</div><p>The NetworkGymEnv comprises two core components: the <strong>Environment Configuration</strong> and the <strong>NetworkGym Simulator</strong>. These components establish a connection with the Server via the designated <strong>SouthBound Interface</strong>.</p>
+</div><p>The NetworkGym Environment comprises two core components: the <strong>Environment Configure</strong> and the <strong>NetworkGym Simulator</strong>. These components establish a connection with the Server via the designated <strong>SouthBound Interface</strong>.</p>
 <ul class="simple">
 <li><p>The <strong>SouthBound Interface</strong> serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.</p></li>
-<li><p>The <strong>Environment Configuration</strong> module keeps the connection alive by periodically dispatching an “Env Hello” message to the server. Upon receiving a simulation start request, it disengages from the server and initiates the simulator.</p></li>
+<li><p>The <strong>Environment Configure</strong> module keeps the connection alive by periodically dispatching an “Env Hello” message to the server. Upon receiving a “Env Start” request, it disengages from the server and initiates the simulator.</p></li>
 <li><p>Upon activation, the ns-3 based <strong>NetworkGym Simulator</strong> establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.</p></li>
 </ul>
-<section id="networkgym-uml-diagram">
-<h2>NetworkGym UML Diagram<a class="headerlink" href="#networkgym-uml-diagram" title="Permalink to this heading">#</a></h2>
-<p><img alt="network_gym_uml" src="../_images/network_gym_uml.png" /></p>
-<p>The UML diagram depicts the flow of messages for a complete cycle within a simulated network environment session. In this cycle, a Client initiates the process by sending an “Env Start” message to request the launch of a network environment. Upon receiving this message, the Env_Config component triggers the simulator to generate “Env Measurement” data and receive incoming “Action” message. Once the simulation concludes, the Env_Config component dispatches an “Env End” message to signal the termination of the Client-to-Env mapping. Importantly, only one of the components, Env_Config or Env_Sim, can establish a connection with the Server at any given moment, and these connections cannot occur simultaneously. From the Server’s standpoint, it treats both the Env_Config and Env_Sim components equivalently, identifying them both as the Env entity.</p>
+<section id="networkgym-uml-sequence-diagram">
+<h2>NetworkGym UML Sequence Diagram<a class="headerlink" href="#networkgym-uml-sequence-diagram" title="Permalink to this heading">#</a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/network_gym_uml.png"><img alt="../_images/network_gym_uml.png" src="../_images/network_gym_uml.png" style="width: 100%;" /></a>
+</figure>
+<p>The UML sequence diagram depicts the flow of messages for a complete cycle within a simulated network environment session. In this cycle, a Client initiates the process by sending an “Env Start” message to request the launch of a network environment. Upon receiving this message, the Env_Config component triggers the simulator to generate “Env Measurement” data and receive incoming “Action” message. Once the simulation concludes, the Env_Config component dispatches an “Env End” message to signal the termination of the Client-to-Env mapping.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>only one of the components, Env_Config or Env_Sim, can establish a connection with the Server at any given moment, and these connections cannot occur simultaneously. From the Server’s standpoint, it treats both the Env_Config and Env_Sim components equivalently, identifying them both as the Env entity.</p>
+</div>
 </section>
 </section>
 
@@ -389,11 +395,11 @@ end
       </div>
     </a>
     <a class="right-next"
-       href="network_gym_env/custom_env.html"
+       href="network_gym_env/configure.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Custom Environment</p>
+        <p class="prev-next-title">Configure</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -415,7 +421,7 @@ end
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-uml-diagram">NetworkGym UML Diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-uml-sequence-diagram">NetworkGym UML Sequence Diagram</a></li>
 </ul>
   </nav></div>
 

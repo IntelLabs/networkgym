@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Traffic Management" href="../../environments/mx_traffic_management.html" />
-    <link rel="prev" title="Custom Environment" href="custom_env.html" />
+    <link rel="prev" title="Configure" href="configure.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure.html">Configure</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -354,7 +354,7 @@ document.write(`
 <h2>network_gym_env.DummySim<a class="headerlink" href="#network-gym-env-dummysim" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="network_gym_env.DummySim">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_env.</span></span><span class="sig-name descname"><span class="pre">DummySim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_env/dummy_sim.html#DummySim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_env.DummySim" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_env.</span></span><span class="sig-name descname"><span class="pre">DummySim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_env/dummy_sim.html#DummySim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_env.DummySim" title="Permalink to this definition">#</a></dt>
 <dd><p>A dummy simulator that generate random measurement samples. When the simulation terminates, resume to the env_config.</p>
 <p>The simulator will create a new env_sim socket using the env_idenntity and connects to the env_port.
 The simulator is configured using the config_json file.
@@ -364,9 +364,9 @@ The first measurement will be send to the client_identity.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>env_identity</strong> (<em>str</em>) – the identity of the environement socket</p></li>
-<li><p><strong>env_port</strong> (<em>int</em>) – the port number to connect</p></li>
+<li><p><strong>config_json</strong> (<em>json</em>) – env configuration</p></li>
 <li><p><strong>client_identity</strong> (<em>str</em>) – the identity of the client socket who started the env</p></li>
-<li><p><strong>config_json</strong> (<em>json</em>) – environment configuration</p></li>
+<li><p><strong>msg_json</strong> (<em>json</em>) – msg from the cliet.</p></li>
 </ul>
 </dd>
 </dl>
@@ -394,13 +394,13 @@ The first measurement will be send to the client_identity.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="network_gym_env.DummySim.start_simulation">
-<span class="sig-prename descclassname"><span class="pre">network_gym_env.DummySim.</span></span><span class="sig-name descname"><span class="pre">start_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_identity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_env.DummySim.start_simulation" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">network_gym_env.DummySim.</span></span><span class="sig-name descname"><span class="pre">start_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_identity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_env.DummySim.start_simulation" title="Permalink to this definition">#</a></dt>
 <dd><p>Start simulation. Connect to the server using SouthBound API. Report network stats measurment and receive action.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>env_identity</strong> (<em>str</em>) – the identity of the environement socket</p></li>
-<li><p><strong>env_port</strong> (<em>int</em>) – the port number to connect</p></li>
+<li><p><strong>config_json</strong> (<em>json</em>) – env configuration</p></li>
 <li><p><strong>client_identity</strong> (<em>str</em>) – the identity of the client socket who started the env</p></li>
 </ul>
 </dd>
@@ -435,12 +435,12 @@ The first measurement will be send to the client_identity.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="custom_env.html"
+       href="configure.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Custom Environment</p>
+        <p class="prev-next-title">Configure</p>
       </div>
     </a>
     <a class="right-next"

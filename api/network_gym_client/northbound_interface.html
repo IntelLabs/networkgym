@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -409,7 +409,16 @@ Sever/Env replies the network stats to the Client.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="network_gym_client.NorthBoundClient.process_measurement">
 <span class="sig-prename descclassname"><span class="pre">network_gym_client.NorthBoundClient.</span></span><span class="sig-name descname"><span class="pre">process_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reply_json</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.NorthBoundClient.process_measurement" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Process the measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reply_json</strong> (<em>json</em>) – the network stats measurement</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>pd.DataFrame</strong> – the processed network stats measurement</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>

@@ -51,7 +51,7 @@ The network statistics measurement contains 8 columns, with each field's explana
 | name | Name of the measurement.|
 | start_ts | The starting timestamp of this measurement. |
 | user | A list of user IDs for this measurement. |
-| value | A list of values for this measurement (user and value should have the same size). |
+| value | A list of measured values for this measurement (user and value should have the same size). |
 
 ### Rows
 
@@ -59,7 +59,7 @@ Now, we elaborate on each row:
 
 | Row | Name | Description |
 | ----- | ---- | ---- |
-| 0,1 | ap_id | LTE cell ID and Wi-Fi access point ID as measured by each user, encompassing LTE and Wi-Fi links. *(NOTE: LTE isn't measured, 255 is the default value.)*|
+| 0,1 | ap_id | LTE cell ID and Wi-Fi access point ID as measured by each user. *(NOTE: 255 is the default value, representing no measurement.)*|
 | 2 | delay_violation | One-way delay violation percentage (%) as measured by each user; delay bound (delay_bound_ms) can be configured in the JSON file. *(NOTE: Only for QoS use case)* |
 | 3,4,5 | max_owd | Maximum one-way delay measured by each user, involving LTE link, Wi-Fi link, and ALL. *(ALL: after reordering out-of-order packets from both links)*. |
 | 6,7 | max_rate | LTE/Wi-Fi link capacity as measured by each user. |
@@ -74,7 +74,7 @@ Now, we elaborate on each row:
 | 25 | tx_rate | Load (input traffic throughput) measured by each user. |
 
 
-### Retrieve a Measurement
+### Retrieving a Measurement
 
 To retrieve a specific network statistic, such as `rate`, you can utilize the following code:
 ```python
@@ -91,11 +91,20 @@ Lastly, employ the `explode` function to transform the nested data frame into it
 ```python
 df_rate = df_rate.explode(column=['user', 'value']) #keep the flow rate.
 ```
-Here is the final output:
+This is the final result of the `rate` for each user, considering the combination of `All` links:
 ```python
    cid direction end_ts group  name start_ts user   value
 0  All        DL   6000   GMA  rate     5900    0   13.24
 0  All        DL   6000   GMA  rate     5900    1  18.464
 0  All        DL   6000   GMA  rate     5900    2   6.968
 0  All        DL   6000   GMA  rate     5900    3   19.28
+```
+
+### Filling the Missing Data
+```{eval-rst}
+Occasionally, certain users might lack measurements for some network metrics. For instance, if data is transmitted over an LTE link, the measurement for the Wi-Fi link might be absent. To address this scenario, we offer the :meth:`network_gym_client.Adapter.fill_empty_feature` function, which serves to populate the missing data.
+```
+
+```{tip}
+When you make updates to the `get_observation` function, ensure that you also modify the `get_observation_space` function to maintain consistency in the number of features.
 ```

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>network_gym_env.custom_env &#8212; NetworkGym Documentation</title>
+    <title>network_gym_env.configure &#8212; NetworkGym Documentation</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../_static/design-tabs.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({"startOnLoad": true})</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/network_gym_env/custom_env';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/network_gym_env/configure';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -149,7 +149,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -278,7 +278,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for network_gym_env.custom_env</h1><div class="highlight"><pre>
+  <h1>Source code for network_gym_env.configure</h1><div class="highlight"><pre>
 <span></span><span class="c1">#Copyright(C) 2023 Intel Corporation</span>
 <span class="c1">#SPDX-License-Identifier: Apache-2.0</span>
 <span class="c1">#File : dummy_worker.py</span>
@@ -287,17 +287,10 @@ document.write(`
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="n">FILE_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">1. The &quot;env_config&quot; establishes a connection with the server and periodically dispatches the message &quot;env-hello.&quot;</span>
-<span class="sd">2. Upon reception of an &quot;env-start&quot; signal, the &quot;env_config&quot; terminates its socket connection and initiates the &quot;env_sim&quot; simulator.</span>
-<span class="sd">3. Upon launching, the &quot;env_sim&quot; establishes a connection with the server, utilizing the identical identification as the &quot;env_config.&quot;</span>
-<span class="sd">    Subsequently, it commences the exchange of measurement/action messages with the client.</span>
-<span class="sd">4. Following the conclusion of the &quot;env_sim&quot; simulation, the socket is closed, and the &quot;env_config&quot; reconnects.</span>
-
-<span class="sd">From the server&#39;s point, the &quot;env_config&quot; and &quot;env_sim&quot; are perceived as identical entities.</span>
-<span class="sd">The division between the &quot;env_config&quot; and &quot;env_sim&quot; components provides the advantage of facilitating straightforward expansion</span>
-<span class="sd"> of the &quot;env_sim&quot; to other simulators (e.g., ns-3) or test environments, all the while utilizing the same underlying &quot;env_config&quot; code.</span>
-
 <span class="sd">Flow Chart:</span>
 <span class="sd">-------------------------------------------------</span>
 <span class="sd">env_config.connect()</span>
@@ -320,31 +313,48 @@ document.write(`
 <span class="sd">-------------------------------------------------</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CustomEnv"><a class="viewcode-back" href="../../api/network_gym_env/custom_env.html#network_gym_env.CustomEnv">[docs]</a><span class="k">class</span> <span class="nc">CustomEnv</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom environment that send random measurement metrics.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">NetworkGymSim</span><span class="p">,</span> <span class="n">env_list</span><span class="p">,</span> <span class="n">port_num</span><span class="o">=</span><span class="mi">8091</span><span class="p">):</span>
+<div class="viewcode-block" id="Configure"><a class="viewcode-back" href="../../api/network_gym_env/configure.html#network_gym_env.Configure">[docs]</a><span class="k">class</span> <span class="nc">Configure</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Environment Configure Component.</span>
+
+<span class="sd">    1. The &quot;env_config&quot; establishes a connection with the server and periodically dispatches the message &quot;env-hello.&quot;</span>
+<span class="sd">    2. Upon reception of an &quot;env-start&quot; signal, the &quot;env_config&quot; terminates its socket connection and initiates the &quot;env_sim&quot; simulator.</span>
+<span class="sd">    3. Upon launching, the &quot;env_sim&quot; establishes a connection with the server, utilizing the identical identification as the &quot;env_config.&quot; Subsequently, it commences the exchange of measurement/action messages with the client.</span>
+<span class="sd">    4. Following the conclusion of the &quot;env_sim&quot; simulation, the socket is closed, and the &quot;env_config&quot; reconnects.</span>
+
+
+<span class="sd">    From the server&#39;s point, the &quot;env_config&quot; and &quot;env_sim&quot; are perceived as identical entities.</span>
+<span class="sd">    The division between the &quot;env_config&quot; and &quot;env_sim&quot; components provides the advantage of facilitating straightforward expansion of the &quot;env_sim&quot; to other simulators (e.g., ns-3) or test environments, all the while utilizing the same underlying &quot;env_config&quot; code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">NetworkGymSim</span><span class="p">,</span> <span class="n">env_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize custom environment.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            identity (int): environment identity</span>
+<span class="sd">            id (int): environment identity</span>
 <span class="sd">            NetworkGymSim (simulator): network simulator</span>
-<span class="sd">            env_list (list[str]): a list of supported environments</span>
-<span class="sd">            port_num (int): the port to connect</span>
+<span class="sd">            env_list (list[str]): a list of supported environments, non-offical account can only use &#39;custom&#39; as env name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="n">identity</span>
+
+        <span class="c1">#common_config.json is shared by all environments</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">FILE_PATH</span> <span class="o">/</span> <span class="s1">&#39;common_config.json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span> <span class="o">=</span> <span class="n">env_list</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">port_num</span> <span class="o">=</span> <span class="n">port_num</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span> <span class="o">=</span> <span class="n">NetworkGymSim</span>
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run custom environement</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the environement configure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># connect to server via southbound Interface</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Context</span><span class="p">()</span>
         <span class="n">env_config</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">DEALER</span><span class="p">)</span>
         <span class="n">identity</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+        <span class="n">env_config</span><span class="o">.</span><span class="n">plain_username</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">env_config</span><span class="o">.</span><span class="n">plain_password</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_key&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        
         <span class="n">env_config</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">env_config</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port_num</span><span class="p">))</span>
+        <span class="n">env_config</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;env_port&quot;</span><span class="p">]))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
 
         <span class="n">poller</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Poller</span><span class="p">()</span>
@@ -352,6 +362,7 @@ document.write(`
         
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
+            <span class="c1"># Send Hello msg.</span>
             <span class="n">hello_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-hello&quot;}&#39;</span><span class="p">)</span>
             <span class="n">hello_msg</span><span class="p">[</span><span class="s2">&quot;env_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span> <span class="c1"># add supported env_list to hello msg</span>
             <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">hello_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Hello msg does not include client</span>
@@ -364,12 +375,12 @@ document.write(`
 
                 <span class="c1"># received a new msg</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="n">env_config</span><span class="o">.</span><span class="n">recv_multipart</span><span class="p">()</span>
-                <span class="n">config_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
-                <span class="k">if</span> <span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;env-start&quot;</span><span class="p">:</span>
+                <span class="n">msg_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
+                <span class="k">if</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;env-start&quot;</span><span class="p">:</span>
                     <span class="c1"># In idle mode (periodic sending env-hello msg), the first msg should be &quot;env-start&quot;</span>
 
                     <span class="c1"># check if the env is supported (in the env_list)</span>
-                    <span class="k">if</span> <span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span><span class="p">:</span>
                         <span class="c1"># not supported env</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown Environment!&quot;</span><span class="p">)</span>
                         <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;, &quot;error_msg&quot;: &quot;Unkown Environment!&quot;}&#39;</span><span class="p">)</span>
@@ -378,31 +389,31 @@ document.write(`
                         <span class="k">continue</span>
 
                     <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: Recv.&#39;</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">config_json</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">msg_json</span><span class="p">)</span>
                     <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-                    <span class="c1"># start dummy simulator</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket closed.&#39;</span><span class="p">)</span>
 
-                    <span class="c1"># The dummy simmulator will start a new socket to send measurement and receive action.</span>
-
+                    <span class="c1"># start simulator -------------------&gt;</span>
+                    <span class="c1"># The simulator will start a new socket to send measurement and receive action.</span>
                     <span class="c1"># use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.</span>
                     <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_num</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">config_json</span><span class="p">)</span> <span class="c1"># replace it with your own simulator.</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">msg_json</span><span class="p">)</span> <span class="c1"># replace it with your own simulator.</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
                         <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+                    <span class="c1"># simulator terminated &lt;-------------------</span>
 
-                    <span class="c1"># simulator terminated, env_config reconnect the server.</span>
+                    <span class="c1"># env_config reconnect the server.</span>
                     <span class="n">env_config</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">DEALER</span><span class="p">)</span>
                     <span class="n">env_config</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                    <span class="n">env_config</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port_num</span><span class="p">))</span>
+                    <span class="n">env_config</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;env_port&quot;</span><span class="p">]))</span>
 
                     <span class="n">poller</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">env_config</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">zmq</span><span class="o">.</span><span class="n">POLLIN</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">sim_error_msg</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-                        <span class="c1"># simualtor crashed with error msg</span>
+                        <span class="c1"># simualtor crashed with error msg, relay to error msg to client</span>
                         <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;}&#39;</span><span class="p">)</span>
                         <span class="n">error_msg</span><span class="p">[</span><span class="s2">&quot;error_msg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_error_msg</span>
                         <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
@@ -413,7 +424,6 @@ document.write(`
                         <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">end_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Env End msg</span>
 
                     <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
-
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown MSG type, Expecting env-start!&quot;</span><span class="p">)</span>

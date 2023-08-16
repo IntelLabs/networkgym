@@ -149,7 +149,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -286,6 +286,7 @@ document.write(`
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -324,9 +325,9 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.connect">connect() (in module network_gym_client.NorthBoundClient)</a>
+      <li><a href="api/network_gym_env/configure.html#network_gym_env.Configure">Configure (class in network_gym_env)</a>
 </li>
-      <li><a href="api/network_gym_env/custom_env.html#network_gym_env.CustomEnv">CustomEnv (class in network_gym_env)</a>
+      <li><a href="api/network_gym_client/northbound_interface.html#network_gym_client.NorthBoundClient.connect">connect() (in module network_gym_client.NorthBoundClient)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -351,6 +352,14 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/network_gym_client/adapter.html#network_gym_client.Adapter.fill_empty_feature">fill_empty_feature() (in module network_gym_client.Adapter)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -364,6 +373,8 @@ document.write(`
         <li><a href="api/network_gym_client/adapter/qos_steer.html#network_gym_client.envs.qos_steer.Adapter.get_action_space">(in module network_gym_client.envs.qos_steer.Adapter)</a>
 </li>
       </ul></li>
+      <li><a href="api/network_gym_client/adapter.html#network_gym_client.Adapter.get_nested_json_policy">get_nested_json_policy() (in module network_gym_client.Adapter)</a>
+</li>
       <li><a href="api/network_gym_client/adapter/network_slicing.html#network_gym_client.envs.network_slicing.Adapter.get_observation">get_observation() (in module network_gym_client.envs.network_slicing.Adapter)</a>
 
       <ul>
@@ -442,7 +453,7 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/network_gym_env/custom_env.html#network_gym_env.CustomEnv.run">run() (in module network_gym_env.CustomEnv)</a>
+      <li><a href="api/network_gym_env/configure.html#network_gym_env.Configure.run">run() (in module network_gym_env.Configure)</a>
 </li>
       <li><a href="api/network_gym_env/dummy_sim.html#network_gym_env.DummySim.run_one_interval">run_one_interval() (in module network_gym_env.DummySim)</a>
 </li>
@@ -467,6 +478,10 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/network_gym_client/adapter.html#network_gym_client.Adapter.wandb_log">wandb_log() (in module network_gym_client.Adapter)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/network_gym_client/adapter.html#network_gym_client.Adapter.wandb_log_buffer_append">wandb_log_buffer_append() (in module network_gym_client.Adapter)</a>
 </li>
   </ul></td>
 </tr></table>

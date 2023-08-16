@@ -149,7 +149,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -314,36 +314,39 @@ document.write(`
 <span class="sd">        The simulator is configured using the config_json file.</span>
 <span class="sd">        The first measurement will be send to the client_identity.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_identity</span><span class="p">,</span> <span class="n">env_port</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">,</span> <span class="n">config_json</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_identity</span><span class="p">,</span> <span class="n">config_json</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">,</span> <span class="n">msg_json</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initilize dummy simulator.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            env_identity (str): the identity of the environement socket</span>
-<span class="sd">            env_port (int): the port number to connect</span>
+<span class="sd">            config_json (json): env configuration</span>
 <span class="sd">            client_identity (str): the identity of the client socket who started the env</span>
-<span class="sd">            config_json (json): environment configuration</span>
+<span class="sd">            msg_json (json): msg from the cliet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># use the config_json to config the simulator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;measurement_interval_ms&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;measurement_guard_interval_ms&#39;</span><span class="p">]</span> <span class="c1"># measurement interval</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">=</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;app_and_measurement_start_time_ms&#39;</span><span class="p">]</span> <span class="c1"># start timestamp of a measurement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;measurement_interval_ms&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;measurement_guard_interval_ms&#39;</span><span class="p">]</span> <span class="c1"># measurement interval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">=</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;app_and_measurement_start_time_ms&#39;</span><span class="p">]</span> <span class="c1"># start timestamp of a measurement</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval</span> <span class="c1"># end timestamp of a measurement</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_end_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">+</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;simulation_time_s&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span> <span class="o">=</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;num_users&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_simulation</span><span class="p">(</span><span class="n">env_identity</span><span class="p">,</span> <span class="n">env_port</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_end_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">+</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;simulation_time_s&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span> <span class="o">=</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;num_users&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_simulation</span><span class="p">(</span><span class="n">env_identity</span><span class="p">,</span> <span class="n">config_json</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">start_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_identity</span><span class="p">,</span> <span class="n">env_port</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">start_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_identity</span><span class="p">,</span> <span class="n">config_json</span><span class="p">,</span> <span class="n">client_identity</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start simulation. Connect to the server using SouthBound API. Report network stats measurment and receive action.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            env_identity (str): the identity of the environement socket</span>
-<span class="sd">            env_port (int): the port number to connect</span>
+<span class="sd">            config_json (json): env configuration</span>
 <span class="sd">            client_identity (str): the identity of the client socket who started the env</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># open a socket with the same env_identity and connect to the same env_port.</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Context</span><span class="p">()</span>
         <span class="n">env_sim</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">DEALER</span><span class="p">)</span>
+        <span class="n">env_sim</span><span class="o">.</span><span class="n">plain_username</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">env_sim</span><span class="o">.</span><span class="n">plain_password</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_key&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
         <span class="n">env_sim</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="n">env_identity</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">env_sim</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">env_port</span><span class="p">))</span>
+        <span class="n">env_sim</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;env_port&quot;</span><span class="p">]))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">env_identity</span> <span class="o">+</span> <span class="s1">&#39;: env_sim socket connected.&#39;</span><span class="p">)</span>
 
         <span class="n">poller</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Poller</span><span class="p">()</span>

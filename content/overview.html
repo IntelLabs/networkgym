@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -327,10 +327,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-components-and-interfaces">NetworkGym: Components and Interfaces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client-component">Client Component</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server-component">Server Component</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-component">Environment Component</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-components-and-interfaces">NetworkGym Components and Interfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client">Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-diagram">Class Diagram</a></li>
 </ul>
             </nav>
@@ -346,7 +346,7 @@ document.write(`
   <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
 <section id="networkgym-components-and-interfaces">
-<h2>NetworkGym: Components and Interfaces<a class="headerlink" href="#networkgym-components-and-interfaces" title="Permalink to this heading">#</a></h2>
+<h2>NetworkGym Components and Interfaces<a class="headerlink" href="#networkgym-components-and-interfaces" title="Permalink to this heading">#</a></h2>
 <p>The NetworkGym framework consists of three essential components - the <strong>Client</strong>, the <strong>Server</strong>, and the <strong>Environment</strong> - each playing a crucial role in the system. Additionally, it encompasses two interfaces - the <strong>Northbound</strong> and the <strong>Southbound interfaces</strong>, facilitating seamless communication and interaction within the framework.</p>
 <p>The graphical representation below illustrates the architecture of NetworkGym:</p>
 <div class="mermaid" align="center">
@@ -357,7 +357,7 @@ northbound <--> southbound[[southbound_interface]]
 end
 
 subgraph network_gym_env
-southbound_interface <--> configuration
+southbound_interface <--> configure
 southbound_interface <--> simulator
 southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
@@ -400,17 +400,17 @@ click northbound_interface "/api/network_gym_client/northbound_interface.html" _
 style northbound_interface fill:#1E90FF,color:white,stroke:white
 </div><p>In this diagram, you can see how the components and interfaces of NetworkGym work together to create a cohesive and efficient Simulation-as-a-Service framework for Network AI Research and Development.</p>
 </section>
-<section id="client-component">
-<h2>Client Component<a class="headerlink" href="#client-component" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGymClient component comprises three main elements: the <strong>Northbound Interface</strong>, an <strong>Adapter</strong>, and a <strong>customized Gymnasium environment</strong>. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL.</p>
+<section id="client">
+<h2>Client<a class="headerlink" href="#client" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym Client comprises three main elements: a <strong>customized Gymnasium environment</strong>, an <strong>Adapter</strong>, and the <strong>Northbound Interface</strong>. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment.</p>
 </section>
-<section id="server-component">
-<h2>Server Component<a class="headerlink" href="#server-component" title="Permalink to this heading">#</a></h2>
+<section id="server">
+<h2>Server<a class="headerlink" href="#server" title="Permalink to this heading">#</a></h2>
 <p>The NetworkGymServer component plays a central role in communication between the client and the environment. It utilizes the <strong>Northbound Interface</strong> to interact with the client and the <strong>Southbound Interface</strong> to communicate with the environment. Additionally, the server maintains a routing map, which keeps track of each active client and its assigned environment during a connected session.</p>
 </section>
-<section id="environment-component">
-<h2>Environment Component<a class="headerlink" href="#environment-component" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the <strong>Southbound Interface</strong>. At present, the framework supports the <strong>ns-3</strong> based simulator, offering <strong>three</strong> distinct network environments. Furthermore, it provides support for measuring <strong>ten</strong> different network statistics to enhance the simulation capabilities.</p>
+<section id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the <strong>Southbound Interface</strong>. At present, the framework supports the <strong>ns-3</strong> based simulator, offering <strong>three</strong> distinct network environments.</p>
 </section>
 <section id="class-diagram">
 <h2>Class Diagram<a class="headerlink" href="#class-diagram" title="Permalink to this heading">#</a></h2>
@@ -497,10 +497,10 @@ adapter : +get_policy(action) policy
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-components-and-interfaces">NetworkGym: Components and Interfaces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client-component">Client Component</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server-component">Server Component</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-component">Environment Component</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-components-and-interfaces">NetworkGym Components and Interfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#client">Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-diagram">Class Diagram</a></li>
 </ul>
   </nav></div>

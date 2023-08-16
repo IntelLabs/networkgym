@@ -4,7 +4,11 @@ title: Multi-Access QoS Traffic Steering
 (cards-mx-qos-traffic-steering)=
 # Multi-Access QoS Traffic Steering
 
-![qos_steer](qos_steer.png)
+```{figure} qos_steer.png
+---
+width: 70%
+---
+```
 
 The Multi-Access (MX) QoS Traffic Steering environment is part of the multi-access traffic management environments and provides general information about the environment.
 In this environment, the agent performs periodic actions to select a link to steer traffic over for each user, considering both Wi-Fi and LTE connections.
@@ -24,7 +28,7 @@ Regarding the Cellular link, there is a bandwidth constraint, and the scheduler 
 
 On the other hand, the Wi-Fi link operates differently as it lacks admission control. All users contend for available bandwidth without any restrictions on user admission.
 
-We can adjust the following QoS parameters (see how to configure these parameters in the [Arguments](#arguments)) Section):
+We can adjust the following QoS parameters:
 ```json
 "qos_requirement": {//only for qos_steer environment
         "test_duration_ms": 500,//duration for qos testing
@@ -37,7 +41,7 @@ During the QoS evaluation, if a flow meets all the specified QoS requirements re
 
 ## Prerequisite
 
-Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGymClient](https://github.com/IntelLabs/networkgym).
+Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGym](https://github.com/IntelLabs/networkgym).
 
 
 ## Observation Space
@@ -92,7 +96,7 @@ See [Customizing Observation and Reward](../../tutorials/customizing_observation
 ## Arguments
 
 All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
-See the [NetworkGymClient](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
+See the [NetworkGym GitHub Repo](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
 
 ## Starting State
 The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. The starting velocity of the users and other parameters can also be configured in the JSON file.

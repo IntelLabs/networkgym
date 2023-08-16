@@ -151,7 +151,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -303,7 +303,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -319,6 +321,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-custom-environment">start the custom environment.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connects-to-your-custom-environment">Connects to your custom environment.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-your-custmo-environment-to-the-public">Release your custmo environment to the public.</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -334,6 +346,19 @@ document.write(`
 <a class="reference internal image-reference" href="../_images/network_gym_overview2.png"><img alt="../_images/network_gym_overview2.png" src="../_images/network_gym_overview2.png" style="width: 60%;" /></a>
 </figure>
 <p>NetworkGym provides a range of network Environments, it also supports Custom Environment via the SouthBound (SB) Interface.</p>
+<p>We provide an example to build your own environment.</p>
+<section id="start-the-custom-environment">
+<h2>start the custom environment.<a class="headerlink" href="#start-the-custom-environment" title="Permalink to this heading">#</a></h2>
+<p>The example environment we provide connects to the server, you do not need to provide any input as the env_list. Even if you use your own environment name, the server will overwite it to “session_name”+”-custom”. e.g., for “test” account, the environemnt name will be “test-custom”.</p>
+</section>
+<section id="connects-to-your-custom-environment">
+<h2>Connects to your custom environment.<a class="headerlink" href="#connects-to-your-custom-environment" title="Permalink to this heading">#</a></h2>
+<p>change the environment name to “custom”, the server will automatically append your “session_name” in front of environment name “custom”.</p>
+</section>
+<section id="release-your-custmo-environment-to-the-public">
+<h2>Release your custmo environment to the public.<a class="headerlink" href="#release-your-custmo-environment-to-the-public" title="Permalink to this heading">#</a></h2>
+<p>To release your environment for public usage, we will automatically</p>
+</section>
 </section>
 
 
@@ -366,6 +391,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-custom-environment">start the custom environment.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connects-to-your-custom-environment">Connects to your custom environment.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-your-custmo-environment-to-the-public">Release your custmo environment to the public.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

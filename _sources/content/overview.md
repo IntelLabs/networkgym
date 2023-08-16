@@ -3,7 +3,7 @@ title: Overview
 ---
 # Overview
 
-## NetworkGym: Components and Interfaces
+## NetworkGym Components and Interfaces
 
 The NetworkGym framework consists of three essential components - the **Client**, the **Server**, and the **Environment** - each playing a crucial role in the system. Additionally, it encompasses two interfaces - the **Northbound** and the **Southbound interfaces**, facilitating seamless communication and interaction within the framework.
 
@@ -18,7 +18,7 @@ northbound <--> southbound[[southbound_interface]]
 end
 
 subgraph network_gym_env
-southbound_interface <--> configuration
+southbound_interface <--> configure
 southbound_interface <--> simulator
 southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
@@ -62,14 +62,14 @@ style northbound_interface fill:#1E90FF,color:white,stroke:white
 ```
 In this diagram, you can see how the components and interfaces of NetworkGym work together to create a cohesive and efficient Simulation-as-a-Service framework for Network AI Research and Development.
 
-## Client Component
-The NetworkGymClient component comprises three main elements: the **Northbound Interface**, an **Adapter**, and a **customized Gymnasium environment**. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL.
+## Client
+The NetworkGym Client comprises three main elements: a **customized Gymnasium environment**, an **Adapter**, and the **Northbound Interface**. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment. 
 
-## Server Component
+## Server
 The NetworkGymServer component plays a central role in communication between the client and the environment. It utilizes the **Northbound Interface** to interact with the client and the **Southbound Interface** to communicate with the environment. Additionally, the server maintains a routing map, which keeps track of each active client and its assigned environment during a connected session.
 
-## Environment Component
-The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the **Southbound Interface**. At present, the framework supports the **ns-3** based simulator, offering **three** distinct network environments. Furthermore, it provides support for measuring **ten** different network statistics to enhance the simulation capabilities.
+## Environment
+The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the **Southbound Interface**. At present, the framework supports the **ns-3** based simulator, offering **three** distinct network environments.
 
 
 ## Class Diagram

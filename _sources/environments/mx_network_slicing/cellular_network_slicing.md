@@ -5,8 +5,11 @@ title: Cellular Network Slicing
 (cards-mx-cellular-slicing)=
 # Cellular Network Slicing
 
-![cellular_slicing](cellular_slicing.png)
-
+```{figure} cellular_slicing.png
+---
+width: 100%
+---
+```
 In the Cellular Network Slicing environment, the entire network is partitioned into multiple slices, each tailored to serve distinct user groups. Utilizing its perceptive observations, the agent possesses the ability to allocate network resources, like resource blocks, to each slice with great efficiency.
 
 Within each slice, the agent can designate resources as dedicated, prioritized, or shared as needed. Meanwhile, for users belonging to the same slice, the Cellular MAC scheduler implements the proportional fair algorithm, guaranteeing an equitable and impartial distribution of resources among them.
@@ -24,7 +27,7 @@ In the Network Slicing environment, resource scheduling poses as a challenge, wi
 
 ## Prerequisite
 
-Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGymClient](https://github.com/IntelLabs/networkgym).
+Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGym](https://github.com/IntelLabs/networkgym).
 
 ## Observation Space
 
@@ -94,7 +97,7 @@ See [Customizing Observation and Reward](../../tutorials/customizing_observation
 ## Arguments
 
 All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
-See the [NetworkGymClient](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
+See the [NetworkGym GitHub Repo](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
 
 ## Starting State
 The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. The starting velocity of the users and other parameters can also be configured in the JSON file.

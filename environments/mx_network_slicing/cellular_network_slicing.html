@@ -153,7 +153,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -349,7 +349,9 @@ document.write(`
                   
   <section id="cellular-network-slicing">
 <span id="cards-mx-cellular-slicing"></span><h1>Cellular Network Slicing<a class="headerlink" href="#cellular-network-slicing" title="Permalink to this heading">#</a></h1>
-<p><img alt="cellular_slicing" src="../../_images/cellular_slicing.png" /></p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/cellular_slicing.png"><img alt="../../_images/cellular_slicing.png" src="../../_images/cellular_slicing.png" style="width: 100%;" /></a>
+</figure>
 <p>In the Cellular Network Slicing environment, the entire network is partitioned into multiple slices, each tailored to serve distinct user groups. Utilizing its perceptive observations, the agent possesses the ability to allocate network resources, like resource blocks, to each slice with great efficiency.</p>
 <p>Within each slice, the agent can designate resources as dedicated, prioritized, or shared as needed. Meanwhile, for users belonging to the same slice, the Cellular MAC scheduler implements the proportional fair algorithm, guaranteeing an equitable and impartial distribution of resources among them.</p>
 <table class="table">
@@ -379,7 +381,7 @@ document.write(`
 </section>
 <section id="prerequisite">
 <h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this heading">#</a></h2>
-<p>Ensure that you have access to the NetworkGym Server on <a class="reference external" href="https://registration.intel-research.net/">vLab</a> machines and have downloaded the <a class="reference external" href="https://github.com/IntelLabs/networkgym">NetworkGymClient</a>.</p>
+<p>Ensure that you have access to the NetworkGym Server on <a class="reference external" href="https://registration.intel-research.net/">vLab</a> machines and have downloaded the <a class="reference external" href="https://github.com/IntelLabs/networkgym">NetworkGym</a>.</p>
 </section>
 <section id="observation-space">
 <h2>Observation Space<a class="headerlink" href="#observation-space" title="Permalink to this heading">#</a></h2>
@@ -491,7 +493,7 @@ document.write(`
 <section id="arguments">
 <h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading">#</a></h2>
 <p>All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
-See the <a class="reference external" href="https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format">NetworkGymClient</a> for more details.</p>
+See the <a class="reference external" href="https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format">NetworkGym GitHub Repo</a> for more details.</p>
 </section>
 <section id="starting-state">
 <h2>Starting State<a class="headerlink" href="#starting-state" title="Permalink to this heading">#</a></h2>

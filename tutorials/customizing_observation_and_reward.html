@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -330,7 +330,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe">Working with the DataFrame</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#columns">Columns</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rows">Rows</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-a-measurement">Retrieve a Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieving-a-measurement">Retrieving a Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filling-the-missing-data">Filling the Missing Data</a></li>
 </ul>
 </li>
 </ul>
@@ -410,7 +411,7 @@ document.write(`
 <td><p>A list of user IDs for this measurement.</p></td>
 </tr>
 <tr class="row-odd"><td><p>value</p></td>
-<td><p>A list of values for this measurement (user and value should have the same size).</p></td>
+<td><p>A list of measured values for this measurement (user and value should have the same size).</p></td>
 </tr>
 </tbody>
 </table>
@@ -428,7 +429,7 @@ document.write(`
 <tbody>
 <tr class="row-even"><td><p>0,1</p></td>
 <td><p>ap_id</p></td>
-<td><p>LTE cell ID and Wi-Fi access point ID as measured by each user, encompassing LTE and Wi-Fi links. <em>(NOTE: LTE isn’t measured, 255 is the default value.)</em></p></td>
+<td><p>LTE cell ID and Wi-Fi access point ID as measured by each user. <em>(NOTE: 255 is the default value, representing no measurement.)</em></p></td>
 </tr>
 <tr class="row-odd"><td><p>2</p></td>
 <td><p>delay_violation</p></td>
@@ -481,8 +482,8 @@ document.write(`
 </tbody>
 </table>
 </section>
-<section id="retrieve-a-measurement">
-<h3>Retrieve a Measurement<a class="headerlink" href="#retrieve-a-measurement" title="Permalink to this heading">#</a></h3>
+<section id="retrieving-a-measurement">
+<h3>Retrieving a Measurement<a class="headerlink" href="#retrieving-a-measurement" title="Permalink to this heading">#</a></h3>
 <p>To retrieve a specific network statistic, such as <code class="docutils literal notranslate"><span class="pre">rate</span></code>, you can utilize the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_rate</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># get the rate</span>
 </pre></div>
@@ -495,13 +496,21 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_rate</span> <span class="o">=</span> <span class="n">df_rate</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span> <span class="c1">#keep the flow rate.</span>
 </pre></div>
 </div>
-<p>Here is the final output:</p>
+<p>This is the final result of the <code class="docutils literal notranslate"><span class="pre">rate</span></code> for each user, considering the combination of <code class="docutils literal notranslate"><span class="pre">All</span></code> links:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>   <span class="n">cid</span> <span class="n">direction</span> <span class="n">end_ts</span> <span class="n">group</span>  <span class="n">name</span> <span class="n">start_ts</span> <span class="n">user</span>   <span class="n">value</span>
 <span class="mi">0</span>  <span class="n">All</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>  <span class="n">rate</span>     <span class="mi">5900</span>    <span class="mi">0</span>   <span class="mf">13.24</span>
 <span class="mi">0</span>  <span class="n">All</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>  <span class="n">rate</span>     <span class="mi">5900</span>    <span class="mi">1</span>  <span class="mf">18.464</span>
 <span class="mi">0</span>  <span class="n">All</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>  <span class="n">rate</span>     <span class="mi">5900</span>    <span class="mi">2</span>   <span class="mf">6.968</span>
 <span class="mi">0</span>  <span class="n">All</span>        <span class="n">DL</span>   <span class="mi">6000</span>   <span class="n">GMA</span>  <span class="n">rate</span>     <span class="mi">5900</span>    <span class="mi">3</span>   <span class="mf">19.28</span>
 </pre></div>
+</div>
+</section>
+<section id="filling-the-missing-data">
+<h3>Filling the Missing Data<a class="headerlink" href="#filling-the-missing-data" title="Permalink to this heading">#</a></h3>
+<p>Occasionally, certain users might lack measurements for some network metrics. For instance, if data is transmitted over an LTE link, the measurement for the Wi-Fi link might be absent. To address this scenario, we offer the <a class="reference internal" href="../api/network_gym_client/adapter.html#network_gym_client.Adapter.fill_empty_feature" title="network_gym_client.Adapter.fill_empty_feature"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.Adapter.fill_empty_feature()</span></code></a> function, which serves to populate the missing data.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When you make updates to the <code class="docutils literal notranslate"><span class="pre">get_observation</span></code> function, ensure that you also modify the <code class="docutils literal notranslate"><span class="pre">get_observation_space</span></code> function to maintain consistency in the number of features.</p>
 </div>
 </section>
 </section>
@@ -558,7 +567,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-the-dataframe">Working with the DataFrame</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#columns">Columns</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rows">Rows</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-a-measurement">Retrieve a Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieving-a-measurement">Retrieving a Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filling-the-missing-data">Filling the Missing Data</a></li>
 </ul>
 </li>
 </ul>

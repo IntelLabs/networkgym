@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -348,7 +348,9 @@ document.write(`
                   
   <section id="multi-access-qos-traffic-steering">
 <span id="cards-mx-qos-traffic-steering"></span><h1>Multi-Access QoS Traffic Steering<a class="headerlink" href="#multi-access-qos-traffic-steering" title="Permalink to this heading">#</a></h1>
-<p><img alt="qos_steer" src="../../_images/qos_steer.png" /></p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/qos_steer.png"><img alt="../../_images/qos_steer.png" src="../../_images/qos_steer.png" style="width: 70%;" /></a>
+</figure>
 <p>The Multi-Access (MX) QoS Traffic Steering environment is part of the multi-access traffic management environments and provides general information about the environment.
 In this environment, the agent performs periodic actions to select a link to steer traffic over for each user, considering both Wi-Fi and LTE connections.</p>
 <table class="table">
@@ -377,7 +379,7 @@ In this environment, the agent performs periodic actions to select a link to ste
 <p>The Multi-Access (MX) QoS Traffic Steering scenario presents the challenge of efficiently managing traffic for multiple users distributed randomly across a 2D plane. Each user has access to both Cellular and Wi-Fi links. The primary goal of traffic management is to intelligently direct the traffic through either of these links, aiming to achieve the best Quality of Service (QoS).</p>
 <p>Regarding the Cellular link, there is a bandwidth constraint, and the scheduler will halt the admission of users when the bandwidth capacity is reached. For instance, if 10 users are directed over the Cellular link, but only 5 of them can be accommodated with the required QoS, the Cellular link will prioritize serving the first 5 users with QoS and will drop the remaining 5 users.</p>
 <p>On the other hand, the Wi-Fi link operates differently as it lacks admission control. All users contend for available bandwidth without any restrictions on user admission.</p>
-<p>We can adjust the following QoS parameters (see how to configure these parameters in the <a class="reference internal" href="#arguments"><span class="xref myst">Arguments</span></a>) Section):</p>
+<p>We can adjust the following QoS parameters:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;qos_requirement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="c1">//only for qos_steer environment</span>
 <span class="w">        </span><span class="nt">&quot;test_duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="c1">//duration for qos testing</span>
 <span class="w">        </span><span class="nt">&quot;delay_bound_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="c1">//max delay for qos flow</span>
@@ -390,7 +392,7 @@ In this environment, the agent performs periodic actions to select a link to ste
 </section>
 <section id="prerequisite">
 <h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this heading">#</a></h2>
-<p>Ensure that you have access to the NetworkGym Server on <a class="reference external" href="https://registration.intel-research.net/">vLab</a> machines and have downloaded the <a class="reference external" href="https://github.com/IntelLabs/networkgym">NetworkGymClient</a>.</p>
+<p>Ensure that you have access to the NetworkGym Server on <a class="reference external" href="https://registration.intel-research.net/">vLab</a> machines and have downloaded the <a class="reference external" href="https://github.com/IntelLabs/networkgym">NetworkGym</a>.</p>
 </section>
 <section id="observation-space">
 <h2>Observation Space<a class="headerlink" href="#observation-space" title="Permalink to this heading">#</a></h2>
@@ -455,7 +457,7 @@ In this environment, the agent performs periodic actions to select a link to ste
 <section id="arguments">
 <h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading">#</a></h2>
 <p>All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
-See the <a class="reference external" href="https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format">NetworkGymClient</a> for more details.</p>
+See the <a class="reference external" href="https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format">NetworkGym GitHub Repo</a> for more details.</p>
 </section>
 <section id="starting-state">
 <h2>Starting State<a class="headerlink" href="#starting-state" title="Permalink to this heading">#</a></h2>

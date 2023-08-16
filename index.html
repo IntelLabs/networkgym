@@ -151,7 +151,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -326,17 +326,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-agent-options">Network Agent Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agent">Agent</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gymnasium-api">Gymnasium API</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-networkgym">Key Components of NetworkGym</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-why-divide">NetworkGym: Why Divide?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-scope-and-limitations">NetworkGym: Scope and Limitations</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#in-scope">✔️ In-Scope</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-scope">❌ Out-of-Scope</a><ul class="nav section-nav flex-column">
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-api">NetworkGym API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-scope-and-limitations">NetworkGym Scope and Limitations</a><ul class="nav section-nav flex-column">
 </ul>
 </li>
 </ul>
@@ -353,9 +346,11 @@ document.write(`
   <section id="networkgym-democratizing-network-ai-research-and-development">
 <h1>NetworkGym: Democratizing Network AI Research and Development<a class="headerlink" href="#networkgym-democratizing-network-ai-research-and-development" title="Permalink to this heading">#</a></h1>
 <p>NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym lies the simplified representation of reinforcement learning known as the “agent-environment loop,” which facilitates seamless integration with various network agents.</p>
-<p><img alt="network_gym" src="_images/network_gym.png" /></p>
-<section id="network-agent-options">
-<h2>Network Agent Options<a class="headerlink" href="#network-agent-options" title="Permalink to this heading">#</a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/network_gym_intro.png"><img alt="_images/network_gym_intro.png" src="_images/network_gym_intro.png" style="width: 100%;" /></a>
+</figure>
+<section id="agent">
+<h2>Agent<a class="headerlink" href="#agent" title="Permalink to this heading">#</a></h2>
 <p>NetworkGym offers four types of network agents, each serving a specific purpose when interacting with NetworkGym Environments:</p>
 <ul class="simple">
 <li><p><strong>System default agent</strong>: By sending an “empty” action to the environment, this agent enables the collection of data for offline training purposes.</p></li>
@@ -367,41 +362,48 @@ document.write(`
 </section>
 <section id="gymnasium-api">
 <h2>Gymnasium API<a class="headerlink" href="#gymnasium-api" title="Permalink to this heading">#</a></h2>
-<p>The interaction between the network agent and the environment is facilitated through the standard <a class="reference external" href="https://gymnasium.farama.org/">Gymnasium</a> based action and observation space API.</p>
+<p>The interaction between the network agent and the environment is facilitated through the standard <a class="reference external" href="https://gymnasium.farama.org/">Gymnasium</a> API, including action (↓), observation (↑), and reward (↑).</p>
 </section>
-<section id="key-components-of-networkgym">
-<h2>Key Components of NetworkGym<a class="headerlink" href="#key-components-of-networkgym" title="Permalink to this heading">#</a></h2>
-<p>NetworkGym consists of three essential components, each playing a crucial role in the framework:</p>
+<section id="networkgym-api">
+<h2>NetworkGym API<a class="headerlink" href="#networkgym-api" title="Permalink to this heading">#</a></h2>
+<p>NetworkGym consists of three essential components and two interfaces, each playing a crucial role in the framework:</p>
 <ul class="simple">
-<li><p><strong>NetworkGym Client</strong>: This Python-based interface provides a Gymnasium-based API that enables the network agent to remotely interact with the NetworkGym Environment. Additionally, it offers its own NetworkGym API to configure the parameters of the NetworkGym Environment.</p></li>
-<li><p><strong>NetworkGym Server</strong>: The server acts as the intermediary, managing connections between Clients and Environments.</p></li>
-<li><p><strong>NetworkGym Environment</strong>:  Leveraging open-source network simulation tools such as <a class="reference external" href="https://www.nsnam.org/">ns-3</a>, NetworkGym enhances these tools with customized capabilities and use-cases, such as Traffic Steering, Network Slicing, Distributed Compute, Dynamic QoS, Energy Saving, and more. This enables comprehensive and realistic network simulations to support cutting-edge research and development in the field of Network AI.</p></li>
+<li><p><strong>NetworkGym Client</strong>: connects Agent to the Server, configures the Environment, and enables data conversion between Gym and NetworkGym format.</p>
+<ul>
+<li><p><strong>Northbound Interface</strong>: interface between Client and Server, including network configuration (↓), action (↓), and network stats (↑).</p></li>
+</ul>
+</li>
+<li><p><strong>NetworkGym Server</strong>: manages connections between Clients and Environments.</p>
+<ul>
+<li><p><strong>Southbound Interface</strong>: interface between Server and Environment, including network configuration (↓), action (↓), and network stats (↑).</p></li>
+</ul>
+</li>
+<li><p><strong>NetworkGym Environment</strong>: simulates or implements network environments tailored for various network AI use cases. E.g., open-source network simulation tools such as <a class="reference external" href="https://www.nsnam.org/">ns-3</a>.</p></li>
 </ul>
 <p>For more comprehensive information about the key components of NetworkGym, please refer to the <a class="reference internal" href="content/overview.html"><span class="std std-doc">Overview</span></a> page.</p>
-<section id="networkgym-why-divide">
-<h3>NetworkGym: Why Divide?<a class="headerlink" href="#networkgym-why-divide" title="Permalink to this heading">#</a></h3>
-<p>There are several compelling reasons for dividing NetworkGym into three distinct components:</p>
+<div class="admonition-why-seperating-agent-client-and-server-environment admonition">
+<p class="admonition-title">Why Seperating Agent/Client and Server/Environment?</p>
+<p>The Agent/Client component is designed for open-source utilization, whereas the Server/Environment component is maintained by us as a service. The Agent/Client connects to the Server/Environment via the public internet. Multiple convincing rationales underlie the decision to divide NetworkGym into these distinct Agent/Client and Server/Environment components.</p>
 <ul class="simple">
-<li><p><strong>Language and Platform Flexibility</strong>: Separating the Client and Environment allows for the use of different programming languages. For instance, a Python-based agent can seamlessly interact with a C++(ns-3) based simulation environment. This flexibility enables the integration of diverse tools and technologies.</p></li>
-<li><p><strong>Decoupling Deployment</strong>: By decoupling the Client and Environment, they can be deployed on separate machines or platforms. This means an agent deployed on a machine optimized for ML workloads can efficiently interact with an Environment deployed on a machine optimized for simulation workloads. This separation optimizes the performance and resource allocation of each component.</p></li>
+<li><p><strong>Language and Platform Flexibility</strong>: Separating the Agent and Environment allows for the use of different programming languages. For instance, a Python-based Agent can seamlessly interact with a C++(ns-3) based simulation Environment. This flexibility enables the integration of diverse tools and technologies.</p></li>
+<li><p><strong>Controlled Access through the NetworkGym API</strong>: Since message exchanges occur via the networkgym API, the user is not granted direct access to the simulator or the underlying implementation of the network environment.</p></li>
+<li><p><strong>Decoupling Deployment</strong>: By decoupling the Agent and Environment, they can be deployed on separate machines or platforms optmized for specific workloads.</p></li>
 </ul>
+</div>
 </section>
 <section id="networkgym-scope-and-limitations">
-<h3>NetworkGym: Scope and Limitations<a class="headerlink" href="#networkgym-scope-and-limitations" title="Permalink to this heading">#</a></h3>
-<section id="in-scope">
-<h4>✔️ In-Scope<a class="headerlink" href="#in-scope" title="Permalink to this heading">#</a></h4>
+<h2>NetworkGym Scope and Limitations<a class="headerlink" href="#networkgym-scope-and-limitations" title="Permalink to this heading">#</a></h2>
+<p>✔️ <strong>In-Scope:</strong></p>
 <ul class="simple">
-<li><p>NetworkGym focuses on the development of <strong>open and reference</strong> AI models/algorithms tailored for <strong>networking research (Layer 2 &amp; above)</strong>.</p></li>
-<li><p>It also involves the development of <strong>abstract models</strong>, such as channel, compute, power, etc., simulating aspects of the physical world and systems.</p></li>
-<li><p>NetworkGym endeavors to create <strong>full-stack models</strong> that can effectively simulate <strong>end-to-end (Access/Edge/Cloud)</strong> network operations with high fidelity.</p></li>
+<li><p>NetworkGym focuses on the development of open and reference AI models/algorithms tailored for networking research (Layer 2 and above).</p></li>
+<li><p>It also involves the development of abstract models, such as channel, compute, power, etc., simulating aspects of the physical world and systems.</p></li>
+<li><p>NetworkGym endeavors to create full-stack models that can effectively simulate end-to-end (Access/Edge/Cloud) network operations with high fidelity.</p></li>
 </ul>
-</section>
-<section id="out-of-scope">
-<h4>❌ Out-of-Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading">#</a></h4>
+<p>❌ <strong>Out-of-Scope:</strong></p>
 <ul class="simple">
-<li><p>NetworkGym does not involve the development of <strong>proprietary</strong> AI algorithms or models.</p></li>
-<li><p>It is not centered around creating AI <strong>applications or software</strong>, like xApp/rApp, based on specific controller architectures (e.g., O-RAN RIC).</p></li>
-<li><p>NetworkGym is not designed to create a <strong>“Digital Twin”</strong> to simulate the physical world with high fidelity.</p></li>
+<li><p>NetworkGym does not involve the development of proprietary AI algorithms or models.</p></li>
+<li><p>It is not centered around creating AI applications or software, like xApp/rApp, based on specific controller architectures (e.g., O-RAN RIC).</p></li>
+<li><p>NetworkGym is not designed to create a Digital Twin to simulate the physical world with high fidelity.</p></li>
 </ul>
 <div class="toctree-wrapper compound">
 </div>
@@ -413,8 +415,6 @@ document.write(`
 </div>
 <div class="toctree-wrapper compound">
 </div>
-</section>
-</section>
 </section>
 </section>
 
@@ -457,17 +457,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-agent-options">Network Agent Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agent">Agent</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gymnasium-api">Gymnasium API</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components-of-networkgym">Key Components of NetworkGym</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-why-divide">NetworkGym: Why Divide?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-scope-and-limitations">NetworkGym: Scope and Limitations</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#in-scope">✔️ In-Scope</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-scope">❌ Out-of-Scope</a><ul class="nav section-nav flex-column">
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-api">NetworkGym API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#networkgym-scope-and-limitations">NetworkGym Scope and Limitations</a><ul class="nav section-nav flex-column">
 </ul>
 </li>
 </ul>

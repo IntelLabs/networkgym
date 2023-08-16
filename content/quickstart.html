@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -327,7 +327,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-networkgym-testbed-via-vlab">Accessing the NetworkGym Testbed via vLab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-networkgym-service-via-vlab">Accessing the NetworkGym Service via vLab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-environments">Initializing Environments</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interacting-with-the-environment">Interacting with the Environment</a></li>
@@ -349,21 +349,25 @@ document.write(`
                   
   <section id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">#</a></h1>
-<section id="accessing-the-networkgym-testbed-via-vlab">
-<h2>Accessing the NetworkGym Testbed via vLab<a class="headerlink" href="#accessing-the-networkgym-testbed-via-vlab" title="Permalink to this heading">#</a></h2>
-<p><img alt="network_gym_vlab" src="../_images/network_gym_vlab.png" /></p>
-<p>We provide access to NetworkGymServer and NetworkGymEnv through <strong>vLab machines</strong> <a class="reference external" href="https://registration.intel-research.net/">(Requst Access)</a>, facilitating collaboration with MLWiNS/RINGs universities. The NetworkGym Northbound Interface allows a NetworkGymClient to establish a connection with the NetworkGym Environment, either through the public internet or Intel’s internal network. In case of any access issues, feel free to reach out to us at <a class="reference external" href="mailto:netaigym&#37;&#52;&#48;gmail&#46;com">netaigym<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+<section id="accessing-the-networkgym-service-via-vlab">
+<h2>Accessing the NetworkGym Service via vLab<a class="headerlink" href="#accessing-the-networkgym-service-via-vlab" title="Permalink to this heading">#</a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/network_gym_overview.png"><img alt="../_images/network_gym_overview.png" src="../_images/network_gym_overview.png" style="width: 40%;" /></a>
+</figure>
+<p>We provide access to NetworkGym Server/Environment through <strong>vLab machines</strong> <a class="reference external" href="https://registration.intel-research.net/">(Requst Access)</a>, facilitating collaboration with MLWiNS/RINGs universities. The NetworkGym Northbound Interface allows a NetworkGym Client to establish a connection with the NetworkGym Environment, either through the public internet or Intel’s internal network. In case of any access issues, feel free to reach out to us at <a class="reference external" href="mailto:netaigym&#37;&#52;&#48;gmail&#46;com">netaigym<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
 <p>Additionally, we plan to launch NetworkGym Sim-aaS via <strong>Intel DevCloud</strong>, making it available to all Intel developers.
-Meanwhile, we are actively collaborating with the research community to enhance NetworkGymSim with new use-cases and capabilities, such as 5G/O-RAN, distributed computing, RAN energy saving, predictive QoS, and more.</p>
+Meanwhile, we are actively collaborating with the research community to enhance NetworkGym Simulator with new use-cases and capabilities, such as 5G/O-RAN, distributed computing, RAN energy saving, predictive QoS, and more.</p>
 </section>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading">#</a></h2>
-<p><img alt="network_gym_workflow" src="../_images/network_gym_workflow.png" /></p>
-<p>Once you have gained access to vLab NetworkGym Server, you can begin by downloading the client software, <a class="reference external" href="https://github.com/IntelLabs/networkgym">NetworkGymClient</a>, to initiate your simulations.</p>
-<div class="admonition-upon-starting-the-networkgymclient-the-following-series-of-steps-occur admonition">
-<p class="admonition-title">▶️ Upon starting the NetworkGymClient, the following series of steps occur:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/network_gym_workflow.png"><img alt="../_images/network_gym_workflow.png" src="../_images/network_gym_workflow.png" style="width: 100%;" /></a>
+</figure>
+<p>Once you have gained access to vLab machines, you can begin by downloading the <a class="reference external" href="https://github.com/IntelLabs/networkgym">Client</a> to initiate your simulations.</p>
+<div class="admonition-upon-starting-the-client-the-following-series-of-steps-occur admonition">
+<p class="admonition-title">▶️ Upon starting the Client, the following series of steps occur:</p>
 <ol class="arabic simple">
-<li><p>The NetworkGymClient initiates the process by sending a JSON configuration file to the Server, prompting the launch of an ns-3 simulation.</p></li>
+<li><p>The Client initiates the process by sending a JSON configuration file to the Server, prompting the launch of an ns-3 simulation.</p></li>
 </ol>
 </div>
 <div class="admonition-during-the-simulation-the-process-repeats-as-follows admonition">
@@ -371,11 +375,11 @@ Meanwhile, we are actively collaborating with the research community to enhance 
 <ol class="arabic simple" start="2">
 <li><p>The Simulator collects measurement metrics and communicates them to the Server.</p>
 <ul class="simple">
-<li><p>The Server forwards the measurements to the NetworkGymClient using the NetworkGym Open API.</p></li>
+<li><p>The Server forwards the measurements to the Client using the NetworkGym NorhtBound (NB) Interface.</p></li>
 </ul>
 </li>
 <li><p>An Algorithm Agent, which could be AI or non-AI, computes an action based on the received measurements and stores relevant data in WandB.</p></li>
-<li><p>The NetworkGymClient transmits the computed action to the Simulator through the NetworkGym Open API, enabling the simulation to continue with the new action.</p></li>
+<li><p>The Client transmits the computed action to the Simulator through the NetworkGym NB and SouthBound (SB) interface, enabling the simulation to continue with the new action.</p></li>
 </ol>
 </div>
 <div class="admonition-when-the-networkgym-or-the-simulation-concludes admonition">
@@ -533,7 +537,7 @@ Values can be shifted to {a, a+1, …, a+n-1} using an optional argument.</p></l
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-networkgym-testbed-via-vlab">Accessing the NetworkGym Testbed via vLab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-networkgym-service-via-vlab">Accessing the NetworkGym Service via vLab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-environments">Initializing Environments</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interacting-with-the-environment">Interacting with the Environment</a></li>

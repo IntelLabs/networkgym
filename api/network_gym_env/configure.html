@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Custom Environment &#8212; NetworkGym Documentation</title>
+    <title>Configure &#8212; NetworkGym Documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../_static/design-tabs.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({"startOnLoad": true})</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_env/custom_env';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/network_gym_env/configure';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Dummy Simulator" href="dummy_sim.html" />
@@ -152,7 +152,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../network_gym_env.html">network_gym_env</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Custom Environment</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -235,7 +235,7 @@
       
       
       
-      <li><a href="../../_sources/api/network_gym_env/custom_env.md" target="_blank"
+      <li><a href="../../_sources/api/network_gym_env/configure.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -317,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Custom Environment</h1>
+    <h1>Configure</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -327,10 +327,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-customenv">network_gym_env.CustomEnv</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv"><code class="docutils literal notranslate"><span class="pre">CustomEnv</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-configure">network_gym_env.Configure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.Configure"><code class="docutils literal notranslate"><span class="pre">Configure</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.Configure.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -346,22 +346,29 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="custom-environment">
-<h1>Custom Environment<a class="headerlink" href="#custom-environment" title="Permalink to this heading">#</a></h1>
-<section id="network-gym-env-customenv">
-<h2>network_gym_env.CustomEnv<a class="headerlink" href="#network-gym-env-customenv" title="Permalink to this heading">#</a></h2>
+  <section id="configure">
+<h1>Configure<a class="headerlink" href="#configure" title="Permalink to this heading">#</a></h1>
+<section id="network-gym-env-configure">
+<h2>network_gym_env.Configure<a class="headerlink" href="#network-gym-env-configure" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="network_gym_env.CustomEnv">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_env.</span></span><span class="sig-name descname"><span class="pre">CustomEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NetworkGymSim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8091</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_env/custom_env.html#CustomEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_env.CustomEnv" title="Permalink to this definition">#</a></dt>
-<dd><p>Custom environment that send random measurement metrics.</p>
+<dt class="sig sig-object py" id="network_gym_env.Configure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_env.</span></span><span class="sig-name descname"><span class="pre">Configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NetworkGymSim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['custom']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/network_gym_env/configure.html#Configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_env.Configure" title="Permalink to this definition">#</a></dt>
+<dd><p>Environment Configure Component.</p>
+<ol class="arabic simple">
+<li><p>The “env_config” establishes a connection with the server and periodically dispatches the message “env-hello.”</p></li>
+<li><p>Upon reception of an “env-start” signal, the “env_config” terminates its socket connection and initiates the “env_sim” simulator.</p></li>
+<li><p>Upon launching, the “env_sim” establishes a connection with the server, utilizing the identical identification as the “env_config.” Subsequently, it commences the exchange of measurement/action messages with the client.</p></li>
+<li><p>Following the conclusion of the “env_sim” simulation, the socket is closed, and the “env_config” reconnects.</p></li>
+</ol>
+<p>From the server’s point, the “env_config” and “env_sim” are perceived as identical entities.
+The division between the “env_config” and “env_sim” components provides the advantage of facilitating straightforward expansion of the “env_sim” to other simulators (e.g., ns-3) or test environments, all the while utilizing the same underlying “env_config” code.</p>
 <p>Initialize custom environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>identity</strong> (<em>int</em>) – environment identity</p></li>
+<li><p><strong>id</strong> (<em>int</em>) – environment identity</p></li>
 <li><p><strong>NetworkGymSim</strong> (<em>simulator</em>) – network simulator</p></li>
-<li><p><strong>env_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – a list of supported environments</p></li>
-<li><p><strong>port_num</strong> (<em>int</em>) – the port to connect</p></li>
+<li><p><strong>env_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – a list of supported environments, non-offical account can only use ‘custom’ as env name</p></li>
 </ul>
 </dd>
 </dl>
@@ -370,9 +377,9 @@ document.write(`
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_env.CustomEnv.run">
-<span class="sig-prename descclassname"><span class="pre">network_gym_env.CustomEnv.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_env.CustomEnv.run" title="Permalink to this definition">#</a></dt>
-<dd><p>Run custom environement</p>
+<dt class="sig sig-object py" id="network_gym_env.Configure.run">
+<span class="sig-prename descclassname"><span class="pre">network_gym_env.Configure.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_env.Configure.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Run the environement configure.</p>
 </dd></dl>
 
 </section>
@@ -427,10 +434,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-customenv">network_gym_env.CustomEnv</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv"><code class="docutils literal notranslate"><span class="pre">CustomEnv</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-gym-env-configure">network_gym_env.Configure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.Configure"><code class="docutils literal notranslate"><span class="pre">Configure</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.CustomEnv.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#network_gym_env.Configure.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
 </ul>

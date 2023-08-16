@@ -149,7 +149,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/custom_env.html">Custom Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
 </ul>
 </li>
@@ -389,6 +389,14 @@ document.write(`
             <span class="n">quit</span><span class="p">()</span>
      
     <span class="k">def</span> <span class="nf">process_measurement</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reply_json</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the measurement.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            reply_json (json): the network stats measurement</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: the processed network stats measurement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">network_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;metric_list&#39;</span><span class="p">])</span> 
         <span class="k">return</span> <span class="n">network_stats</span></div>
 </pre></div>
