@@ -105,6 +105,11 @@ class Adapter(network_gym_client.adapter.Adapter):
 
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_rb_usage, "lte-rb-usage"))
 
+        df_x_loc = df[df['name'] == 'x_loc'].reset_index(drop=True).explode(column=['user', 'value'])
+        self.wandb_log_buffer_append(self.df_to_dict(df_x_loc, "x_loc"))
+
+        df_y_loc = df[df['name'] == 'y_loc'].reset_index(drop=True).explode(column=['user', 'value'])
+        self.wandb_log_buffer_append(self.df_to_dict(df_y_loc, "y_loc"))
         
         # Fill the empy features with -1
         phy_lte_max_rate = self.fill_empty_feature(df_phy_lte_max_rate, -1)
