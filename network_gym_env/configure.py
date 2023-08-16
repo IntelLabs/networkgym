@@ -126,6 +126,8 @@ class Configure(threading.Thread):
 
                     # env_config reconnect the server.
                     env_config = context.socket(zmq.DEALER)
+                    env_config.plain_username = bytes(self.config_json["session_name"], 'utf-8')
+                    env_config.plain_password = bytes(self.config_json["session_key"], 'utf-8')
                     env_config.identity = identity.encode('utf-8')
                     env_config.connect('tcp://localhost:'+str(self.config_json["env_port"]))
 
