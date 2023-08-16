@@ -214,7 +214,7 @@ for step in range(num_steps):
       ],
       "user_random_walk":{ // configure random walk model with Distance mode. https://www.nsnam.org/docs/release/3.16/doxygen/classns3_1_1_random_walk2d_mobility_model.html
         "min_speed_m/s": 1, //A random variable used to pick the min random walk speed (m/s). Set min and max speed to 0 to disable random walk
-        "max_speed_m/s": 1, //A random variable used to pick the max random walk speed (m/s). Set min and max speed to 0 to disable random walk
+        "max_speed_m/s": 2, //A random variable used to pick the max random walk speed (m/s). Set min and max speed to 0 to disable random walk
         "min_direction_gradients": 0.0, //A random variable used to pick the min random walk direction (gradients). [Min=0.0|Max=6.283184]
         "max_direction_gradients": 6.283184, //A random variable used to pick the max random walk direction (gradients). [Min=0.0|Max=6.283184]
         "distance_m": 3 //change current direction and speed after moving for this distance (m)
