@@ -173,13 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of network_gym_env</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/southbound_interface.html">SouthBound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/configure.html">Configure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_env/simulator.html">Dummy Simulator</a></li>
 </ul>
 </li>
 </ul>
@@ -267,8 +268,9 @@
 <span class="kn">import</span> <span class="nn">json</span> 
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">zmq</span>
+<span class="kn">from</span> <span class="nn">network_gym_env.southbound_interface</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="DummySim"><a class="viewcode-back" href="../../api/network_gym_env/dummy_sim.html#network_gym_env.DummySim">[docs]</a><span class="k">class</span> <span class="nc">DummySim</span><span class="p">:</span>
+<div class="viewcode-block" id="DummySim"><a class="viewcode-back" href="../../api/network_gym_env/simulator.html#network_gym_env.DummySim">[docs]</a><span class="k">class</span> <span class="nc">DummySim</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A dummy simulator that generate random measurement samples. When the simulation terminates, resume to the env_config.</span>
 
 <span class="sd">        The simulator will create a new env_sim socket using the env_idenntity and connects to the env_port.</span>
@@ -301,13 +303,8 @@
 <span class="sd">            client_identity (str): the identity of the client socket who started the env</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># open a socket with the same env_identity and connect to the same env_port.</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Context</span><span class="p">()</span>
-        <span class="n">env_sim</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">DEALER</span><span class="p">)</span>
-        <span class="n">env_sim</span><span class="o">.</span><span class="n">plain_username</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">env_sim</span><span class="o">.</span><span class="n">plain_password</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_key&quot;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 
-        <span class="n">env_sim</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="n">env_identity</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">env_sim</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tcp://localhost:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;env_port&quot;</span><span class="p">]))</span>
+        <span class="n">env_sim</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">env_identity</span><span class="p">,</span> <span class="n">config_json</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">env_identity</span> <span class="o">+</span> <span class="s1">&#39;: env_sim socket connected.&#39;</span><span class="p">)</span>
 
         <span class="n">poller</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Poller</span><span class="p">()</span>

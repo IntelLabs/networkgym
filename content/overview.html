@@ -174,13 +174,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/network_gym_env.html">network_gym_env</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of network_gym_env</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/southbound_interface.html">SouthBound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/configure.html">Configure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/network_gym_env/simulator.html">Dummy Simulator</a></li>
 </ul>
 </li>
 </ul>
@@ -296,6 +297,16 @@ style adapter fill:#1E90FF,color:white,stroke:white
 
 click northbound_interface "/api/network_gym_client/northbound_interface.html" _blank
 style northbound_interface fill:#1E90FF,color:white,stroke:white
+
+click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+style southbound_interface fill:#1E90FF,color:white,stroke:white
+
+click simulator "/api/network_gym_env/simulator.html" _blank
+style simulator fill:#1E90FF,color:white,stroke:white
+
+click configure "/api/network_gym_env/configure.html" _blank
+style configure fill:#1E90FF,color:white,stroke:white
+
 </div><p>In this diagram, you can see how the components and interfaces of NetworkGym work together to create a cohesive and efficient Simulation-as-a-Service framework for Network AI Research and Development.</p>
 </section>
 <section id="client">
@@ -310,41 +321,6 @@ style northbound_interface fill:#1E90FF,color:white,stroke:white
 <h2>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h2>
 <p>The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the <strong>Southbound Interface</strong>. At present, the framework supports the <strong>ns-3</strong> based simulator, offering <strong>three</strong> distinct network environments.</p>
 </section>
-<section id="class-diagram">
-<h2>Class Diagram<a class="headerlink" href="#class-diagram" title="Permalink to this heading">#</a></h2>
-<div class="mermaid" align="center">
-classDiagram
-network_gym_client *-- env
-env *-- adapter
-env *-- northbound_interface
-
-northbound_interface -- network_gym_server
-network_gym_server  -- southbound_interface
-
-network_gym_env *-- southbound_interface
-
-class env
-env: +reset() obs, info
-env: +step(action) obs, reward, ...
-
-class network_gym_client
-
-class network_gym_server
-network_gym_server: +northbound_interface
-network_gym_server: +southbound_interface
-
-class network_gym_env
-
-class northbound_interface
-northbound_interface: +connect() void
-northbound_interface: +send(policy) void
-northbound_interface: +recv() network_stats
-
-class adapter 
-adapter : +prepare_obs(network_stats) obs
-adapter : +get_reward(network_stats) reward
-adapter : +get_policy(action) policy
-</div></section>
 </section>
 
         </article>
@@ -410,7 +386,6 @@ adapter : +get_policy(action) policy
 <li><a class="reference internal" href="#client">Client</a></li>
 <li><a class="reference internal" href="#server">Server</a></li>
 <li><a class="reference internal" href="#environment">Environment</a></li>
-<li><a class="reference internal" href="#class-diagram">Class Diagram</a></li>
 </ul>
 </li>
 </ul>

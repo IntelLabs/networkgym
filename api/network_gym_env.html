@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Configure" href="network_gym_env/configure.html" /><link rel="prev" title="network_gym_server" href="network_gym_server.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="SouthBound" href="network_gym_env/southbound_interface.html" /><link rel="prev" title="network_gym_server" href="network_gym_server.html" />
 
     <!-- Generated with Sphinx 6.2.1 and Furo 2023.07.26 -->
         <title>network_gym_env - NetworkGym Docs</title>
@@ -174,13 +174,14 @@
 <li class="toctree-l3"><a class="reference internal" href="network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_client/northbound_interface.html">NorthBoundClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_gym_client/northbound_interface.html">NorthBound</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network_gym_server.html">network_gym_server</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">network_gym_env</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of network_gym_env</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="network_gym_env/southbound_interface.html">SouthBound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_gym_env/configure.html">Configure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network_gym_env/dummy_sim.html">Dummy Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_gym_env/simulator.html">Dummy Simulator</a></li>
 </ul>
 </li>
 </ul>
@@ -256,6 +257,15 @@ southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
 end
 
+click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+style southbound_interface fill:#1E90FF,color:white,stroke:white
+
+click simulator "/api/network_gym_env/simulator.html" _blank
+style simulator fill:#1E90FF,color:white,stroke:white
+
+click configure "/api/network_gym_env/configure.html" _blank
+style configure fill:#1E90FF,color:white,stroke:white
+
 </div><p>The NetworkGym Environment comprises two core components: the <strong>Environment Configure</strong> and the <strong>NetworkGym Simulator</strong>. These components establish a connection with the Server via the designated <strong>SouthBound Interface</strong>.</p>
 <ul class="simple">
 <li><p>The <strong>SouthBound Interface</strong> serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.</p></li>
@@ -280,12 +290,12 @@ end
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="network_gym_env/configure.html">
+          <a class="next-page" href="network_gym_env/southbound_interface.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Configure</div>
+                <div class="title">SouthBound</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

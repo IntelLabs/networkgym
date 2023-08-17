@@ -6,8 +6,9 @@ title: network_gym_env
 
 ```{toctree}
 :hidden:
+network_gym_env/southbound_interface
 network_gym_env/configure
-network_gym_env/dummy_sim
+network_gym_env/simulator
 
 ```
 
@@ -21,6 +22,15 @@ southbound_interface <--> simulator
 southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
 end
+
+click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+style southbound_interface fill:#1E90FF,color:white,stroke:white
+
+click simulator "/api/network_gym_env/simulator.html" _blank
+style simulator fill:#1E90FF,color:white,stroke:white
+
+click configure "/api/network_gym_env/configure.html" _blank
+style configure fill:#1E90FF,color:white,stroke:white
 
 ```
 The NetworkGym Environment comprises two core components: the **Environment Configure** and the **NetworkGym Simulator**. These components establish a connection with the Server via the designated **SouthBound Interface**.
