@@ -4,8 +4,8 @@ firstpage:
 lastpage:
 ---
 
-# NetworkGym: Democratizing Network AI Research and Development
-NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym lies the simplified representation of reinforcement learning known as the "agent-environment loop," which facilitates seamless integration with various network agents.
+# NetworkGym: Democratizing Network AI
+NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym is the streamlined concept of the "agent-environment loop" in reinforcement learning.
 
 ```{figure} network_gym_intro.png
 ---
@@ -13,12 +13,20 @@ width: 100%
 ---
 ```
 
+## Benefits of NetworkGym
+NetworkGym is partitioned into Open-Source (Agent/Client) and Service (Environment) components, yielding the following benefits:
+- **Agent Training without Needing Network Simulation Expertise**: The Agent is tailored for open-source utilization, whereas the Environment is under our management. By utilizing open-source NetworkGym Client and API, the Agent interacts with the Environment through public internet connections, enabling agent training without the requirement of network simulation expertise.
+- **Flexibility in Language and Platform**: The separation of the Agent and Environment provides the freedom to employ various programming languages. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment. 
+- **Controlled Access through the NetworkGym API**: By leveraging the networkgym API for message exchanges, users are prevented from direct access to the simulator or the underlying network environment implementation. This controlled access maintains security and oversight.
+- **Independent Deployment**: Separating the Agent and Environment allows them to be deployed on distinct machines or platforms, optimized for specific workloads. This approach also accommodates the scenario where they can be developed and maintained by different entities.
+
+
 ## Agent
 NetworkGym offers four types of network agents, each serving a specific purpose when interacting with NetworkGym Environments:
-- **System default agent**: By sending an "empty" action to the environment, this agent enables the collection of data for offline training purposes.
-- **Custom algorithm agent**: A flexible option that allows users to define their own specialized agents using the demo code.
-- **Stable-Baselines3 network agent**: A powerful RL agent with advanced stability and reliability features.
-- **CleanRL network agent**: An efficient and clean RL agent option for custom algorithms.
+- **System Default Agent**: By sending an "empty" action to the environment, this agent enables the collection of data for offline training purposes.
+- **Custom Algorithm Agent**: A flexible option that allows users to define their own specialized agents.
+- **Stable-Baselines3 Agent**: A RL agent includes the State-of-the-Art (SOTA) Reinforcement Learning (RL) algorithms sourced from Stable-Baselines3.
+- **CleanRL Agent**: A CleanRL agent is available for custom algorithms.
 
 We have included additional information on how to train the agent in the [Training Agents](tutorials/training_agents.md) tutorial. This tutorial provides detailed guidance and instructions for effectively training your agent using various network agents offered by NetworkGym.
 
@@ -36,12 +44,6 @@ NetworkGym consists of three essential components and two interfaces, each playi
 
 For more comprehensive information about the key components of NetworkGym, please refer to the [Overview](content/overview.md) page. 
 
-```{admonition} Why Seperating Agent/Client and Server/Environment?
-The Agent/Client component is designed for open-source utilization, whereas the Server/Environment component is maintained by us as a service. The Agent/Client connects to the Server/Environment via the public internet. Multiple convincing rationales underlie the decision to divide NetworkGym into these distinct Agent/Client and Server/Environment components.
-- **Language and Platform Flexibility**: Separating the Agent and Environment allows for the use of different programming languages. For instance, a Python-based Agent can seamlessly interact with a C++(ns-3) based simulation Environment. This flexibility enables the integration of diverse tools and technologies.
-- **Controlled Access through the NetworkGym API**: Since message exchanges occur via the networkgym API, the user is not granted direct access to the simulator or the underlying implementation of the network environment.
-- **Decoupling Deployment**: By decoupling the Agent and Environment, they can be deployed on separate machines or platforms optmized for specific workloads.
-```
 ## NetworkGym Scope and Limitations
 
 ✔️ **In-Scope:** 

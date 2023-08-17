@@ -23,21 +23,21 @@ southbound_interface <-..-> emulator
 southbound_interface <-..-> testbed
 end
 
-click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+click southbound_interface "./network_gym_env/southbound_interface.html" _blank
 style southbound_interface fill:#1E90FF,color:white,stroke:white
 
-click simulator "/api/network_gym_env/simulator.html" _blank
+click simulator "./network_gym_env/simulator.html" _blank
 style simulator fill:#1E90FF,color:white,stroke:white
 
-click configure "/api/network_gym_env/configure.html" _blank
+click configure "./network_gym_env/configure.html" _blank
 style configure fill:#1E90FF,color:white,stroke:white
 
 ```
-The NetworkGym Environment comprises two core components: the **Environment Configure** and the **NetworkGym Simulator**. These components establish a connection with the Server via the designated **SouthBound Interface**.
+The NetworkGym Environment comprises two core components: the **environment configure** and the **NetworkGym simulator**. These components establish a connection with the Server via the designated **southBound** interface.
 
-- The **SouthBound Interface** serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.
-- The **Environment Configure** module keeps the connection alive by periodically dispatching an "Env Hello" message to the server. Upon receiving a "Env Start" request, it disengages from the server and initiates the simulator.
-- Upon activation, the ns-3 based **NetworkGym Simulator** establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.
+- The **southbound** interface serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.
+- The **environment configure** module keeps the connection alive by periodically dispatching an "Env Hello" message to the server. Upon receiving a "Env Start" request, it disengages from the server and initiates the simulator.
+- Upon activation, the ns-3 based **NetworkGym smulator** establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.
 
 ## NetworkGym UML Sequence Diagram
 
