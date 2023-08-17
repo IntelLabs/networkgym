@@ -25,6 +25,7 @@ import pandas as pd
 import json 
 import random
 import zmq
+from network_gym_env.southbound_interface import *
 
 class DummySim:
     """A dummy simulator that generate random measurement samples. When the simulation terminates, resume to the env_config.
@@ -59,13 +60,8 @@ class DummySim:
             client_identity (str): the identity of the client socket who started the env
         """
         # open a socket with the same env_identity and connect to the same env_port.
-        context = zmq.Context()
-        env_sim = context.socket(zmq.DEALER)
-        env_sim.plain_username = bytes(config_json["session_name"], 'utf-8')
-        env_sim.plain_password = bytes(config_json["session_key"], 'utf-8')
 
-        env_sim.identity = env_identity.encode('utf-8')
-        env_sim.connect('tcp://localhost:'+str(config_json["env_port"]))
+        env_sim = southbound_connect(env_identity, config_json)
         print(env_identity + ': env_sim socket connected.')
 
         poller = zmq.Poller()

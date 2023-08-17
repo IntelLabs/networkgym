@@ -1,6 +1,6 @@
 # NetworkGym Client
 
-📋 **[NetworkGym docs Website](https://intellabs.github.io/networkgym)**
+📋 **[NetworkGym Docs Website](https://intellabs.github.io/networkgym)**
 
 📧 **[Contact Us](mailto:netaigym@gmail.com)**
 

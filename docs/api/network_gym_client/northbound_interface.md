@@ -1,10 +1,10 @@
 ---
-title: NorthBoundClient
+title: NorthBound
 ---
 
-# NorthBoundClient
+# NorthBound
 
-## network_gym_client.NorthBoundClient
+## network_gym_client.NorthBound
 
 ```{eval-rst}
 .. autoclass:: network_gym_client.NorthBoundClient

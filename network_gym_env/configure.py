@@ -8,6 +8,7 @@ import json
 import traceback
 import pathlib
 FILE_PATH = pathlib.Path(__file__).parent
+from network_gym_env.southbound_interface import *
 
 """
 Flow Chart:
@@ -66,14 +67,8 @@ class Configure(threading.Thread):
         """
 
         # connect to server via southbound Interface
-        context = zmq.Context()
-        env_config = context.socket(zmq.DEALER)
         identity = str(self.identity)
-        env_config.plain_username = bytes(self.config_json["session_name"], 'utf-8')
-        env_config.plain_password = bytes(self.config_json["session_key"], 'utf-8')
-        
-        env_config.identity = str(self.identity).encode('utf-8')
-        env_config.connect('tcp://localhost:'+str(self.config_json["env_port"]))
+        env_config = southbound_connect(identity, self.config_json)
         print(identity + ': env_config socket connected.')
 
         poller = zmq.Poller()
@@ -125,11 +120,8 @@ class Configure(threading.Thread):
                     # simulator terminated <-------------------
 
                     # env_config reconnect the server.
-                    env_config = context.socket(zmq.DEALER)
-                    env_config.plain_username = bytes(self.config_json["session_name"], 'utf-8')
-                    env_config.plain_password = bytes(self.config_json["session_key"], 'utf-8')
-                    env_config.identity = identity.encode('utf-8')
-                    env_config.connect('tcp://localhost:'+str(self.config_json["env_port"]))
+                    env_config = southbound_connect(identity, self.config_json)
+                    print(identity + ': env_config socket connected.')
 
                     poller.register(env_config, flags=zmq.POLLIN)
 
@@ -143,8 +135,6 @@ class Configure(threading.Thread):
                         # no error, send env-end to terminate client to env worker mapping
                         end_msg = json.loads('{"type":"env-end"}')
                         env_config.send_multipart([msg[0], json.dumps(end_msg, indent=2).encode('utf-8')])# Env End msg
-
-                    print(identity + ': env_config socket connected.')
 
                 else:
                     print("Unkown MSG type, Expecting env-start!")

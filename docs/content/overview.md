@@ -59,6 +59,16 @@ style adapter fill:#1E90FF,color:white,stroke:white
 
 click northbound_interface "/api/network_gym_client/northbound_interface.html" _blank
 style northbound_interface fill:#1E90FF,color:white,stroke:white
+
+click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+style southbound_interface fill:#1E90FF,color:white,stroke:white
+
+click simulator "/api/network_gym_env/simulator.html" _blank
+style simulator fill:#1E90FF,color:white,stroke:white
+
+click configure "/api/network_gym_env/configure.html" _blank
+style configure fill:#1E90FF,color:white,stroke:white
+
 ```
 In this diagram, you can see how the components and interfaces of NetworkGym work together to create a cohesive and efficient Simulation-as-a-Service framework for Network AI Research and Development.
 
@@ -70,40 +80,3 @@ The NetworkGymServer component plays a central role in communication between the
 
 ## Environment
 The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the **Southbound Interface**. At present, the framework supports the **ns-3** based simulator, offering **three** distinct network environments.
-
-
-## Class Diagram
-
-```{mermaid}
-classDiagram
-network_gym_client *-- env
-env *-- adapter
-env *-- northbound_interface
-
-northbound_interface -- network_gym_server
-network_gym_server  -- southbound_interface
-
-network_gym_env *-- southbound_interface
-
-class env
-env: +reset() obs, info
-env: +step(action) obs, reward, ...
-
-class network_gym_client
-
-class network_gym_server
-network_gym_server: +northbound_interface
-network_gym_server: +southbound_interface
-
-class network_gym_env
-
-class northbound_interface
-northbound_interface: +connect() void
-northbound_interface: +send(policy) void
-northbound_interface: +recv() network_stats
-
-class adapter 
-adapter : +prepare_obs(network_stats) obs
-adapter : +get_reward(network_stats) reward
-adapter : +get_policy(action) policy
-```
