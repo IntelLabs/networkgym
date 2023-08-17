@@ -247,17 +247,17 @@
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/network_gym_overview2.png"><img alt="../_images/network_gym_overview2.png" src="../_images/network_gym_overview2.png" style="width: 60%;" /></a>
 </figure>
-<p>NetworkGym offers a variety of official network environments and also streamlines the incorporation of third-party custom environments via the SouthBound (SB) Interface.</p>
-<section id="initiating-the-custom-environment">
-<h2>Initiating the Custom Environment<a class="headerlink" href="#initiating-the-custom-environment" title="Permalink to this heading">#</a></h2>
-<p>Linking your environment to the server follows the same procedure as connecting the client to the server.</p>
+<p>NetworkGym provides a diverse selection of standard network environments and additionally streamlines the inclusion of external customized environments through the SouthBound (SB) Interface. This tutorial equips you with step-by-step directions to create a link to the server utilizing your custom environment. You’ll also learn how to connect your agent/client to this environment for evaluation and ultimately merge it into the standard network environments.</p>
+<section id="initiating-your-custom-environment">
+<h2>Initiating your Custom Environment<a class="headerlink" href="#initiating-your-custom-environment" title="Permalink to this heading">#</a></h2>
+<p>Linking your custom environment to the server follows the same procedure as connecting the client to the server.</p>
 <ol class="arabic simple">
-<li><p>refer to the “Installation” section in the <a class="reference external" href="https://github.com/IntelLabs/networkgym">networkgym</a> repository to install dependencies.</p></li>
-<li><p>In the “Setup Port Forwarding to vLab Server” section, alter the port number to 8087.</p></li>
-<li><p>Adjust the values for “session_name” and “session_key” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json">network_gym_env/common_config.json</a> file according to your “session_name” and “session_key”.</p></li>
+<li><p>refer to the <a class="reference external" href="https://github.com/IntelLabs/networkgym#-installation">Installation</a> instructions in the NetworkGym GitHub Repo to install dependencies.</p></li>
+<li><p>In the Setup Port Forwarding to vLab Server section, alter the port number to 8087.</p></li>
+<li><p>Adjust the values for “session_name” and “session_key” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json">network_gym_env/common_config.json</a> file according to your assignment.</p></li>
 </ol>
 <p>Once these steps are completed, you can launch your custom environment using the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">start_custom_env</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">start_custom_env</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>The expected output in the terminal would be as follows:</p>
@@ -269,19 +269,19 @@
 <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;env-hello&#39;</span><span class="p">,</span> <span class="s1">&#39;env_list&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">]}</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Please don’t alter the names within the env_list. All third-party users are restricted to employing the environment name ‘custom’.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please don’t modify the names within the env_list. All external users are limited to using the environment name ‘custom’. Only clients sharing the same “session_name” are granted access to this custom environment.</p>
 </div>
 </section>
 <section id="connecting-to-your-custom-environment">
 <h2>Connecting to Your Custom Environment<a class="headerlink" href="#connecting-to-your-custom-environment" title="Permalink to this heading">#</a></h2>
 <p>Establishing a connection with your custom environment is a straightforward process through the provided <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/start_client_demo.py">demo</a>. Adjust the env_name to “custom” as shown: <code class="docutils literal notranslate"><span class="pre">env_name</span> <span class="pre">=</span> <span class="pre">&quot;custom&quot;</span></code>. Then you can launch the client using the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">start_client_demo</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">start_client_demo</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>The terminal should print the following info:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">----------|</span> <span class="n">step</span><span class="p">()</span> <span class="n">at</span> <span class="n">episode</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span><span class="mi">10</span> <span class="o">|----------</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">----------|</span> <span class="n">step</span><span class="p">()</span> <span class="n">at</span> <span class="n">episode</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span><span class="mi">10</span> <span class="o">|----------</span>
 <span class="n">Action</span> <span class="o">--&gt;</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;custom_action&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_tag&#39;</span><span class="p">:</span> <span class="s1">&#39;Wi-Fi&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9269856811</span><span class="p">,</span> <span class="mf">0.5833047032</span><span class="p">,</span> <span class="mf">0.6873341799</span><span class="p">,</span> <span class="mf">0.0909367353</span><span class="p">,</span> <span class="mf">0.3403381109</span><span class="p">]}},</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;custom_action&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_tag&#39;</span><span class="p">:</span> <span class="s1">&#39;LTE&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0730143189</span><span class="p">,</span> <span class="mf">0.4166952968</span><span class="p">,</span> <span class="mf">0.3126658201</span><span class="p">,</span> <span class="mf">0.9090632796</span><span class="p">,</span> <span class="mf">0.6596618891</span><span class="p">]}}]</span>
           <span class="n">name</span>  <span class="n">unit</span>  <span class="n">start_ts</span>  <span class="n">end_ts</span> <span class="n">direction</span> <span class="n">group</span>    <span class="n">cid</span>             <span class="n">user</span>            <span class="n">value</span>
 <span class="mi">0</span>         <span class="n">rate</span>  <span class="n">mbps</span>     <span class="mi">20000</span>   <span class="mi">21000</span>        <span class="n">DL</span>   <span class="n">GMA</span>    <span class="n">All</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
@@ -294,15 +294,16 @@
 <span class="mi">7</span>          <span class="n">owd</span>    <span class="n">ms</span>     <span class="mi">20000</span>   <span class="mi">21000</span>        <span class="n">DL</span>   <span class="n">GMA</span>    <span class="n">All</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>  <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Presently, our support is limited to accessing custom environments launched by the same users. For instance, if you initiate a custom environment with the “session_name”: “test”, you can solely connect to this custom environment using the same “session_name”: “test” when initializing the client.</p>
+<p>Presently, our support is limited to accessing custom environments launched by the same users. For instance, if you initiate a custom environment with the “session_name”: “test”, you can solely connect to this custom environment using the same “session_name”: “test” when starting the client.</p>
 </section>
 <section id="substituting-the-dummy-simulator">
 <h2>Substituting the Dummy Simulator<a class="headerlink" href="#substituting-the-dummy-simulator" title="Permalink to this heading">#</a></h2>
-<p>After successfully establishing a connection between your client and the custom environment, you’re ready to replace the dummy simulator with your own proprietary simulator or testbed. Utilize the dummy simulator as a guide for communicating with the server through the Southbound Interface. Moreover, ensure that you modify the Adapter class in <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/custom/adapter.py">envs/custom/adapter.py</a> to correspond with the measurements and tags produced by your own simulator or testbed.</p>
+<p>Once you’ve successfully established a connection between your client and the custom environment, you’re ready to substitute the dummy simulator with your proprietary simulator or testbed. Utilize the dummy simulator as a reference for interacting with the server via the southbound interface. Essentially, your task involves utilizing the southbound interface to establish a connection with the server, transmitting measurement data in JSON format, and receiving action instructions, mirroring the processes demonstrated by the <code class="docutils literal notranslate"><span class="pre">Env_Sim</span></code> Entity in the <a class="reference internal" href="../api/network_gym_env.html#networkgym-uml-sequence-diagram"><span class="std std-ref">networkgym-uml-sequence-diagram</span></a>.</p>
+<p>Additionally, it’s essential to modify the Adapter class located in <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/custom/adapter.py">envs/custom/adapter.py</a> to align with the measurements and tags generated by your proprietary simulator or testbed.</p>
 </section>
 <section id="releasing-your-custom-environment">
 <h2>Releasing Your Custom Environment<a class="headerlink" href="#releasing-your-custom-environment" title="Permalink to this heading">#</a></h2>
-<p>After conducting your experiments within your custom environment, please get in touch with us at <a class="reference external" href="mailto:netaigym&#37;&#52;&#48;gmail&#46;com">netaigym<span>&#64;</span>gmail<span>&#46;</span>com</a> to initiate the process of incorporating the environment into our servers.</p>
+<p>Once you’ve completed your experiments in your customized environment, please contact us at <a class="reference external" href="mailto:netaigym&#37;&#52;&#48;gmail&#46;com">netaigym<span>&#64;</span>gmail<span>&#46;</span>com</a> to initiate the procedure for integrating the environment into our standard environments.</p>
 </section>
 </section>
 
@@ -357,7 +358,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Implementing Custom Environment</a><ul>
-<li><a class="reference internal" href="#initiating-the-custom-environment">Initiating the Custom Environment</a></li>
+<li><a class="reference internal" href="#initiating-your-custom-environment">Initiating your Custom Environment</a></li>
 <li><a class="reference internal" href="#connecting-to-your-custom-environment">Connecting to Your Custom Environment</a></li>
 <li><a class="reference internal" href="#substituting-the-dummy-simulator">Substituting the Dummy Simulator</a></li>
 <li><a class="reference internal" href="#releasing-your-custom-environment">Releasing Your Custom Environment</a></li>

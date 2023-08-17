@@ -23,8 +23,8 @@ The System Default Agent enables the collection of data for offline training pur
 ## Custom Algorithm Agent
 NetworkGym offers flexibility by allowing users to define their own specialized agents by using the Gymnasium's API. Refer to the Gymnasium's [tutorial](https://gymnasium.farama.org/tutorials/training_agents/) for detailed instructions on creating custom agents.
 
-## Stable-Baselines3 Network Agent
-The [Stable-Baselines3 Network Agent](https://github.com/pinyaras/GMAClient) includes the State-of-the-Art (SOTA) Reinforcement Learning (RL) algorithms sourced from [stable-baselines3](https://stable-baselines3.readthedocs.io/en/master/). These algorithms include popular ones such as PPO (Proximal Policy Optimization), DDPG (Deep Deterministic Policy Gradient), SAC (Soft Actor-Critic), TD3 (Twin Delayed Deep Deterministic Policy Gradient), and A2C (Advantage Actor-Critic). Moreover, these algorithms have been integrated to seamlessly interact with the NetworkGym Environment.
+## Stable-Baselines3 Agent
+The [Stable-Baselines3 Agent](https://github.com/pinyaras/GMAClient) includes the State-of-the-Art (SOTA) Reinforcement Learning (RL) algorithms sourced from [stable-baselines3](https://stable-baselines3.readthedocs.io/en/master/). These algorithms include popular ones such as PPO (Proximal Policy Optimization), DDPG (Deep Deterministic Policy Gradient), SAC (Soft Actor-Critic), TD3 (Twin Delayed Deep Deterministic Policy Gradient), and A2C (Advantage Actor-Critic). Moreover, these algorithms have been integrated to seamlessly interact with the NetworkGym Environment.
 
-## CleanRL Network Agent
-An efficient [Clean RL Network Agent](https://github.com/pinyaras/GMAClient) option is available for custom algorithms.
+## CleanRL Agent
+A [CleanRL Agent](https://github.com/pinyaras/GMAClient) is available for custom algorithms.

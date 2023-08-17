@@ -38,9 +38,9 @@ Personalizing the observation and reward functions to match your experimental go
 27    All        DL   6000   GMA            y_loc     5900  [0, 1, 2, 3]  [6.167369006263322, 2.450729590703729, 9.45877...
 ```
 
-## Working with the DataFrame
+## Working with the Measurement
 
-### Columns
+### Measurement Columns
 
 The network statistics measurement contains 8 columns, with each field's explanation provided below:
 
@@ -55,7 +55,7 @@ The network statistics measurement contains 8 columns, with each field's explana
 | user | A list of user IDs for this measurement. |
 | value | A list of measured values for this measurement (user and value should have the same size). |
 
-### Rows
+### Measurement Rows
 
 Now, we elaborate on each row:
 

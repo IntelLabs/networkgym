@@ -252,7 +252,7 @@
 <h2>Benefits of NetworkGym<a class="headerlink" href="#benefits-of-networkgym" title="Permalink to this heading">#</a></h2>
 <p>NetworkGym is partitioned into Open-Source (Agent/Client) and Service (Environment) components, yielding the following benefits:</p>
 <ul class="simple">
-<li><p><strong>Agent Training without Needing Network Simulation Expertise</strong>: The Agent is tailored for open-source utilization, whereas the Environment is under our management. By utilizing open-source client software, the Agent interacts with the Environment through public internet connections, enabling agent training without the requirement of network simulation expertise.</p></li>
+<li><p><strong>Agent Training without Needing Network Simulation Expertise</strong>: The Agent is tailored for open-source utilization, whereas the Environment is under our management. By utilizing open-source NetworkGym Client and API, the Agent interacts with the Environment through public internet connections, enabling agent training without the requirement of network simulation expertise.</p></li>
 <li><p><strong>Flexibility in Language and Platform</strong>: The separation of the Agent and Environment provides the freedom to employ various programming languages. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment.</p></li>
 <li><p><strong>Controlled Access through the NetworkGym API</strong>: By leveraging the networkgym API for message exchanges, users are prevented from direct access to the simulator or the underlying network environment implementation. This controlled access maintains security and oversight.</p></li>
 <li><p><strong>Independent Deployment</strong>: Separating the Agent and Environment allows them to be deployed on distinct machines or platforms, optimized for specific workloads. This approach also accommodates the scenario where they can be developed and maintained by different entities.</p></li>
@@ -264,8 +264,8 @@
 <ul class="simple">
 <li><p><strong>System Default Agent</strong>: By sending an “empty” action to the environment, this agent enables the collection of data for offline training purposes.</p></li>
 <li><p><strong>Custom Algorithm Agent</strong>: A flexible option that allows users to define their own specialized agents.</p></li>
-<li><p><strong>Stable-Baselines3 Agent</strong>: A powerful RL agent with advanced stability and reliability features.</p></li>
-<li><p><strong>CleanRL Agent</strong>: An efficient and clean RL agent option for custom algorithms.</p></li>
+<li><p><strong>Stable-Baselines3 Agent</strong>: A RL agent includes the State-of-the-Art (SOTA) Reinforcement Learning (RL) algorithms sourced from Stable-Baselines3.</p></li>
+<li><p><strong>CleanRL Agent</strong>: A CleanRL agent is available for custom algorithms.</p></li>
 </ul>
 <p>We have included additional information on how to train the agent in the <a class="reference internal" href="tutorials/training_agents.html"><span class="std std-doc">Training Agents</span></a> tutorial. This tutorial provides detailed guidance and instructions for effectively training your agent using various network agents offered by NetworkGym.</p>
 </section>

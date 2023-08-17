@@ -273,7 +273,7 @@ style adapter fill:#1E90FF,color:white,stroke:white
 click northbound_interface "./network_gym_client/northbound_interface.html" _blank
 style northbound_interface fill:#1E90FF,color:white,stroke:white
 
-</div><p>NetworkGym Client includes the three components, a <strong>custom gymnasium.env</strong>, <strong>adapter</strong> and <strong>northbound interface</strong>.</p>
+</div><p>NetworkGym Client includes the three components, a <strong>custom gymnasium.env</strong>, <strong>adapter</strong> and <strong>northbound</strong> interface.</p>
 <ul class="simple">
 <li><p>The <strong>custom gymnasium.env</strong> inherets the environment class of <a class="reference external" href="https://gymnasium.farama.org/">gymnasium</a> and communicates with the agent using the standard gymnasium interfaces. E.g., exchange obs, reward and action in the reset() and step() functions.</p></li>
 </ul>
@@ -296,7 +296,7 @@ style northbound_interface fill:#1E90FF,color:white,stroke:white
 </div>
 <ul class="simple">
 <li><p>The <strong>adapter</strong> transform the data format from gymnasium to network_gym or the other way around. E.g., it transforms network stats to obs and reward, and changes action to policy.</p></li>
-<li><p>The <strong>northbound interface</strong> connects the client to the server, configure the environment parameters, communicate network stats and policy between client and network_gym envrionment.</p></li>
+<li><p>The <strong>northbound</strong> interface connects the client to the server, configure the environment parameters, communicate network stats and policy between client and network_gym envrionment.</p></li>
 </ul>
 </section>
 

@@ -10,18 +10,19 @@ width: 60%
 ---
 ```
 
-NetworkGym offers a variety of official network environments and also streamlines the incorporation of third-party custom environments via the SouthBound (SB) Interface.
+NetworkGym provides a diverse selection of standard network environments and additionally streamlines the inclusion of external customized environments through the SouthBound (SB) Interface. This tutorial equips you with step-by-step directions to create a link to the server utilizing your custom environment. You'll also learn how to connect your agent/client to this environment for evaluation and ultimately merge it into the standard network environments.
 
-## Initiating the Custom Environment
+## Initiating your Custom Environment
 
-Linking your environment to the server follows the same procedure as connecting the client to the server.
+Linking your custom environment to the server follows the same procedure as connecting the client to the server.
 
-1. refer to the "Installation" section in the [networkgym](https://github.com/IntelLabs/networkgym) repository to install dependencies.
-2. In the "Setup Port Forwarding to vLab Server" section, alter the port number to 8087. 
-3. Adjust the values for "session_name" and "session_key" in the [network_gym_env/common_config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json) file according to your "session_name" and "session_key".
+1. refer to the [Installation](https://github.com/IntelLabs/networkgym#-installation) instructions in the NetworkGym GitHub Repo to install dependencies.
+2. In the Setup Port Forwarding to vLab Server section, alter the port number to 8087. 
+3. Adjust the values for "session_name" and "session_key" in the [network_gym_env/common_config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json) file according to your assignment.
 
 Once these steps are completed, you can launch your custom environment using the following command:
-```python
+
+```
 python3 start_custom_env.py
 ```
 
@@ -36,20 +37,20 @@ test-2: send env-hello msg.
 {'type': 'env-hello', 'env_list': ['custom']}
 ```
 
-```{note}
-Please don't alter the names within the env_list. All third-party users are restricted to employing the environment name 'custom'.
+```{warning}
+Please don't modify the names within the env_list. All external users are limited to using the environment name 'custom'. Only clients sharing the same "session_name" are granted access to this custom environment.
 ```
 
 ## Connecting to Your Custom Environment
 
 Establishing a connection with your custom environment is a straightforward process through the provided [demo](https://github.com/IntelLabs/networkgym/blob/main/start_client_demo.py). Adjust the env_name to "custom" as shown: `env_name = "custom"`. Then you can launch the client using the following command:
 
-```python
+```
 python3 start_client_demo.py
 ```
 
 The terminal should print the following info:
-```
+```python
 ----------| step() at episode:2, step:10 |----------
 Action --> [{'name': 'custom_action', 'custom_tag': 'Wi-Fi', '': {'user': [0, 1, 2, 3, 4], 'value': [0.9269856811, 0.5833047032, 0.6873341799, 0.0909367353, 0.3403381109]}}, {'name': 'custom_action', 'custom_tag': 'LTE', '': {'user': [0, 1, 2, 3, 4], 'value': [0.0730143189, 0.4166952968, 0.3126658201, 0.9090632796, 0.6596618891]}}]
           name  unit  start_ts  end_ts direction group    cid             user            value
@@ -63,12 +64,14 @@ Action --> [{'name': 'custom_action', 'custom_tag': 'Wi-Fi', '': {'user': [0, 1,
 7          owd    ms     20000   21000        DL   GMA    All  [0, 1, 2, 3, 4]  [4, 5, 4, 6, 3]
 ```
 
-Presently, our support is limited to accessing custom environments launched by the same users. For instance, if you initiate a custom environment with the "session_name": "test", you can solely connect to this custom environment using the same "session_name": "test" when initializing the client.
+Presently, our support is limited to accessing custom environments launched by the same users. For instance, if you initiate a custom environment with the "session_name": "test", you can solely connect to this custom environment using the same "session_name": "test" when starting the client.
 
 ## Substituting the Dummy Simulator
 
-After successfully establishing a connection between your client and the custom environment, you're ready to replace the dummy simulator with your own proprietary simulator or testbed. Utilize the dummy simulator as a guide for communicating with the server through the Southbound Interface. Moreover, ensure that you modify the Adapter class in [envs/custom/adapter.py](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/custom/adapter.py) to correspond with the measurements and tags produced by your own simulator or testbed.
+Once you've successfully established a connection between your client and the custom environment, you're ready to substitute the dummy simulator with your proprietary simulator or testbed. Utilize the dummy simulator as a reference for interacting with the server via the southbound interface. Essentially, your task involves utilizing the southbound interface to establish a connection with the server, transmitting measurement data in JSON format, and receiving action instructions, mirroring the processes demonstrated by the `Env_Sim` Entity in the [networkgym-uml-sequence-diagram](../api/network_gym_env.md/#networkgym-uml-sequence-diagram).
 
+Additionally, it's essential to modify the Adapter class located in [envs/custom/adapter.py](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/custom/adapter.py) to align with the measurements and tags generated by your proprietary simulator or testbed.
 
 ## Releasing Your Custom Environment
-After conducting your experiments within your custom environment, please get in touch with us at [netaigym@gmail.com](mailto:netaigym@gmail.com) to initiate the process of incorporating the environment into our servers.
+
+Once you've completed your experiments in your customized environment, please contact us at [netaigym@gmail.com](mailto:netaigym@gmail.com) to initiate the procedure for integrating the environment into our standard environments.

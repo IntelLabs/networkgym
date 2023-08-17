@@ -246,8 +246,8 @@
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
 <section id="networkgym-components-and-interfaces">
 <h2>NetworkGym Components and Interfaces<a class="headerlink" href="#networkgym-components-and-interfaces" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGym framework consists of three essential components - the <strong>Client</strong>, the <strong>Server</strong>, and the <strong>Environment</strong> - each playing a crucial role in the system. Additionally, it encompasses two interfaces - the <strong>Northbound</strong> and the <strong>Southbound interfaces</strong>, facilitating seamless communication and interaction within the framework.</p>
-<p>The graphical representation below illustrates the architecture of NetworkGym:</p>
+<p>The NetworkGym framework consists of three essential components - the <strong>Client</strong>, the <strong>Server</strong>, and the <strong>Environment</strong> - each playing a crucial role in the system. Additionally, it encompasses two interfaces - the <strong>Northbound</strong> and the <strong>Southbound</strong> Interfaces, facilitating seamless communication and interaction within the framework.</p>
+<p>Displayed below is a graphical depiction of the NetworkGym architecture:</p>
 <div class="mermaid" align="center">
 flowchart TB
 
@@ -307,19 +307,19 @@ style simulator fill:#1E90FF,color:white,stroke:white
 click configure "../api/network_gym_env/configure.html" _blank
 style configure fill:#1E90FF,color:white,stroke:white
 
-</div><p>In this diagram, you can see how the components and interfaces of NetworkGym work together to create a cohesive and efficient Simulation-as-a-Service framework for Network AI Research and Development.</p>
+</div><p>This visual aid provides an overview of how the diverse components and interfaces of NetworkGym collaborate harmoniously, forming a streamlined and effective Simulation-as-a-Service framework tailored for the advancement of Network AI Research and Development. By clicking on the blue boxes, you can navigate directly to the corresponding API pages for the respective components.</p>
 </section>
-<section id="client">
-<h2>Client<a class="headerlink" href="#client" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGym Client comprises three main elements: a <strong>customized Gymnasium environment</strong>, an <strong>Adapter</strong>, and the <strong>Northbound Interface</strong>. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment.</p>
+<section id="client-api">
+<h2><a class="reference internal" href="../api/network_gym_client.html"><span class="std std-doc">Client API</span></a><a class="headerlink" href="#client-api" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym client comprises three main elements: a <strong>customized Gymnasium environment</strong>, an <strong>Adapter</strong>, and the <strong>Northbound</strong> interface. The environment-specific Adapter is responsible for transforming the NetworkGym data format into the Gymnasium data format, allowing seamless communication with Gymnasium-compatible agents like stable-baselines3 and cleanRL. The Northbound Interface establishes the connection between the client and the server. It enables the client to select and configure the desired network environment.</p>
 </section>
-<section id="server">
-<h2>Server<a class="headerlink" href="#server" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGymServer component plays a central role in communication between the client and the environment. It utilizes the <strong>Northbound Interface</strong> to interact with the client and the <strong>Southbound Interface</strong> to communicate with the environment. Additionally, the server maintains a routing map, which keeps track of each active client and its assigned environment during a connected session.</p>
+<section id="server-api">
+<h2><a class="reference internal" href="../api/network_gym_server.html"><span class="std std-doc">Server API</span></a><a class="headerlink" href="#server-api" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym server component plays a central role in communication between the client and the environment. It utilizes the <strong>Northbound</strong> interface to interact with the client and the <strong>Southbound</strong> interface to communicate with the environment. Additionally, the server maintains a routing map, which keeps track of each active client and its assigned environment during a connected session.</p>
 </section>
-<section id="environment">
-<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h2>
-<p>The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the <strong>Southbound Interface</strong>. At present, the framework supports the <strong>ns-3</strong> based simulator, offering <strong>three</strong> distinct network environments.</p>
+<section id="environment-api">
+<h2><a class="reference internal" href="../api/network_gym_env.html"><span class="std std-doc">Environment API</span></a><a class="headerlink" href="#environment-api" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym environment (either a simulator, emulator, or testbed) connects to the server through the <strong>Southbound</strong> interface. At present, the framework supports the <strong>ns-3</strong> based simulator, offering <strong>three</strong> distinct network environments.</p>
 </section>
 </section>
 
@@ -383,9 +383,9 @@ style configure fill:#1E90FF,color:white,stroke:white
             <ul>
 <li><a class="reference internal" href="#">Overview</a><ul>
 <li><a class="reference internal" href="#networkgym-components-and-interfaces">NetworkGym Components and Interfaces</a></li>
-<li><a class="reference internal" href="#client">Client</a></li>
-<li><a class="reference internal" href="#server">Server</a></li>
-<li><a class="reference internal" href="#environment">Environment</a></li>
+<li><a class="reference internal" href="#client-api"><span class="xref myst">Client API</span></a></li>
+<li><a class="reference internal" href="#server-api"><span class="xref myst">Server API</span></a></li>
+<li><a class="reference internal" href="#environment-api"><span class="xref myst">Environment API</span></a></li>
 </ul>
 </li>
 </ul>

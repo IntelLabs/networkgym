@@ -266,11 +266,11 @@ style simulator fill:#1E90FF,color:white,stroke:white
 click configure "./network_gym_env/configure.html" _blank
 style configure fill:#1E90FF,color:white,stroke:white
 
-</div><p>The NetworkGym Environment comprises two core components: the <strong>Environment Configure</strong> and the <strong>NetworkGym Simulator</strong>. These components establish a connection with the Server via the designated <strong>SouthBound Interface</strong>.</p>
+</div><p>The NetworkGym Environment comprises two core components: the <strong>environment configure</strong> and the <strong>NetworkGym simulator</strong>. These components establish a connection with the Server via the designated <strong>southBound</strong> interface.</p>
 <ul class="simple">
-<li><p>The <strong>SouthBound Interface</strong> serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.</p></li>
-<li><p>The <strong>Environment Configure</strong> module keeps the connection alive by periodically dispatching an “Env Hello” message to the server. Upon receiving a “Env Start” request, it disengages from the server and initiates the simulator.</p></li>
-<li><p>Upon activation, the ns-3 based <strong>NetworkGym Simulator</strong> establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.</p></li>
+<li><p>The <strong>southbound</strong> interface serves as the bridge between the environment and the server. It facilitates communication of network configurations, network statistics, and policies between the environment and the server.</p></li>
+<li><p>The <strong>environment configure</strong> module keeps the connection alive by periodically dispatching an “Env Hello” message to the server. Upon receiving a “Env Start” request, it disengages from the server and initiates the simulator.</p></li>
+<li><p>Upon activation, the ns-3 based <strong>NetworkGym smulator</strong> establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.</p></li>
 </ul>
 <section id="networkgym-uml-sequence-diagram">
 <h2>NetworkGym UML Sequence Diagram<a class="headerlink" href="#networkgym-uml-sequence-diagram" title="Permalink to this heading">#</a></h2>
