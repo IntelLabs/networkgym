@@ -51,22 +51,22 @@ southbound --env_config,policy--> southbound_interface[[southbound_interface]]
 southbound_interface --network_stats--> southbound
 
 
-click gymnasium.env "/api/network_gym_client/env.html" _blank
+click gymnasium.env "../api/network_gym_client/env.html" _blank
 style gymnasium.env fill:#1E90FF,color:white,stroke:white
 
-click adapter "/api/network_gym_client/adapter.html" _blank
+click adapter "../api/network_gym_client/adapter.html" _blank
 style adapter fill:#1E90FF,color:white,stroke:white
 
-click northbound_interface "/api/network_gym_client/northbound_interface.html" _blank
+click northbound_interface "../api/network_gym_client/northbound_interface.html" _blank
 style northbound_interface fill:#1E90FF,color:white,stroke:white
 
-click southbound_interface "/api/network_gym_env/southbound_interface.html" _blank
+click southbound_interface "../api/network_gym_env/southbound_interface.html" _blank
 style southbound_interface fill:#1E90FF,color:white,stroke:white
 
-click simulator "/api/network_gym_env/simulator.html" _blank
+click simulator "../api/network_gym_env/simulator.html" _blank
 style simulator fill:#1E90FF,color:white,stroke:white
 
-click configure "/api/network_gym_env/configure.html" _blank
+click configure "../api/network_gym_env/configure.html" _blank
 style configure fill:#1E90FF,color:white,stroke:white
 
 ```
