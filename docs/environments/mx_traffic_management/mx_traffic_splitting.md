@@ -22,7 +22,7 @@ In this environment, the agent performs periodic actions to update the traffic s
 
 ## Description
 
-The Multi-Access (MX) Traffic Splitting environment represents a traffic management problem where multiple users are randomly distributed on a 2D plane, with each user connecting to a Cellular base station and the closest Wi-Fi access point. The handover between Wi-Fi access point is disabled.
+The Multi-Access (MX) Traffic Splitting environment represents a traffic management problem where multiple users are randomly distributed on a 2D plane, with each user connecting to a Cellular base station and the closest Wi-Fi access point. The received signal-based handover between Wi-Fi access points can be enabled or disabled.
  The goal of traffic management is to strategically split traffic over both links, aiming to achieve high throughput and low latency.
 
 ## Prerequisite

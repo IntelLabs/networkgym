@@ -240,6 +240,7 @@ for step in range(num_steps):
         },
         "Wi-Fi": {
           "ap_share_same_band": false, //set to true, ap will share the same frequency band.
+          "enable_rx_signal_based_handover": false, //Always connect to the Wi-Fi AP with strongest rx signal, the rx signal is measured from BEACONS.
           "measurement_interval_ms": 100,
           "measurement_guard_interval_ms": 0
         },

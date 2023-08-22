@@ -49,6 +49,7 @@
       },
       "Wi-Fi": {
         "ap_share_same_band": false,
+        "enable_rx_signal_based_handover": false,
         "measurement_interval_ms": 1000,
         "measurement_guard_interval_ms": 0
       },
