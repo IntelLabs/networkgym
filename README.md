@@ -4,45 +4,9 @@
 
 📧 **[Contact Us](mailto:netaigym@gmail.com)**
 
-The NetworkGym Client stands as a Python-centric client library created for NetworkGym, an innovative Simulation-as-a-Service framework crafted to democratize network AI research and development. This Client establishes a remote connection to the NetworkGym Server/Environment hosted on Intel vLab, facilitating agent training.
+The NetworkGym Client stands as a Python-centric client library created for NetworkGym, an innovative Simulation-as-a-Service framework crafted to democratize network AI research and development. This Client establishes a remote connection to the NetworkGym Server/Environment hosted on the cloud, facilitating agent training.
 At present, Network Gym Client supports three environments: `nqos_split`, `qos_steer`, and `network_slicing`.
 
-
-```{mermaid}
-flowchart TB
-
-subgraph network_gym_server
-northbound <--> southbound[[southbound_interface]]
-end
-
-subgraph network_gym_env
-southbound_interface <--> configure
-southbound_interface <--> simulator
-southbound_interface <-..-> emulator
-southbound_interface <-..-> testbed
-end
-
-agent <--> gymnasium.env
-
-gymnasium.env -- action --> adapter
-adapter -- obs,rewards --> gymnasium.env
-
-subgraph network_gym_client
-gymnasium.env
-adapter
-northbound_interface[[northbound_interface]]
-end
-
-adapter --policy--> northbound_interface
-northbound_interface --network_stats--> adapter
-
-northbound_interface --env_config,policy--> northbound[[northbound_interface]]
-northbound --network_stats--> northbound_interface
-
-southbound --env_config,policy--> southbound_interface[[southbound_interface]]
-southbound_interface --network_stats--> southbound
-
-```
 ## 📚 Class Structure
 
 This repository includes the network_gym_client components. The network_gym_server and network_gym_env components are hosted in our vLab machines. After cloning this repository, users can launch the network_gym_client to remotely connects to the newtork_gym_server and newtork_gym_env via the northbound interface.
