@@ -47,7 +47,7 @@ class DummySim:
         self.interval = msg_json['measurement_interval_ms'] + msg_json['measurement_guard_interval_ms'] # measurement interval
         self.start_ts = msg_json['app_and_measurement_start_time_ms'] # start timestamp of a measurement
         self.end_ts = self.start_ts + self.interval # end timestamp of a measurement
-        self.sim_end_ts = self.start_ts + msg_json['simulation_time_s']*1000
+        self.sim_end_ts = self.start_ts + msg_json['simulation_time_ms']
         self.num_users = msg_json['num_users']
         self.start_simulation(env_identity, config_json, client_identity)
 
@@ -70,7 +70,7 @@ class DummySim:
         # running simualtor
         while True:
             dummy_report = json.loads('{"type":"env-measurement"}')
-            dummy_report["metric_list"] = self.run_one_interval()
+            dummy_report["network_stats"] = self.run_one_interval()
 
             # the first part of the msg is the client_identity, the second part is the measurement report.
             msg = [client_identity.encode('utf-8'), json.dumps(dummy_report, indent=2).encode('utf-8')]

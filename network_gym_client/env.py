@@ -89,12 +89,14 @@ class Env(gym.Env):
 
 
         self.steps_per_episode = int(config_json['env_config']['steps_per_episode'])
+        if self.steps_per_episode < 2:
+            sys.exit('In crease the "steps_per_episode", the min value is 2!')
         self.episodes_per_session = int(config_json['env_config']['episodes_per_session'])
 
         step_length = config_json['env_config']['measurement_interval_ms'] + config_json['env_config']['measurement_guard_interval_ms']
         # compute the simulation time based on setting
-        config_json['env_config']['simulation_time_s'] = int((config_json['env_config']['app_and_measurement_start_time_ms'] + step_length * self.steps_per_episode * self.episodes_per_session)/1000)
-        print("Environment duration: " + str(config_json['env_config']['simulation_time_s']) + "s")
+        config_json['env_config']['simulation_time_ms'] = int(config_json['env_config']['app_and_measurement_start_time_ms'] + step_length * (self.steps_per_episode) * self.episodes_per_session)
+        print("Environment duration: " + str(config_json['env_config']['simulation_time_ms']) + " ms")
         #Define config params
         module_path = 'network_gym_client.envs.'+config_json['env_config']['env']+'.adapter'
         module = importlib.import_module(module_path, package=None)
@@ -108,7 +110,6 @@ class Env(gym.Env):
         self.observation_space = self.adapter.get_observation_space()
 
         self.northbound_interface_client = NorthBoundClient(id, config_json) #initial northbound_interface_client
-        #self.max_counter = int(config_json['env_config']['simulation_time_s'] * 1000/config_json['env_config']['GMA']['measurement_interval_ms'])# Already checked the interval for Wi-Fi and LTE in the main file
 
         #self.link_type = config_json['rl_config']['link_type'] 
         self.current_step = 0
