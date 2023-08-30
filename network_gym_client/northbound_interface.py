@@ -119,8 +119,8 @@ class NorthBoundClient():
         network_stats = pd.json_normalize(reply_json['network_stats']) 
         if "workload_stats" in reply_json:
             # workload measurement available
-            # print('Env Measurement --> ' + str(reply_json['workload_stats']))
-            if "sim_time_lapse_ms" and "time_lapse_ms" in reply_json['workload_stats']:
-                if reply_json['workload_stats']['time_lapse_ms']>0:
-                    print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')
+            print('Env Measurement --> ' + str(reply_json['workload_stats']))
+            #if "sim_time_lapse_ms" and "time_lapse_ms" in reply_json['workload_stats']:
+            #    if reply_json['workload_stats']['time_lapse_ms']>0:
+            #        print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')
         return network_stats

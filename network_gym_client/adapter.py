@@ -75,12 +75,16 @@ class Adapter:
         Returns:
             dict : converted data with dictionary format
         """
-        df_cp = df.copy()
-        df_cp['user'] = df_cp['user'].map(lambda u: f'UE{u}_'+description)
-        # Set the index to the 'user' column
-        df_cp = df_cp.set_index('user')
-        # Convert the DataFrame to a dictionary
-        data = df_cp['value'].to_dict()
+        if df is None:
+            return {}
+        get_key = lambda u: f'UE_{u}_'+description
+        dict_key = list(map(get_key, df['user']))
+        dict_value = df['value']
+
+        #print(dict_key)
+        #print(dict_value)
+
+        data = dict(zip(dict_key, dict_value))
         return data
 
     def fill_empty_feature(self, feature, value):
@@ -96,18 +100,34 @@ class Adapter:
         
         #Fill the missing data with the input value.
         
-        if len(feature) > self.config_json['env_config']['num_users']:
+        if feature is None:
+            print("[WARNING] all users of a feature returns empty measurement.")
+            emptyFeatureArray = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
+            emptyFeatureArray.fill(value)
+            return emptyFeatureArray
+
+        if len(feature['user']) > self.config_json['env_config']['num_users']:
             print ("[WARNING] This feature has more user than input!!")
-            print(feature)
-        elif len(feature) == self.config_json['env_config']['num_users']:
+            print (feature)
+            emptyFeatureArray = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
+            emptyFeatureArray.fill(value)
+            return emptyFeatureArray
+        elif len(feature['user']) == self.config_json['env_config']['num_users']:
             # measurement size match the user number
-            return feature[:]["value"]
-        if len(feature)> 0:
+            return feature["value"]
+        elif len(feature['user'])> 0:
             # some of the user's data are missing, fill with input value.
             print("[WARNING] some users of a feature returns empty measurement.")
-            feature = feature.set_index("user")
-            feature = feature.reindex(list(range(self.config_json['env_config']['num_users'])),fill_value=value)
-            data = feature[:]["value"]
+            #feature = feature.set_index("user")
+            #feature = feature.reindex(list(range(self.config_json['env_config']['num_users'])),fill_value=value)
+            #data = feature[:]["value"]
+
+            data = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
+            data.fill(value)
+
+            for index, user_id in enumerate(feature['user']):
+                data[user_id] = feature['value'][index]
+            #print(data)
             return data
         else:
             # all user's data are missing, fill the entire feature will input value.
@@ -115,7 +135,7 @@ class Adapter:
             emptyFeatureArray = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
             emptyFeatureArray.fill(value)
             return emptyFeatureArray
-    def get_nested_json_policy (self, action_name, tags, action, user_name='user'):
+    def get_nested_json_policy (self, action_name, tags, action, index_name='user'):
         """Convert the gymnasium action space to nested json format
 
         Args:
@@ -127,22 +147,10 @@ class Adapter:
             json: a nested json policy for the network
         """
 
-        data = []
-        for user_id in range(len(action)):
-            data.append([user_id, action[user_id]])
-        df = pd.DataFrame(data, columns=[user_name, 'value'])
-        for key, value in reversed(tags.items()):
-            df.insert(0, key, value)
-        df.insert(0,'name', action_name)# the name of your action.
-
-        # the following code tranform the json to a nested structure for lower overhead.
-        group_by_list = list(tags.keys())
-        group_by_list.insert(0, 'name')
-        json_data = (df.groupby(group_by_list)
-                .apply(lambda x: x[[user_name, 'value', ]].to_dict(orient='list'))
-                .reset_index()
-                .rename(columns={0: ''})
-                .to_json(orient='records'))
-
-        policy = json.loads(json_data)
+        policy = tags.copy()
+        policy['name'] = action_name
+        policy['']={}
+        policy[''][index_name] = list(range(len(action)))
+        policy['']['value'] = action.tolist()
+        #print(policy)
         return policy

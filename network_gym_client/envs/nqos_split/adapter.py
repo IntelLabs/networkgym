@@ -8,7 +8,9 @@ import sys
 from gymnasium import spaces
 import numpy as np
 import math
-
+import time
+import pandas as pd
+import json
 class Adapter(network_gym_client.adapter.Adapter):
     """nqos_split env adapter.
 
@@ -64,26 +66,41 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        print (df)
+        #print (df)
         if not df.empty:
             self.end_ts = int(df['end_ts'][0])
         #data_recv_flat = df.explode(column=['user', 'value'])
         #print(data_recv_flat)
 
-        df_rate = df[df['name'] == 'rate'].reset_index(drop=True) # get the rate
-        df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True).explode(column=['user', 'value']) #keep the flow rate.
+        df_rate = None
+        df_phy_wifi_max_rate = None
+        df_phy_lte_max_rate = None
+        df_wifi_split_ratio = None
+        df_x_loc = None
+        df_y_loc = None
+        for index, row in df.iterrows():
+            if row['name'] == 'rate':
+                if row['cid'] == 'All':
+                    df_rate = row
+            elif row['name'] == 'max_rate':
+                if row['cid'] == 'LTE':
+                    df_phy_lte_max_rate = row
+                elif row['cid'] == 'Wi-Fi':
+                    df_phy_wifi_max_rate = row
+            elif row['name'] == 'split_ratio':
+                if row['cid'] == 'Wi-Fi':
+                    df_wifi_split_ratio = row
+            elif row['name'] == 'x_loc':
+                df_x_loc = row
+            elif row['name'] == 'y_loc':
+                df_y_loc = row
+
         #print(df_rate)
-
-        df_max_rate = df[df['name'] == 'max_rate'].reset_index(drop=True)
-        df_phy_lte_max_rate = df_max_rate[df_max_rate['cid'] == 'LTE'].reset_index(drop=True).explode(column=['user', 'value']) #get the LTE max_rate
-        df_phy_wifi_max_rate = df_max_rate[df_max_rate['cid'] == 'Wi-Fi'].reset_index(drop=True).explode(column=['user', 'value']) # get the Wi-Fi max rate
-
         #print(df_phy_lte_max_rate)
         #print(df_phy_wifi_max_rate)
-
-        df_split_ratio = df[df['name'] == 'split_ratio'].reset_index(drop=True)
-        df_wifi_split_ratio = df_split_ratio[df_split_ratio['cid'] == 'Wi-Fi'].reset_index(drop=True).explode(column=['user', 'value']) # get the Wi-Fi split ratio
         #print(df_wifi_split_ratio)
+        #print(df_x_loc)
+        #Print(df_y_loc)
 
         # if not empty and send to wanDB database
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_wifi_max_rate, "max-wifi-rate"))
@@ -91,15 +108,13 @@ class Adapter(network_gym_client.adapter.Adapter):
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_max_rate, "max-lte-rate"))
 
         dict_rate = self.df_to_dict(df_rate, 'rate')
-        dict_rate["sum_rate"] = df_rate[:]["value"].sum()
+        dict_rate["sum_rate"] = sum(df_rate["value"])
         self.wandb_log_buffer_append(dict_rate)
 
         self.wandb_log_buffer_append(self.df_to_dict(df_wifi_split_ratio, "wifi-split-ratio")) 
         
-        df_x_loc = df[df['name'] == 'x_loc'].reset_index(drop=True).explode(column=['user', 'value'])
         self.wandb_log_buffer_append(self.df_to_dict(df_x_loc, "x_loc"))
 
-        df_y_loc = df[df['name'] == 'y_loc'].reset_index(drop=True).explode(column=['user', 'value'])
         self.wandb_log_buffer_append(self.df_to_dict(df_y_loc, "y_loc"))
         
         # Fill the empy features with -1
@@ -145,7 +160,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         tags["cid"] = 'LTE'
         policy2 = self.get_nested_json_policy('split_ratio', tags, (self.action_max_value-scaled_action))
 
-        policy = policy1 + policy2
+        policy = [policy1, policy2]
         print('Action --> ' + str(policy))
         return policy
 
@@ -158,17 +173,21 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: reward spaces
         """
-        
-        df_owd = df[df['name'] == 'owd'].reset_index(drop=True) # get the owd
-        df_owd = df_owd[df_owd['cid'] == 'All'].reset_index(drop=True).explode(column=['user', 'value']) #keep the flow owd.
+        df_owd = None
+        df_rate = None
 
-        df_rate = df[df['name'] == 'rate'].reset_index(drop=True) # get the rate
-        df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True).explode(column=['user', 'value']) #keep the flow rate.
+        for index, row in df.iterrows():
+            if row['name'] == 'rate':
+                if row['cid'] == 'All':
+                    df_rate = row
+            elif row['name'] == 'owd':
+                if row['cid'] == 'All':
+                    df_owd = row
+    
+        ave_rate = np.mean(df_rate["value"])
+        avg_delay = np.mean(df_owd["value"])
+        max_delay = np.max(df_owd["value"])
 
-        ave_rate = df_rate["value"].mean()
-        avg_delay = df_owd["value"].mean()
-        max_delay = df_owd["value"].max()
-       
         reward = 0
         if self.config_json["rl_config"]["reward_type"] == "utility":
             reward = self.netowrk_util(ave_rate, avg_delay)

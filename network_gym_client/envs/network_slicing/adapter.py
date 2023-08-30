@@ -71,26 +71,43 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        print (df)
+        #print (df)
         if not df.empty:
             self.end_ts = int(df['end_ts'][0])
         #data_recv_flat = df.explode(column=['user', 'value'])
         #print(data_recv_flat)
 
-        df_rate = df[df['name'] == 'rate'].reset_index(drop=True) # get the rate
-        df_rate = df_rate[df_rate['cid'] == 'All'].reset_index(drop=True).explode(column=['user', 'value']) #keep the flow rate.
+        df_rate = None
+        df_phy_wifi_max_rate = None
+        df_phy_lte_max_rate = None
+        df_phy_lte_slice_id = None
+        df_phy_lte_rb_usage = None
+        df_x_loc = None
+        df_y_loc = None
+        for index, row in df.iterrows():
+            if row['name'] == 'rate':
+                if row['cid'] == 'All':
+                    df_rate = row
+            elif row['name'] == 'max_rate':
+                if row['cid'] == 'LTE':
+                    df_phy_lte_max_rate = row
+                elif row['cid'] == 'Wi-Fi':
+                    df_phy_wifi_max_rate = row
+            elif row['name'] == 'slice_id':
+                df_phy_lte_slice_id = row
+            elif row['name'] == 'rb_usage':
+                df_phy_lte_rb_usage = row
+            elif row['name'] == 'x_loc':
+                df_x_loc = row
+            elif row['name'] == 'y_loc':
+                df_y_loc = row
         #print(df_rate)
-
-        df_max_rate = df[df['name'] == 'max_rate'].reset_index(drop=True)
-        df_phy_lte_max_rate = df_max_rate[df_max_rate['cid'] == 'LTE'].reset_index(drop=True).explode(column=['user', 'value']) #get the LTE max_rate
-        df_phy_wifi_max_rate = df_max_rate[df_max_rate['cid'] == 'Wi-Fi'].reset_index(drop=True).explode(column=['user', 'value']) # get the Wi-Fi max rate
-
         #print(df_phy_lte_max_rate)
         #print(df_phy_wifi_max_rate)
-
-        df_phy_lte_slice_id = df[df['name'] == 'slice_id'].reset_index(drop=True).explode(column=['user', 'value'])
-
-        df_phy_lte_rb_usage = df[df['name'] == 'rb_usage'].reset_index(drop=True).explode(column=['user', 'value'])
+        #print(df_phy_lte_slice_id)
+        #Print(df_phy_lte_rb_usage)
+        #print(df_x_loc)
+        #Print(df_y_loc)
 
         # if not empty and send to wanDB database
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_wifi_max_rate, "max-wifi-rate"))
@@ -98,17 +115,15 @@ class Adapter(network_gym_client.adapter.Adapter):
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_max_rate, "max-lte-rate"))
 
         dict_rate = self.df_to_dict(df_rate, 'rate')
-        dict_rate["sum_rate"] = df_rate[:]["value"].sum()
+        dict_rate["sum_rate"] = sum(df_rate["value"])
         self.wandb_log_buffer_append(dict_rate)
 
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_slice_id, "lte-slice-id"))
 
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_rb_usage, "lte-rb-usage"))
 
-        df_x_loc = df[df['name'] == 'x_loc'].reset_index(drop=True).explode(column=['user', 'value'])
         self.wandb_log_buffer_append(self.df_to_dict(df_x_loc, "x_loc"))
 
-        df_y_loc = df[df['name'] == 'y_loc'].reset_index(drop=True).explode(column=['user', 'value'])
         self.wandb_log_buffer_append(self.df_to_dict(df_y_loc, "y_loc"))
         
         # Fill the empy features with -1
@@ -156,7 +171,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         tags["rb_type"] = "S"# shared RBG
         policy3 = self.get_nested_json_policy('rb_allocation', tags, np.ones(len(scaled_action))*self.rbg_num, 'slice')
 
-        policy = policy1 + policy2 + policy3
+        policy = [policy1, policy2, policy3]
 
         print('Action --> ' + str(policy))
         return policy
@@ -171,11 +186,21 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: reward spaces
         """
 
-        df_tx_rate = df[df['name'] == 'tx_rate'].reset_index(drop=True).explode(column=['user', 'value']) # get the rate
+        df_tx_rate = None
+        df_phy_lte_slice_id = None
+        df_phy_lte_rb_usage = None
 
-        df_phy_lte_rb_usage = df[df['name'] == 'rb_usage'].reset_index(drop=True).explode(column=['user', 'value'])
+        for index, row in df.iterrows():
+            if row['name'] == 'tx_rate':
+                df_tx_rate = row.to_frame().T.explode(column=['user', 'value'])
+            elif row['name'] == 'slice_id':
+                df_phy_lte_slice_id = row.to_frame().T.explode(column=['user', 'value'])
+            elif row['name'] == 'rb_usage':
+                df_phy_lte_rb_usage = row.to_frame().T.explode(column=['user', 'value'])
 
-        df_phy_lte_slice_id = df[df['name'] == 'slice_id'].reset_index(drop=True).explode(column=['user', 'value'])
+        #print(df_tx_rate)
+        #print(df_phy_lte_slice_id)
+        #Print(df_phy_lte_rb_usage)
 
         user_to_slice_id = np.zeros(len(df_phy_lte_slice_id))
         df_phy_lte_slice_id = df_phy_lte_slice_id.reset_index()  # make sure indexes pair with number of rows
@@ -192,7 +217,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         df_slice_tx_rate = df_slice_tx_rate.drop(columns=['value'])
 
         #print (df_tx_rate)
-        print (df_slice_tx_rate)
+        #print (df_slice_tx_rate)
 
         df_phy_lte_rb_usage['slice_id']=user_to_slice_id[df_phy_lte_rb_usage['user'].astype(int)]
         df_phy_lte_rb_usage['slice_value']= df_phy_lte_rb_usage.groupby(['slice_id'])['value'].transform('sum')
@@ -202,7 +227,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         df_slice_lte_rb_usage = df_slice_lte_rb_usage.drop(columns=['value'])
 
         #print (df_phy_lte_rb_usage)
-        print (df_slice_lte_rb_usage)
+        #print (df_slice_lte_rb_usage)
 
         
         df_slice_tx_rate = self.slice_df_to_dict(df_slice_tx_rate, 'tx_rate')
