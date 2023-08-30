@@ -14,7 +14,7 @@ def main():
     for worker in range(num_workers):
         customEnv = Configure(worker, NetworkGymSim, ['nqos_split', 'qos_steer', 'network_slicing'])
         customEnv.start()
-        time.sleep(1)
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
