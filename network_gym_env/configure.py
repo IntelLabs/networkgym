@@ -7,6 +7,7 @@ import threading
 import json
 import traceback
 import pathlib
+import socket
 FILE_PATH = pathlib.Path(__file__).parent
 from network_gym_env.southbound_interface import *
 
@@ -58,7 +59,7 @@ class Configure(threading.Thread):
         #common_config.json is shared by all environments
         f = open(FILE_PATH / 'common_config.json')
         self.config_json = json.load(f)
-        self.identity = u'%s-%d-env' % (self.config_json["session_name"], id)
+        self.identity = u'%s-%d-%s' % (self.config_json["session_name"], id, socket.gethostname())
         self.env_list = env_list
         self.NetworkGymSim = NetworkGymSim
 

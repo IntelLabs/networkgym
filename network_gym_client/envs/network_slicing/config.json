@@ -38,7 +38,9 @@
       "max_udp_rate_per_user_mbps": 2,
       "respond_action_after_measurement": true,
       "qos_requirement": {
-        "delay_bound_ms": 100
+        "delay_bound_ms": 100,
+        "delay_test_1_thresh_ms": 200,
+        "delay_test_2_thresh_ms": 400
       },
       "GMA": {
           "downlink_mode": "auto",

@@ -193,6 +193,8 @@ for step in range(num_steps):
       "qos_requirement": {//only for qos_steer environment
         "test_duration_ms": 500,//duration for qos testing
         "delay_bound_ms": 100,//max delay for qos flow
+        "delay_test_1_thresh_ms": 200, //only for delay violation test 1 measurement, this para does not impact flow qos.
+        "delay_test_2_thresh_ms": 400, //only for delay violation test 2 measurement, this para does not impact flow qos.
         "delay_violation_target":0.02, //delay violation target for qos flow
         "loss_target": 0.001 //loss target for qos flow
       },

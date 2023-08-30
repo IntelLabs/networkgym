@@ -38,6 +38,8 @@
       "qos_requirement": {
         "test_duration_ms": 500,
         "delay_bound_ms": 100,
+        "delay_test_1_thresh_ms": 200,
+        "delay_test_2_thresh_ms": 400,
         "delay_violation_target":0.02,
         "loss_target": 0.001
       },
