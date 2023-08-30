@@ -58,7 +58,7 @@ class Configure(threading.Thread):
         #common_config.json is shared by all environments
         f = open(FILE_PATH / 'common_config.json')
         self.config_json = json.load(f)
-        self.identity = u'env-%s-%d' % (self.config_json["session_name"], id)
+        self.identity = u'%s-%d-env' % (self.config_json["session_name"], id)
         self.env_list = env_list
         self.NetworkGymSim = NetworkGymSim
 
