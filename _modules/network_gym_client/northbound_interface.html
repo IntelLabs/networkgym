@@ -360,7 +360,13 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: the processed network stats measurement</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">network_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;metric_list&#39;</span><span class="p">])</span> 
+        <span class="n">network_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;network_stats&#39;</span><span class="p">])</span> 
+        <span class="k">if</span> <span class="s2">&quot;workload_stats&quot;</span> <span class="ow">in</span> <span class="n">reply_json</span><span class="p">:</span>
+            <span class="c1"># workload measurement available</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Env Measurement --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;workload_stats&#39;</span><span class="p">]))</span>
+            <span class="c1">#if &quot;sim_time_lapse_ms&quot; and &quot;time_lapse_ms&quot; in reply_json[&#39;workload_stats&#39;]:</span>
+            <span class="c1">#    if reply_json[&#39;workload_stats&#39;][&#39;time_lapse_ms&#39;]&gt;0:</span>
+            <span class="c1">#        print(&#39;Env Measurement --&gt; Percentage of time spend on simulation: &#39; + str(int(100*reply_json[&#39;workload_stats&#39;][&#39;sim_time_lapse_ms&#39;]/reply_json[&#39;workload_stats&#39;][&#39;time_lapse_ms&#39;])) + &#39;%&#39;)</span>
         <span class="k">return</span> <span class="n">network_stats</span></div>
 </pre></div>
         </article>

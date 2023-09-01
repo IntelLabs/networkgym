@@ -265,7 +265,7 @@ In this environment, the agent performs periodic actions to update the traffic s
 <td><p><code class="docutils literal notranslate"><span class="pre">Box(0.0,</span> <span class="pre">1.0,</span> <span class="pre">(N,),</span> <span class="pre">float32)</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Arguments</p></td>
-<td><p><a class="reference external" href="https://github.com/IntelLabs/networkgym/network_gym_client/envs/nqos_split/config.json">config.json</a></p></td>
+<td><p><a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/nqos_split/config.json">config.json</a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Select Environment</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">config_json</span> <span class="pre">=</span> <span class="pre">load_config_file('nqos_split')</span></code> <br> <code class="docutils literal notranslate"><span class="pre">env</span> <span class="pre">=</span> <span class="pre">NetworkGymEnv(client_id,</span> <span class="pre">config_json)</span></code></p></td>
@@ -275,7 +275,7 @@ In this environment, the agent performs periodic actions to update the traffic s
 </div>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">#</a></h2>
-<p>The Multi-Access (MX) Traffic Splitting environment represents a traffic management problem where multiple users are randomly distributed on a 2D plane, with each user connecting to a Cellular base station and the closest Wi-Fi access point. The handover between Wi-Fi access point is disabled.
+<p>The Multi-Access (MX) Traffic Splitting environment represents a traffic management problem where multiple users are randomly distributed on a 2D plane, with each user connecting to a Cellular base station and the closest Wi-Fi access point. The received signal-based handover between Wi-Fi access points can be enabled or disabled.
 The goal of traffic management is to strategically split traffic over both links, aiming to achieve high throughput and low latency.</p>
 </section>
 <section id="prerequisite">
@@ -316,7 +316,7 @@ The goal of traffic management is to strategically split traffic over both links
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Observation Space can be customized in the <a class="reference internal" href="../../api/network_gym_client/adapter/nqos_split.html#network_gym_client.envs.nqos_split.Adapter.get_observation" title="network_gym_client.envs.nqos_split.Adapter.get_observation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.nqos_split.Adapter.get_observation()</span></code></a> function.</p>
-<p>See <a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html"><span class="std std-doc">Customizing Observation and Reward</span></a> for more details.</p>
+<p>Refer to <a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html"><span class="std std-doc">Customizing Observation and Reward</span></a> for further elaboration, along with a list of network statistics measurements.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -379,7 +379,7 @@ The goal of the utility function is to maximize the throughput and minimizing de
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Reward can be customized in the <a class="reference internal" href="../../api/network_gym_client/adapter/nqos_split.html#network_gym_client.envs.nqos_split.Adapter.get_reward" title="network_gym_client.envs.nqos_split.Adapter.get_reward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.nqos_split.Adapter.get_reward()</span></code></a> function.</p>
-<p>See <a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html"><span class="std std-doc">Customizing Observation and Reward</span></a> for more details.</p>
+<p>Refer to <a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html"><span class="std std-doc">Customizing Observation and Reward</span></a> for further elaboration, along with a list of network statistics measurements.</p>
 </div>
 </section>
 <section id="arguments">
