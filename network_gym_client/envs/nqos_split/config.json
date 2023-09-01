@@ -39,7 +39,7 @@
       "GMA": {
           "downlink_mode": "split",
           "uplink_mode": "auto",
-          "enable_dynamic_flow_prioritization": true,
+          "enable_dynamic_flow_prioritization": false,
           "measurement_interval_ms": 100,
           "measurement_guard_interval_ms": 0
         },
