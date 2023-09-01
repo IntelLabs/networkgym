@@ -17,7 +17,7 @@ In this environment, the agent performs periodic actions to update the traffic s
 | ----- | ---- |
 | Observation Space | `Box(0, Inf, (3, N,), float32)`  |
 | Action Space |  `Box(0.0, 1.0, (N,), float32)`  |
-| Arguments | [config.json](https://github.com/IntelLabs/networkgym/network_gym_client/envs/nqos_split/config.json)  |
+| Arguments | [config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/nqos_split/config.json)  |
 | Select Environment | `config_json = load_config_file('nqos_split')` <br> `env = NetworkGymEnv(client_id, config_json)`  |
 
 ## Description
@@ -45,7 +45,7 @@ The observation is an `ndarray` with shape `(3,N,)` representing three features 
 ```{eval-rst}
 The Observation Space can be customized in the :meth:`network_gym_client.envs.nqos_split.Adapter.get_observation` function.
 ```
-See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
+Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
 ````
 
 ```{tip}
@@ -83,7 +83,7 @@ The goal of the utility function is to maximize the throughput and minimizing de
 ```{eval-rst}
 The Reward can be customized in the :meth:`network_gym_client.envs.nqos_split.Adapter.get_reward` function.
 ```
-See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
+Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
 ````
 
 ## Arguments

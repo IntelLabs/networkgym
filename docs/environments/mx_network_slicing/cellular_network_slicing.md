@@ -18,7 +18,7 @@ Within each slice, the agent can designate resources as dedicated, prioritized, 
 | ----- | ---- |
 | Observation Space |  `Box(0.0, Inf, (5, N,), float32)` |
 | Action Space | `Box(0.0, 1.0, (N,), float32)`  |
-| Arguments | [config.json](https://github.com/IntelLabs/networkgym/network_gym_client/envs/network_slicing/config.json)  |
+| Arguments | [config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/network_slicing/config.json)  |
 | Select Environment | `config_json = load_config_file('network_slicing')` <br> `env = NetworkGymEnv(client_id, config_json)`  |
 
 ## Description
@@ -50,7 +50,7 @@ The observation space is represented by a multidimensional array (`ndarray`) wit
 ```{eval-rst}
 The Observation Space can be customized in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_observation` function.
 ```
-See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
+Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
 ````
 
 ```{tip}
@@ -91,7 +91,7 @@ In this formulation, we can adjust the emphasis given to the delay violation rat
 ```{eval-rst}
 The Reward can be customized in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_reward` function.
 ```
-See [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for more details.
+Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
 ````
 
 ## Arguments

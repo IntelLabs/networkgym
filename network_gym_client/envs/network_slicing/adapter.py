@@ -7,6 +7,7 @@ import network_gym_client.adapter
 import sys
 from gymnasium import spaces
 import numpy as np
+from pathlib import Path
 
 class Adapter(network_gym_client.adapter.Adapter):
     """network_slicing environment adapter.
@@ -21,7 +22,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             config_json (json): the configuration file
         """
         super().__init__(config_json)
-        self.env = "network_slicing"
+        self.env = Path(__file__).resolve().parent.name
         self.num_slices = len(self.config_json['env_config']['slice_list'])
         self.num_features = 3
         self.end_ts = 0
@@ -35,7 +36,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         self.rbg_num = self.config_json['env_config']['LTE']['resource_block_num']/rbg_size
 
         if config_json['env_config']['env'] != self.env:
-            sys.exit("[ERROR] wrong environment helper. config file environment: " + str(config_json['env_config']['env']) + " helper environment: " + str(self.env))
+            sys.exit("[ERROR] wrong environment Adapter. Configured environment: " + str(config_json['env_config']['env']) + " != Launched environment: " + str(self.env))
 
     def get_action_space(self):
         """Get action space for network_slicing env.

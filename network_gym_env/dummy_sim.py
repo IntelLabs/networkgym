@@ -45,9 +45,9 @@ class DummySim:
         """
         # use the config_json to config the simulator
         self.interval = msg_json['measurement_interval_ms'] + msg_json['measurement_guard_interval_ms'] # measurement interval
-        self.start_ts = msg_json['app_and_measurement_start_time_ms'] # start timestamp of a measurement
+        self.start_ts = msg_json['measurement_start_time_ms'] # start timestamp of a measurement
         self.end_ts = self.start_ts + self.interval # end timestamp of a measurement
-        self.sim_end_ts = self.start_ts + msg_json['simulation_time_ms']
+        self.sim_end_ts = self.start_ts + msg_json['env_end_time_ms']
         self.num_users = msg_json['num_users']
         self.start_simulation(env_identity, config_json, client_identity)
 

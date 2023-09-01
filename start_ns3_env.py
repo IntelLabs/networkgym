@@ -12,7 +12,7 @@ def main():
 
     num_workers= 1
     for worker in range(num_workers):
-        customEnv = Configure(worker, NetworkGymSim, ['nqos_split', 'qos_steer', 'network_slicing'])
+        customEnv = Configure(worker, NetworkGymSim, ['nqos_split', 'qos_steer', 'network_slicing', 'rmcat'])
         customEnv.start()
         time.sleep(0.1)
 

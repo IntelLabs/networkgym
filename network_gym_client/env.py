@@ -93,10 +93,14 @@ class Env(gym.Env):
             sys.exit('In crease the "steps_per_episode", the min value is 2!')
         self.episodes_per_session = int(config_json['env_config']['episodes_per_session'])
 
-        step_length = config_json['env_config']['measurement_interval_ms'] + config_json['env_config']['measurement_guard_interval_ms']
+        step_length = config_json['env_config']['measurement_interval_ms']
+        if 'measurement_guard_interval_ms' in config_json['env_config']:
+            step_length = step_length + config_json['env_config']['measurement_guard_interval_ms']
+
+
         # compute the simulation time based on setting
-        config_json['env_config']['simulation_time_ms'] = int(config_json['env_config']['app_and_measurement_start_time_ms'] + step_length * (self.steps_per_episode) * self.episodes_per_session)
-        print("Environment duration: " + str(config_json['env_config']['simulation_time_ms']) + " ms")
+        config_json['env_config']['env_end_time_ms'] = int(config_json['env_config']['measurement_start_time_ms'] + step_length * (self.steps_per_episode) * self.episodes_per_session)
+        print("Environment duration: " + str(config_json['env_config']['env_end_time_ms']) + " ms")
         #Define config params
         module_path = 'network_gym_client.envs.'+config_json['env_config']['env']+'.adapter'
         module = importlib.import_module(module_path, package=None)

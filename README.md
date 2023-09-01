@@ -150,7 +150,7 @@ for step in range(num_steps):
   //never use negative value for any configure vale!!!
   "env_config":{
       "type": "env-start", //do not change
-      "steps_per_episode": 10, //the env will run app_and_measurement_start_time_ms + (measurement_interval_ms+measurement_guard_interval_ms) * steps_per_episode * episodes_per_session
+      "steps_per_episode": 10, //the env will run measurement_start_time_ms + (measurement_interval_ms+measurement_guard_interval_ms) * steps_per_episode * episodes_per_session
       "episodes_per_session": 5,
       "random_seed": 2, //change the random seed for this simulation run
       "downlink": true, //set to true to simulate downlink data flow, set to false to simulate uplink data flow.
@@ -184,7 +184,7 @@ for step in range(num_steps):
         "max_y":10,
         "z":1.5
       },
-      "app_and_measurement_start_time_ms": 1000, //when the application starts traffic and send measurement to RL agent
+      "measurement_start_time_ms": 1000, //the first measurement start time. The first measurement will be sent to the agent at measurement_start_time_ms + measurement_interval_ms
       "transport_protocol": "tcp", //"tcp" or "udp"
       "udp_poisson_arrival": false, // if "transport_protocol" is "udp", this para controls whether the generater using poisson process.
       "min_udp_rate_per_user_mbps": 2, // if "transport_protocol" is "udp", this para controls the min sending rate.
@@ -201,6 +201,7 @@ for step in range(num_steps):
       "GMA": {
           "downlink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
           "uplink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
+          "enable_dynamic_flow_prioritization": false, //When DFP is enabled, for each cell, mark 70%~90% of traffic or users to high priority.
           "measurement_interval_ms": 100, //duration of a measurement interval.
           "measurement_guard_interval_ms": 0 //gap between 2 measurement interval
         },

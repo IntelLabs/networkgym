@@ -30,7 +30,7 @@
         "max_y":10,
         "z":1.5
       },
-      "app_and_measurement_start_time_ms": 1000,
+      "measurement_start_time_ms": 1000,
       "transport_protocol": "tcp",
       "udp_poisson_arrival": true,
       "min_udp_rate_per_user_mbps": 6,
@@ -39,6 +39,7 @@
       "GMA": {
           "downlink_mode": "split",
           "uplink_mode": "auto",
+          "enable_dynamic_flow_prioritization": true,
           "measurement_interval_ms": 100,
           "measurement_guard_interval_ms": 0
         },

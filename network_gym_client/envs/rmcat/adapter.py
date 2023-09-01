@@ -27,7 +27,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         super().__init__(config_json)
         self.env = Path(__file__).resolve().parent.name
         self.num_features = 3
-        self.num_users = int(self.config_json['env_config']['num_users'])
+        self.nada_flows = int(self.config_json['env_config']['nada_flows'])
 
         if config_json['env_config']['env'] != self.env:
             sys.exit("[ERROR] wrong environment Adapter. Configured environment: " + str(config_json['env_config']['env']) + " != Launched environment: " + str(self.env))
@@ -39,7 +39,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: action spaces
         """
         return spaces.Box(low=0, high=1,
-                                        shape=(self.num_users,), dtype=np.float32)
+                                        shape=(self.nada_flows,), dtype=np.float32)
 
     #consistent with the get_observation function.
     def get_observation_space(self):
@@ -49,7 +49,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: observation spaces
         """
         return spaces.Box(low=0, high=1000,
-                                            shape=(self.num_features, self.num_users), dtype=np.float32)
+                                            shape=(self.num_features, self.nada_flows), dtype=np.float32)
     
     def get_observation(self, df):
         """Prepare observation for custom env.
@@ -114,8 +114,8 @@ class Adapter(network_gym_client.adapter.Adapter):
             json: network policy
         """
 
-        if action.size != self.num_users:
-            sys.exit("The action size: " + str(action.size()) +" does not match with the number of users:" + self.num_users)
+        if action.size != self.nada_flows:
+            sys.exit("The action size: " + str(action.size()) +" does not match with the number of users:" + self.nada_flows)
         # you may also check other constraints for action... e.g., min, max.
 
         # you can add more tags
