@@ -74,8 +74,8 @@ Now, we elaborate on each row:
 | 15,16 | priority | 1: high priority; 0: low priority. When Dynamic Flow Prioritization is enabled, for each cell, mark 70%~90% of traffic or users to high priority. |
 | 17,18,19 | qos_rate | QoS delivery rate (output traffic throughput meeting QoS requirement) as measured by each user, comprising traffic over LTE link, Wi-Fi link, and ALL (combined). |
 | 20,21,22 | rate | Delivery rate (output traffic throughput) measured by each user, including traffic over LTE link, Wi-Fi link, and ALL (combined).|
-| 23,24 | split_ratio | Traffic split ratio (in range of [0, 32]) as measured by each user, covering LTE link, Wi-Fi link. LTE split ratio + Wi-Fi split ratio equals 32. |
-| 25,26 | traffic_ratio | Traffic ratio (%) sending to each link measured by each user, involving LTE link, Wi-Fi link. traffic_ratio might not equal split_ratio, since the system takes sine time to apply the new action. |
+| 23,24 | split_ratio | Traffic split ratio (in range of [0, 32]) as configured for each user, covering LTE link, Wi-Fi link. LTE split ratio + Wi-Fi split ratio equals 32. |
+| 25,26 | traffic_ratio | Traffic ratio (%) sending to each link measured by each user, involving LTE link, Wi-Fi link. traffic_ratio might not equal split_ratio, since it takes time for the system to apply the new configuration. |
 | 27 | tx_rate | Load (input traffic throughput) measured by each user. |
 | 28 | x_loc | x coordinate per user. |
 | 29 | y_loc | y coordinate per user. |
