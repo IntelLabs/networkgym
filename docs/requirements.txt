@@ -12,7 +12,7 @@ docutils==0.19
 Farama-Notifications==0.0.4
 furo!=2023.08.17, !=2023.08.19
 gitdb==4.0.10
-GitPython==3.1.32
+GitPython==3.1.35
 gymnasium==0.29.0
 idna==3.4
 imagesize==1.4.1
