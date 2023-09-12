@@ -245,18 +245,18 @@
         <article role="main">
           <section id="networkgym-democratizing-network-ai">
 <h1>NetworkGym: Democratizing Network AI<a class="headerlink" href="#networkgym-democratizing-network-ai" title="Permalink to this heading">#</a></h1>
-<p>NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym is the streamlined concept of the “agent-environment loop” in reinforcement learning.</p>
+<p>NetworkGym is an innovative Simulation-as-a-Service (Sim-aaS) framework to democratize Network AI research and development, based on the streamlined concept of “agent-environment loop” as seen in reinforcement learning.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="_images/network_gym_intro.png"><img alt="_images/network_gym_intro.png" src="_images/network_gym_intro.png" style="width: 100%;" /></a>
 </figure>
-<section id="benefits-of-networkgym">
-<h2>Benefits of NetworkGym<a class="headerlink" href="#benefits-of-networkgym" title="Permalink to this heading">#</a></h2>
-<p>NetworkGym is partitioned into Open-Source (Agent/Client) and Service (Environment) components, yielding the following benefits:</p>
+<section id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading">#</a></h2>
+<p>The NetworkGym Sim-aaS framework consists of four key components: Agent, Client, Server, and Environment, and is designed to achieve the following objectives:</p>
 <ul class="simple">
-<li><p><strong>Agent Training without Needing Network Simulation Expertise</strong>: The Agent is tailored for open-source utilization, whereas the Environment is under our management. By utilizing open-source NetworkGym Client and API, the Agent interacts with the Environment through public internet connections, enabling agent training without the requirement of network simulation expertise.</p></li>
-<li><p><strong>Flexibility in Language and Platform</strong>: The separation of the Agent and Environment provides the freedom to employ various programming languages. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment.</p></li>
-<li><p><strong>Controlled Access through the NetworkGym API</strong>: By leveraging the networkgym API for message exchanges, users are prevented from direct access to the simulator or the underlying network environment implementation. This controlled access maintains security and oversight.</p></li>
-<li><p><strong>Independent Deployment</strong>: Separating the Agent and Environment allows them to be deployed on distinct machines or platforms, optimized for specific workloads. This approach also accommodates the scenario where they can be developed and maintained by different entities.</p></li>
+<li><p><strong>AI Development with No Knowledge of Network Simulation</strong>: (AI algorithm) Agent is fully customizable and controlled by developer. (network simulation) Environment is hosted in the cloud. By utilizing open-source based NetworkGym Client and APIs, an Agent can interact with the Environment to collect measurement data and inject action, and perform AI training for the configured use-case without any network simulation expertise.</p></li>
+<li><p><strong>Flexibility in Language and Platform</strong>: The separation of Agent and Environment provides the freedom to employ different programming languages for AI and network simulation respectively. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment.</p></li>
+<li><p><strong>Controlled Access</strong>: The access to Environment is controlled through NetworkGym APIs to hide the details of how a function or feature is implemented in the Environment from developers. This controlled access maintains security and oversight.</p></li>
+<li><p><strong>Independent Deployment</strong>: Separating Agent and Environment allows them to be deployed on different machines or platforms, optimized for specific workload. They can also be developed and maintained by different entities.</p></li>
 </ul>
 </section>
 <section id="agent">

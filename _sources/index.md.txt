@@ -5,7 +5,7 @@ lastpage:
 ---
 
 # NetworkGym: Democratizing Network AI
-NetworkGym is an innovative Simulation-as-a-Service framework designed to democratize Network AI Research and Development. At the core of NetworkGym is the streamlined concept of the "agent-environment loop" in reinforcement learning.
+NetworkGym is an innovative Simulation-as-a-Service (Sim-aaS) framework to democratize Network AI research and development, based on the streamlined concept of "agent-environment loop" as seen in reinforcement learning.
 
 ```{figure} network_gym_intro.png
 ---
@@ -13,12 +13,12 @@ width: 100%
 ---
 ```
 
-## Benefits of NetworkGym
-NetworkGym is partitioned into Open-Source (Agent/Client) and Service (Environment) components, yielding the following benefits:
-- **Agent Training without Needing Network Simulation Expertise**: The Agent is tailored for open-source utilization, whereas the Environment is under our management. By utilizing open-source NetworkGym Client and API, the Agent interacts with the Environment through public internet connections, enabling agent training without the requirement of network simulation expertise.
-- **Flexibility in Language and Platform**: The separation of the Agent and Environment provides the freedom to employ various programming languages. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment. 
-- **Controlled Access through the NetworkGym API**: By leveraging the networkgym API for message exchanges, users are prevented from direct access to the simulator or the underlying network environment implementation. This controlled access maintains security and oversight.
-- **Independent Deployment**: Separating the Agent and Environment allows them to be deployed on distinct machines or platforms, optimized for specific workloads. This approach also accommodates the scenario where they can be developed and maintained by different entities.
+## Objectives
+The NetworkGym Sim-aaS framework consists of four key components: Agent, Client, Server, and Environment, and is designed to achieve the following objectives:
+- **AI Development with No Knowledge of Network Simulation**: (AI algorithm) Agent is fully customizable and controlled by developer. (network simulation) Environment is hosted in the cloud. By utilizing open-source based NetworkGym Client and APIs, an Agent can interact with the Environment to collect measurement data and inject action, and perform AI training for the configured use-case without any network simulation expertise.
+- **Flexibility in Language and Platform**: The separation of Agent and Environment provides the freedom to employ different programming languages for AI and network simulation respectively. For instance, a Python-based Agent can smoothly interact with a C++(ns-3) based simulation Environment.  
+- **Controlled Access**: The access to Environment is controlled through NetworkGym APIs to hide the details of how a function or feature is implemented in the Environment from developers. This controlled access maintains security and oversight.
+- **Independent Deployment**: Separating Agent and Environment allows them to be deployed on different machines or platforms, optimized for specific workload. They can also be developed and maintained by different entities.
 
 
 ## Agent
