@@ -84,6 +84,13 @@ environments/mx_network_slicing
 
 ```{toctree}
 :hidden:
+:caption: Third-Party Agents
+
+Stable-Baselines3 and CleanRL <https://github.com/pinyaras/GMAClient>
+```
+
+```{toctree}
+:hidden:
 :caption: Tutorials
 
 tutorials/handling_time_limits

@@ -27,7 +27,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         super().__init__(config_json)
         self.env = Path(__file__).resolve().parent.name
         self.num_features = 3
-        self.num_users = int(self.config_json['env_config']['num_users'])
+        self.size_per_feature = int(self.config_json['env_config']['num_users'])
 
         if config_json['env_config']['env'] != self.env:
             sys.exit("[ERROR] wrong environment Adapter. Configured environment: " + str(config_json['env_config']['env']) + " != Launched environment: " + str(self.env))
@@ -39,7 +39,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: action spaces
         """
         return spaces.Box(low=0, high=1,
-                                        shape=(self.num_users,), dtype=np.float32)
+                                        shape=(self.size_per_feature,), dtype=np.float32)
 
     #consistent with the get_observation function.
     def get_observation_space(self):
@@ -49,7 +49,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: observation spaces
         """
         return spaces.Box(low=0, high=1000,
-                                            shape=(self.num_features, self.num_users), dtype=np.float32)
+                                            shape=(self.num_features, self.size_per_feature), dtype=np.float32)
     
     def get_observation(self, df):
         """Prepare observation for custom env.
@@ -62,46 +62,23 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        print (df)
+        #print (df)
 
-        df_rate = None
-        df_phy_wifi_max_rate = None
-        df_phy_lte_max_rate = None
+        df_measurement_1 = np.empty(self.size_per_feature, dtype=object)
+        df_measurement_2 = np.empty(self.size_per_feature, dtype=object)
+        df_measurement_3 = np.empty(self.size_per_feature, dtype=object)
+
         for index, row in df.iterrows():
-            if row['name'] == 'rate':
-                if row['cid'] == 'All':
-                    df_rate = row
-            elif row['name'] == 'max_rate':
-                if row['cid'] == 'LTE':
-                    df_phy_lte_max_rate = row
-                elif row['cid'] == 'Wi-Fi':
-                    df_phy_wifi_max_rate = row
-
-
-        #print(df_rate)
-        #print(df_phy_lte_max_rate)
-        #print(df_phy_wifi_max_rate)
-
-        # if not empty and send to wanDB database
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_wifi_max_rate, "wifi-max-rate"))
-    
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_max_rate, "lte-max-rate"))
-
-        dict_rate = self.df_to_dict(df_rate, 'rate')
-        dict_rate["sum_rate"] = sum(df_rate["value"])
-        self.wandb_log_buffer_append(dict_rate)
-            
-        
-        # Fill the empy features with -1
-        phy_lte_max_rate = self.fill_empty_feature(df_phy_lte_max_rate, -1)
-        phy_wifi_max_rate = self.fill_empty_feature(df_phy_wifi_max_rate, -1)
-        flow_rate = self.fill_empty_feature(df_rate, -1)
-
-        observation = np.vstack([phy_lte_max_rate, phy_wifi_max_rate, flow_rate])
-
-        # add a check that the size of observation equals the prepared observation space.
-        if len(observation) != self.num_features:
-            sys.exit("The size of the observation and self.num_features is not the same!!!")
+            if row['source'] == 'test':
+                if row['name'] == 'measurement_1':
+                    df_measurement_1 = row['value']
+                    self.action_data_format = row
+                elif row['name'] == 'measurement_2':
+                    df_measurement_2 = row['value']
+                elif row['name'] == 'measurement_3':
+                    df_measurement_3 = row['value']
+        observation = np.vstack([df_measurement_1, df_measurement_2, df_measurement_3])
+        print('Observation --> ' + str(observation))
         return observation
 
     def get_policy(self, action):
@@ -113,24 +90,14 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             json: network policy
         """
-
-        if action.size != self.num_users:
-            sys.exit("The action size: " + str(action.size()) +" does not match with the number of users:" + self.num_users)
         # you may also check other constraints for action... e.g., min, max.
 
-        # you can add more tags
-        tags = {}
-        tags["custom_tag"] = 'Wi-Fi'
+        policy1 = json.loads(self.action_data_format.to_json())
+        policy1["name"] = "srate"
+        policy1["value"] = action.tolist()
 
-        # this function will convert the action to a nested json format
-        policy1 = self.get_nested_json_policy('custom_action', tags, action)
-        
-        tags["custom_tag"] = 'LTE'
-        policy2 = self.get_nested_json_policy('custom_action', tags, (1-action))
-
-        policy = [policy1, policy2]
-        print('Action --> ' + str(policy))
-        return policy
+        print('Action --> ' + str(policy1))
+        return policy1
 
     def get_reward(self, df):
         """Prepare reward for the custom env.

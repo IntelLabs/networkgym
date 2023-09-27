@@ -1,81 +1,69 @@
 {
-  "env_config":{
-      "type": "env-start",
-      "steps_per_episode": 10,
-      "episodes_per_session": 2,
-      "random_seed": 2,
-      "downlink": true,
-      "max_wait_time_for_action_ms": -1,
-      "enb_locations":{
-        "x":40,
-        "y":0,
-        "z":3
-      },
-      "ap_locations":[
-      ],
-      "slice_list":[
-        {"num_users":10,"dedicated_rbg":0,"prioritized_rbg":13,"shared_rbg":25},
-        {"num_users":30,"dedicated_rbg":0,"prioritized_rbg":12,"shared_rbg":25}
-      ],
-      "user_random_walk":{
-        "min_speed_m/s": 1,
-        "max_speed_m/s": 2,
-        "min_direction_gradients": 0.0,
-        "max_direction_gradients": 6.283184,
-        "distance_m": 3
-      },
-      "user_location_range":{
-        "min_x":0,
-        "max_x":80,
-        "min_y":0,
-        "max_y":10,
-        "z":1.5
-      },
-      "measurement_start_time_ms": 1000,
-      "transport_protocol": "udp",
-      "udp_poisson_arrival": false,
-      "min_udp_rate_per_user_mbps": 2,
-      "max_udp_rate_per_user_mbps": 2,
-      "respond_action_after_measurement": true,
-      "qos_requirement": {
-        "delay_bound_ms": 100,
-        "delay_test_1_thresh_ms": 200,
-        "delay_test_2_thresh_ms": 400
-      },
-      "GMA": {
-          "downlink_mode": "auto",
-          "uplink_mode": "auto",
-          "enable_dynamic_flow_prioritization": false,
-          "measurement_interval_ms": 100,
-          "measurement_guard_interval_ms": 0
-      },
-      "Wi-Fi": {
-        "ap_share_same_band": false,
-        "enable_rx_signal_based_handover": false,
-        "measurement_interval_ms": 100,
-        "measurement_guard_interval_ms": 0
-      },
-      "LTE": {
-        "resource_block_num": 100,
-        "measurement_interval_ms": 100,
-        "measurement_guard_interval_ms": 0
-      }
-    },
-  
   "rl_config":{
     "agent": "",
     "reward_type" : ""
   },
 
-  "rl_config_option_list":
-  {
-    "agent": [""],
-    "reward_type" : [""]
-  },
-
-  "action_template":{
-      "type": "env-action",
-      "action_list":[
-      ]
+  "env_config":{
+    "type": "env-start",
+    "subscribed_network_stats":["lte::dl::max_rate", "lte::cell_id", "lte::slice_id", "lte::rb_usage", "lte::dl::cell::max_rate", "lte::dl::cell::rb_usage"],
+    "steps_per_episode": 10,
+    "episodes_per_session": 2,
+    "random_seed": 2,
+    "downlink_traffic": true,
+    "max_wait_time_for_action_ms": -1,
+    "enb_locations":{
+      "x":40,
+      "y":0,
+      "z":3
+    },
+    "ap_locations":[
+    ],
+    "slice_list":[
+      {"num_users":2,"dedicated_rbg":0,"prioritized_rbg":13,"shared_rbg":25},
+      {"num_users":3,"dedicated_rbg":0,"prioritized_rbg":12,"shared_rbg":25}
+    ],
+    "user_random_walk":{
+      "min_speed_m/s": 1,
+      "max_speed_m/s": 2,
+      "min_direction_gradients": 0.0,
+      "max_direction_gradients": 6.283184,
+      "distance_m": 3
+    },
+    "user_location_range":{
+      "min_x":0,
+      "max_x":80,
+      "min_y":0,
+      "max_y":10,
+      "z":1.5
+    },
+    "measurement_start_time_ms": 1000,
+    "transport_protocol": "udp",
+    "udp_poisson_arrival": false,
+    "min_udp_rate_per_user_mbps": 2,
+    "max_udp_rate_per_user_mbps": 2,
+    "qos_requirement": {
+      "delay_bound_ms": 100,
+      "delay_test_1_thresh_ms": 200,
+      "delay_test_2_thresh_ms": 400
+    },
+    "GMA": {
+        "downlink_mode": "auto",
+        "uplink_mode": "auto",
+        "enable_dynamic_flow_prioritization": false,
+        "measurement_interval_ms": 100,
+        "measurement_guard_interval_ms": 0
+    },
+    "Wi-Fi": {
+      "ap_share_same_band": false,
+      "enable_rx_signal_based_handover": false,
+      "measurement_interval_ms": 100,
+      "measurement_guard_interval_ms": 0
+    },
+    "LTE": {
+      "resource_block_num": 100,
+      "measurement_interval_ms": 100,
+      "measurement_guard_interval_ms": 0
+    }
   }
 }

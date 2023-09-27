@@ -75,71 +75,79 @@ class Configure(threading.Thread):
         poller = zmq.Poller()
         poller.register(env_config, flags=zmq.POLLIN)
         
-        while True:
+        try:
+            while True:
+                # Send Hello msg.
+                hello_msg = json.loads('{"type":"env-hello"}')
+                hello_msg["env_list"] = self.env_list # add supported env_list to hello msg
+                env_config.send_multipart([b'', json.dumps(hello_msg, indent=2).encode('utf-8')])# Hello msg does not include client
+                print(identity + ': send env-hello msg.')
+                print(hello_msg)
 
-            # Send Hello msg.
-            hello_msg = json.loads('{"type":"env-hello"}')
-            hello_msg["env_list"] = self.env_list # add supported env_list to hello msg
-            env_config.send_multipart([b'', json.dumps(hello_msg, indent=2).encode('utf-8')])# Hello msg does not include client
-            print(identity + ': send env-hello msg.')
-            print(hello_msg)
+                # resend hello msg after 5 seconds if no msg is received.
+                # [Warning] always use a poll with timeout before receiving a msg (recv_multipart)! otherwise, it may stuck forever!
+                if poller.poll(timeout=5*1000):
 
-            # resend hello msg after 5 seconds if no msg is received.
-            # [Warning] always use a poll with timeout before receiving a msg (recv_multipart)! otherwise, it may stuck forever!
-            if poller.poll(timeout=5*1000):
+                    # received a new msg
+                    msg = env_config.recv_multipart()
 
-                # received a new msg
-                msg = env_config.recv_multipart()
-                msg_json = json.loads(msg[1])  
-                if msg_json["type"] == "env-start":
-                    # In idle mode (periodic sending env-hello msg), the first msg should be "env-start"
-
-                    # check if the env is supported (in the env_list)
-                    if msg_json["env"] not in self.env_list:
-                        # not supported env
-                        print("Unkown Environment!")
-                        error_msg = json.loads('{"type":"env-error", "error_msg": "Unkown Environment!"}')
-                        msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
-                        env_config.send_multipart(msg)
+                    if len(msg) < 2:
+                        print ("[Error] Ignore msg with wrong size:" + str(len(msg)))
+                        print(msg)
                         continue
 
-                    print(identity + ': Recv.')
-                    print(msg_json)
-                    env_config.close()
+                    msg_json = json.loads(msg[1])
+                    if "type" in msg_json and msg_json["type"] == "env-start":
+                        # In idle mode (periodic sending env-hello msg), the first msg should be "env-start"
+                        # check if the env is supported (in the env_list)
+                        if "env" not in msg_json or msg_json["env"] not in self.env_list:
+                            # not supported env
+                            print("Unkown Environment!")
+                            error_msg = json.loads('{"type":"env-error", "error_msg": "Unkown Environment!"}')
+                            msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
+                            env_config.send_multipart(msg)
+                            continue
 
-                    print(identity + ': env_config socket closed.')
+                        print(identity + ': Recv.')
+                        print(msg_json)
+                        poller.unregister(env_config)
+                        env_config.close()
 
-                    # start simulator ------------------->
-                    # The simulator will start a new socket to send measurement and receive action.
-                    # use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.
-                    sim_error_msg = ''
-                    try:
-                        self.NetworkGymSim(identity, self.config_json, msg[0].decode(), msg_json) # replace it with your own simulator.
-                    except Exception:
-                        traceback.print_exc()
-                        sim_error_msg = traceback.format_exc()
-                    # simulator terminated <-------------------
+                        print(identity + ': env_config socket closed.')
 
-                    # env_config reconnect the server.
-                    env_config = southbound_connect(identity, self.config_json)
-                    print(identity + ': env_config socket connected.')
+                        # start simulator ------------------->
+                        # The simulator will start a new socket to send measurement and receive action.
+                        # use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.
+                        sim_error_msg = ''
+                        try:
+                            self.NetworkGymSim(identity, self.config_json, msg[0].decode(), msg_json) # replace it with your own simulator.
+                        except Exception:
+                            traceback.print_exc()
+                            sim_error_msg = traceback.format_exc()
+                        # simulator terminated <-------------------
 
-                    poller.register(env_config, flags=zmq.POLLIN)
+                        # env_config reconnect the server.
+                        env_config = southbound_connect(identity, self.config_json)
+                        print(identity + ': env_config socket connected.')
+                        
+                        poller.register(env_config, flags=zmq.POLLIN)
 
-                    if sim_error_msg != '':
-                        # simualtor crashed with error msg, relay to error msg to client
-                        error_msg = json.loads('{"type":"env-error"}')
-                        error_msg["error_msg"] = sim_error_msg
-                        msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
-                        env_config.send_multipart(msg)# Env End msg
+                        if sim_error_msg != '':
+                            # simualtor crashed with error msg, relay to error msg to client
+                            error_msg = json.loads('{"type":"env-error"}')
+                            error_msg["error_msg"] = sim_error_msg
+                            msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
+                            env_config.send_multipart(msg)# Env End msg
+                        else:
+                            # no error, send env-end to terminate client to env worker mapping
+                            end_msg = json.loads('{"type":"env-end"}')
+                            env_config.send_multipart([msg[0], json.dumps(end_msg, indent=2).encode('utf-8')])# Env End msg
+
                     else:
-                        # no error, send env-end to terminate client to env worker mapping
-                        end_msg = json.loads('{"type":"env-end"}')
-                        env_config.send_multipart([msg[0], json.dumps(end_msg, indent=2).encode('utf-8')])# Env End msg
-
-                else:
-                    print("Unkown MSG type, Expecting env-start!")
-                    error_msg = json.loads('{"type":"env-error", "error_msg": "Unkown MSG type, Expecting env-start!"}')
-                    msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
-                    env_config.send_multipart(msg)
-        env_config.close()
+                        print("Unkown MSG type, Expecting env-start!")
+                        error_msg = json.loads('{"type":"env-error", "error_msg": "Unkown MSG type, Expecting env-start!"}')
+                        msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
+                        env_config.send_multipart(msg)
+        except:
+            poller.unregister(env_config)
+            env_config.close()
