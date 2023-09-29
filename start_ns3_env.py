@@ -4,8 +4,8 @@
 
 from network_gym_env import Configure
 import time
-from NetworkGymSim.network_gym_sim import build_ns3
-from NetworkGymSim.network_gym_sim import NetworkGymSim
+from network_gym_sim.network_gym_sim import build_ns3
+from network_gym_sim.network_gym_sim import NetworkGymSim
 def main():
     """main function"""
     build_ns3(config=True, build=True)

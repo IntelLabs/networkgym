@@ -1,4 +1,9 @@
 {
+  "rl_config":{
+    "agent": "",
+    "reward_type" : ""
+  },
+
   "env_config":{
     "type": "env-start",
     "steps_per_episode": 10,
@@ -6,24 +11,7 @@
     "num_users": 5,
     "measurement_start_time_ms": 1000,
     "measurement_interval_ms": 1000,
-    "measurement_guard_interval_ms": 0,
-    "respond_action_after_measurement": true
-  },
-
-  "rl_config":{
-    "agent": "",
-    "reward_type" : ""
-  },
-
-  "rl_config_option_list":
-  {
-    "agent": [""],
-    "reward_type" : [""]
-  },
-
-  "action_template":{
-      "type": "env-action",
-      "action_list":[
-      ]
+    "measurement_guard_interval_ms": 0
   }
+
 }

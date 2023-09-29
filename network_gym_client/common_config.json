@@ -1,5 +1,5 @@
 {
-  "algorithm_client_port": 8088,
+  "algorithm_client_port": 8092,
   "session_name": "test",
   "session_key": "test"
 }

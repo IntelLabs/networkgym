@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 project = 'NetworkGym'
-copyright = '2023, Intel Labs Multi-Access Intelligence'
+copyright = '2023, Intel Labs'
 author = 'Menglei Zhang'
 
 # -- General configuration ---------------------------------------------------

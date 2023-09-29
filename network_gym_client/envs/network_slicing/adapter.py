@@ -8,6 +8,8 @@ import sys
 from gymnasium import spaces
 import numpy as np
 from pathlib import Path
+import pandas as pd
+import json
 
 class Adapter(network_gym_client.adapter.Adapter):
     """network_slicing environment adapter.
@@ -23,14 +25,13 @@ class Adapter(network_gym_client.adapter.Adapter):
         """
         super().__init__(config_json)
         self.env = Path(__file__).resolve().parent.name
-        self.num_slices = len(self.config_json['env_config']['slice_list'])
-        self.num_features = 3
-        self.end_ts = 0
+        self.size_per_feature = len(self.config_json['env_config']['slice_list'])
+        self.num_features = 2
 
-        self.num_users = 0
+        num_users = 0
         for item in self.config_json['env_config']['slice_list']:
-            self.num_users += item['num_users']
-        self.config_json['env_config']['num_users'] = self.num_users
+            num_users += item['num_users']
+        self.config_json['env_config']['num_users'] = num_users
         
         rbg_size = self.get_rbg_size(self.config_json['env_config']['LTE']['resource_block_num'])
         self.rbg_num = self.config_json['env_config']['LTE']['resource_block_num']/rbg_size
@@ -45,7 +46,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: action spaces
         """
 
-        return spaces.Box(low=0, high=1, shape=(self.num_slices,), dtype=np.float32)
+        return spaces.Box(low=0, high=1, shape=(self.size_per_feature,), dtype=np.float32)
 
     
     #consistent with the get_observation function.
@@ -59,7 +60,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         # for network slicing, the user number is configured using the slice list. Cannot use the argument parser!
 
         return spaces.Box(low=0, high=1000,
-                                shape=(self.num_features, self.num_users), dtype=np.float32)
+                                shape=(self.num_features, self.size_per_feature), dtype=np.float32)
     
     def get_observation(self, df):
         """Prepare observation for network_slicing env.
@@ -73,70 +74,22 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: observation spaces
         """
         #print (df)
-        if not df.empty:
-            self.end_ts = int(df['end_ts'][0])
-        #data_recv_flat = df.explode(column=['user', 'value'])
-        #print(data_recv_flat)
 
-        df_rate = None
-        df_phy_wifi_max_rate = None
-        df_phy_lte_max_rate = None
-        df_phy_lte_slice_id = None
-        df_phy_lte_rb_usage = None
-        df_x_loc = None
-        df_y_loc = None
+        max_rate = np.empty(self.size_per_feature, dtype=object)
+        rb_usage = np.empty(self.size_per_feature, dtype=object)
+
         for index, row in df.iterrows():
-            if row['name'] == 'rate':
-                if row['cid'] == 'All':
-                    df_rate = row
-            elif row['name'] == 'max_rate':
-                if row['cid'] == 'LTE':
-                    df_phy_lte_max_rate = row
-                elif row['cid'] == 'Wi-Fi':
-                    df_phy_wifi_max_rate = row
-            elif row['name'] == 'slice_id':
-                df_phy_lte_slice_id = row
-            elif row['name'] == 'rb_usage':
-                df_phy_lte_rb_usage = row
-            elif row['name'] == 'x_loc':
-                df_x_loc = row
-            elif row['name'] == 'y_loc':
-                df_y_loc = row
-        #print(df_rate)
-        #print(df_phy_lte_max_rate)
-        #print(df_phy_wifi_max_rate)
-        #print(df_phy_lte_slice_id)
-        #Print(df_phy_lte_rb_usage)
-        #print(df_x_loc)
-        #Print(df_y_loc)
+            if row['source'] == 'lte':
+                if row['name'] == 'dl::cell::max_rate':
+                    max_rate = row['value']
+                    self.action_data_format = row
 
-        # if not empty and send to wanDB database
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_wifi_max_rate, "max-wifi-rate"))
-    
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_max_rate, "max-lte-rate"))
+                elif row['name'] == 'dl::cell::rb_usage':
+                    rb_usage = row['value']
 
-        dict_rate = self.df_to_dict(df_rate, 'rate')
-        dict_rate["sum_rate"] = sum(df_rate["value"])
-        self.wandb_log_buffer_append(dict_rate)
-
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_slice_id, "lte-slice-id"))
-
-        self.wandb_log_buffer_append(self.df_to_dict(df_phy_lte_rb_usage, "lte-rb-usage"))
-
-        self.wandb_log_buffer_append(self.df_to_dict(df_x_loc, "x_loc"))
-
-        self.wandb_log_buffer_append(self.df_to_dict(df_y_loc, "y_loc"))
-        
-        # Fill the empy features with -1
-        phy_lte_max_rate = self.fill_empty_feature(df_phy_lte_max_rate, -1)
-        phy_wifi_max_rate = self.fill_empty_feature(df_phy_wifi_max_rate, -1)
-        flow_rate = self.fill_empty_feature(df_rate, -1)
-
-        observation = np.vstack([phy_lte_max_rate, phy_wifi_max_rate, flow_rate])
-
-        # add a check that the size of observation equals the prepared observation space.
-        if len(observation) != self.num_features:
-            sys.exit("The size of the observation and self.num_features is not the same!!!")
+        #warning, need to modify the following if use more than one base stations.
+        observation = np.vstack([pd.json_normalize(max_rate)["value"].to_list(), pd.json_normalize(rb_usage)["value"].to_list()])
+        print('Observation --> ' + str(observation))
         return observation
 
     def get_policy(self, action):
@@ -148,32 +101,32 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             json: the network policy
         """
-
-        if action.size != self.num_slices:
-            sys.exit("The action size: " + str(action.size()) +" does not match with the number of slices:" + self.num_slices)
         # you may also check other constraints for action... e.g., min, max.
         
         # TODO: the sum of action should be smaller than 1!!!! Therefore the sum of scaled_action is smaller than the rbg_num
-        scaled_action= np.interp(action, (0, 1), (0, self.rbg_num/self.num_slices))
-        scaled_action = np.round(scaled_action).astype(int) # force it to be an interger.
+        scaled_action= np.interp(action, (0, 1), (0, self.rbg_num/self.size_per_feature))
+        scaled_action = np.round(scaled_action).astype(int) # force it to be an integer.
 
-        # you can add more tags
-        tags = {}
-        tags["end_ts"] = self.end_ts
-        tags["downlink"] = self.config_json["env_config"]["downlink"]
-        tags["cid"] = 'LTE'
-
-        tags["rb_type"] = "D"# dedicated RBG
         # this function will convert the action to a nested json format
-        policy1 = self.get_nested_json_policy('rb_allocation', tags, np.zeros(len(scaled_action)), 'slice')
-        tags["rb_type"] = "P"# prioritized RBG
-        policy2 = self.get_nested_json_policy('rb_allocation', tags, scaled_action, 'slice')
-        
-        tags["rb_type"] = "S"# shared RBG
-        policy3 = self.get_nested_json_policy('rb_allocation', tags, np.ones(len(scaled_action))*self.rbg_num, 'slice')
+        policy1 = json.loads(self.action_data_format.to_json())
+        policy1["name"] = "drb_allocation"
+
+        for item in policy1["value"]:
+            item["value"] = np.zeros(len(scaled_action)).tolist()
+
+        policy2 = json.loads(self.action_data_format.to_json())
+        policy2["name"] = "prb_allocation"
+
+        for item in policy2["value"]:
+            item["value"] = scaled_action.tolist()
+
+        policy3 = json.loads(self.action_data_format.to_json())
+        policy3["name"] = "srb_allocation"
+
+        for item in policy3["value"]:
+            item["value"] = list(np.ones(len(scaled_action))*self.rbg_num)
 
         policy = [policy1, policy2, policy3]
-
         print('Action --> ' + str(policy))
         return policy
 
@@ -186,59 +139,6 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: reward spaces
         """
-
-        df_tx_rate = None
-        df_phy_lte_slice_id = None
-        df_phy_lte_rb_usage = None
-
-        for index, row in df.iterrows():
-            if row['name'] == 'tx_rate':
-                df_tx_rate = row.to_frame().T.explode(column=['user', 'value'])
-            elif row['name'] == 'slice_id':
-                df_phy_lte_slice_id = row.to_frame().T.explode(column=['user', 'value'])
-            elif row['name'] == 'rb_usage':
-                df_phy_lte_rb_usage = row.to_frame().T.explode(column=['user', 'value'])
-
-        #print(df_tx_rate)
-        #print(df_phy_lte_slice_id)
-        #Print(df_phy_lte_rb_usage)
-
-        user_to_slice_id = np.zeros(len(df_phy_lte_slice_id))
-        df_phy_lte_slice_id = df_phy_lte_slice_id.reset_index()  # make sure indexes pair with number of rows
-        for index, row in df_phy_lte_slice_id.iterrows():
-            user_to_slice_id[row['user']] = int(row['value'])
-        #print (user_to_slice_id)
-
-        
-        df_tx_rate['slice_id']=user_to_slice_id[df_tx_rate['user'].astype(int)]
-        df_tx_rate['slice_value']= df_tx_rate.groupby(['slice_id'])['value'].transform('sum')
-
-        df_slice_tx_rate = df_tx_rate.drop_duplicates(subset=['slice_id'])
-        df_slice_tx_rate = df_slice_tx_rate.drop(columns=['user'])
-        df_slice_tx_rate = df_slice_tx_rate.drop(columns=['value'])
-
-        #print (df_tx_rate)
-        #print (df_slice_tx_rate)
-
-        df_phy_lte_rb_usage['slice_id']=user_to_slice_id[df_phy_lte_rb_usage['user'].astype(int)]
-        df_phy_lte_rb_usage['slice_value']= df_phy_lte_rb_usage.groupby(['slice_id'])['value'].transform('sum')
-
-        df_slice_lte_rb_usage = df_phy_lte_rb_usage.drop_duplicates(subset=['slice_id'])
-        df_slice_lte_rb_usage = df_slice_lte_rb_usage.drop(columns=['user'])
-        df_slice_lte_rb_usage = df_slice_lte_rb_usage.drop(columns=['value'])
-
-        #print (df_phy_lte_rb_usage)
-        #print (df_slice_lte_rb_usage)
-
-        
-        df_slice_tx_rate = self.slice_df_to_dict(df_slice_tx_rate, 'tx_rate')
-        #print(df_slice_tx_rate)
-
-        dict_slice_lte_rb_usage = self.slice_df_to_dict(df_slice_lte_rb_usage, 'rb_usage')
-        #print(dict_slice_lte_rb_usage)
-
-        self.wandb_log_buffer_append(df_slice_tx_rate)
-        self.wandb_log_buffer_append(dict_slice_lte_rb_usage)
 
         #TODO: add a reward function for you customized env
         reward = 0
