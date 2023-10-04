@@ -171,6 +171,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/rmcat.html">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
@@ -195,16 +196,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/congestion_control.html">Congestion Control</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Congestion Control</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../environments/congestion_control/rmcat.html">RMCAT</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Third-Party Agents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3 and CleanRL</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3/CleanRL</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -304,15 +309,13 @@
 <span class="sd">        Args:</span>
 <span class="sd">            policy (json): network policy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;respond_action_after_measurement&#39;</span><span class="p">]:</span>
-            <span class="n">action_json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;action_template&quot;</span><span class="p">]</span> <span class="c1">#load the action format from template</span>
-
-            <span class="n">action_json</span><span class="p">[</span><span class="s2">&quot;action_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">policy</span>
-            <span class="c1">#print(action_json)</span>
-            <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">action_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="c1">#print(identity +&quot; Send: &quot;+ json_str)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json_str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="c1">#send action</span>
+        <span class="n">action_json</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">action_json</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;env-action&quot;</span>
+        <span class="n">action_json</span><span class="p">[</span><span class="s2">&quot;action_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">policy</span>
+        <span class="c1">#print(action_json)</span>
+        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">action_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1">#print(identity +&quot; Send: &quot;+ json_str)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json_str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="c1">#send action</span>
 
     <span class="c1">#receive a msg from network gym server</span>
     <span class="k">def</span> <span class="nf">recv</span> <span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -364,10 +367,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: the processed network stats measurement</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#print(reply_json)</span>
+        <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;network_stats&#39;</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
         <span class="n">network_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;network_stats&#39;</span><span class="p">])</span> 
         <span class="k">if</span> <span class="s2">&quot;workload_stats&quot;</span> <span class="ow">in</span> <span class="n">reply_json</span><span class="p">:</span>
             <span class="c1"># workload measurement available</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Env Measurement --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;workload_stats&#39;</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Env (workload_stats) --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_json</span><span class="p">[</span><span class="s1">&#39;workload_stats&#39;</span><span class="p">]))</span>
             <span class="c1">#if &quot;sim_time_lapse_ms&quot; and &quot;time_lapse_ms&quot; in reply_json[&#39;workload_stats&#39;]:</span>
             <span class="c1">#    if reply_json[&#39;workload_stats&#39;][&#39;time_lapse_ms&#39;]&gt;0:</span>
             <span class="c1">#        print(&#39;Env Measurement --&gt; Percentage of time spend on simulation: &#39; + str(int(100*reply_json[&#39;workload_stats&#39;][&#39;sim_time_lapse_ms&#39;]/reply_json[&#39;workload_stats&#39;][&#39;time_lapse_ms&#39;])) + &#39;%&#39;)</span>

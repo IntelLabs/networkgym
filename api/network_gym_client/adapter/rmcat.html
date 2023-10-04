@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="qos_steer Adapter" href="qos_steer.html" /><link rel="prev" title="Adapter" href="../adapter.html" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="NorthBound" href="../northbound_interface.html" /><link rel="prev" title="network_slicing Adapter" href="network_slicing.html" />
 
     <!-- Generated with Sphinx 6.2.1 and Furo 2023.07.26 -->
-        <title>nqos_split Adapter - NetworkGym Docs</title>
+        <title>rmcat Adapter - NetworkGym Docs</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=369552022d0b975c8e74270ce6eabe0fb7978f24" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
@@ -169,10 +169,10 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../../network_gym_client.html">network_gym_client</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of network_gym_client</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../env.html">Env</a></li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="../adapter.html">Adapter</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Adapter</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">nqos_split Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="network_slicing.html">network_slicing Adapter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rmcat.html">rmcat Adapter</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../northbound_interface.html">NorthBound</a></li>
@@ -252,14 +252,14 @@
           </label>
         </div>
         <article role="main">
-          <section id="nqos-split-adapter">
-<h1>nqos_split Adapter<a class="headerlink" href="#nqos-split-adapter" title="Permalink to this heading">#</a></h1>
+          <section id="rmcat-adapter">
+<h1>rmcat Adapter<a class="headerlink" href="#rmcat-adapter" title="Permalink to this heading">#</a></h1>
 <section id="id1">
 <h2><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.</span></span><span class="sig-name descname"><span class="pre">Adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/network_gym_client/envs/nqos_split/adapter.html#Adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter" title="Permalink to this definition">#</a></dt>
-<dd><p>nqos_split env adapter.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.</span></span><span class="sig-name descname"><span class="pre">Adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/network_gym_client/envs/rmcat/adapter.html#Adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter" title="Permalink to this definition">#</a></dt>
+<dd><p>rmcat env adapter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>Adapter</strong> (<a class="reference internal" href="../adapter.html#network_gym_client.Adapter" title="network_gym_client.adapter.Adapter"><em>network_gym_client.adapter.Adapter</em></a>) – base class.</p>
@@ -276,13 +276,13 @@
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_observation">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_observation" title="Permalink to this definition">#</a></dt>
-<dd><p>Prepare observation for nqos_split env.</p>
-<p>This function should return the same number of features defined in the <a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space" title="network_gym_client.envs.nqos_split.Adapter.get_observation_space"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a>.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter.get_observation">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter.get_observation" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare observation for rmcat env.</p>
+<p>This function should return the same number of features defined in the <a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_observation_space" title="network_gym_client.envs.rmcat.Adapter.get_observation_space"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – network stats measurement</p>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.dataframe</em>) – network stats measurement</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>spaces</strong> – observation spaces</p>
@@ -291,9 +291,9 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_reward">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_reward" title="Permalink to this definition">#</a></dt>
-<dd><p>Prepare reward for the nqos_split env.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter.get_reward">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter.get_reward" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare reward for the rmcat env.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – network stats</p>
@@ -305,9 +305,9 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_policy">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_policy" title="Permalink to this definition">#</a></dt>
-<dd><p>Prepare policy for the nqos_split env.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter.get_policy">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter.get_policy" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare policy for the rmcat env.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action</strong> (<em>spaces</em>) – action from the RL agent</p>
@@ -319,33 +319,15 @@
 </dd></dl>
 
 </section>
-<section id="reward-method">
-<h3>Reward Method<a class="headerlink" href="#reward-method" title="Permalink to this heading">#</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.netowrk_util">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">netowrk_util</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">throughput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.netowrk_util" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates a network utility function based on throughput and delay, with a specified alpha value for balancing. Default Reward function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>throughput</strong> – a float representing the network throughput in bits per second</p></li>
-<li><p><strong>delay</strong> – a float representing the network delay in seconds</p></li>
-<li><p><strong>alpha</strong> – a float representing the alpha value for balancing (default is 0.5)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>a float representing the alpha-balanced metric</strong></p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="reward-methods">
+<h3>Reward Methods<a class="headerlink" href="#reward-methods" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="additional-methods">
 <h3>Additional Methods<a class="headerlink" href="#additional-methods" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_action_space">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_action_space" title="Permalink to this definition">#</a></dt>
-<dd><p>Get action space for the nqos_split env.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter.get_action_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_action_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter.get_action_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get action space for the rmcat env.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>spaces</strong> – action spaces</p>
@@ -354,9 +336,9 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.envs.nqos_split.Adapter.get_observation_space">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.nqos_split.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the observation space for nqos_split env.</p>
+<dt class="sig sig-object py" id="network_gym_client.envs.rmcat.Adapter.get_observation_space">
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.envs.rmcat.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_observation_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.envs.rmcat.Adapter.get_observation_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the observation space for rmcat env.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>spaces</strong> – observation spaces</p>
@@ -373,23 +355,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="qos_steer.html">
+          <a class="next-page" href="../northbound_interface.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">qos_steer Adapter</div>
+                <div class="title">NorthBound</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../adapter.html">
+          <a class="prev-page" href="network_slicing.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Adapter</div>
+                <div class="title">network_slicing Adapter</div>
                 
               </div>
             </a>
@@ -426,22 +408,19 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">nqos_split Adapter</a><ul>
+<li><a class="reference internal" href="#">rmcat Adapter</a><ul>
 <li><a class="reference internal" href="#id1"></a><ul>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter"><code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
 <li><a class="reference internal" href="#methods">Methods</a><ul>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_observation"><code class="docutils literal notranslate"><span class="pre">get_observation()</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_reward"><code class="docutils literal notranslate"><span class="pre">get_reward()</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_policy"><code class="docutils literal notranslate"><span class="pre">get_policy()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#reward-method">Reward Method</a><ul>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.netowrk_util"><code class="docutils literal notranslate"><span class="pre">netowrk_util()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#reward-methods">Reward Methods</a></li>
 <li><a class="reference internal" href="#additional-methods">Additional Methods</a><ul>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
-<li><a class="reference internal" href="#network_gym_client.envs.nqos_split.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_action_space"><code class="docutils literal notranslate"><span class="pre">get_action_space()</span></code></a></li>
+<li><a class="reference internal" href="#network_gym_client.envs.rmcat.Adapter.get_observation_space"><code class="docutils literal notranslate"><span class="pre">get_observation_space()</span></code></a></li>
 </ul>
 </li>
 </ul>

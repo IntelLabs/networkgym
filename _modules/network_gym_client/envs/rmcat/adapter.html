@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <!-- Generated with Sphinx 6.2.1 and Furo 2023.07.26 -->
-        <title>network_gym_client.envs.nqos_split.adapter - NetworkGym Docs</title>
+        <title>network_gym_client.envs.rmcat.adapter - NetworkGym Docs</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=369552022d0b975c8e74270ce6eabe0fb7978f24" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
@@ -250,7 +250,7 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for network_gym_client.envs.nqos_split.adapter</h1><div class="highlight"><pre>
+          <h1>Source code for network_gym_client.envs.rmcat.adapter</h1><div class="highlight"><pre>
 <span></span><span class="c1">#Copyright(C) 2023 Intel Corporation</span>
 <span class="c1">#SPDX-License-Identifier: Apache-2.0</span>
 <span class="c1">#File : adapter.py</span>
@@ -260,14 +260,13 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">gymnasium</span> <span class="kn">import</span> <span class="n">spaces</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
-<div class="viewcode-block" id="Adapter"><a class="viewcode-back" href="../../../../api/network_gym_client/adapter/nqos_split.html#network_gym_client.envs.nqos_split.Adapter">[docs]</a><span class="k">class</span> <span class="nc">Adapter</span><span class="p">(</span><span class="n">network_gym_client</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">Adapter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;nqos_split env adapter.</span>
+<div class="viewcode-block" id="Adapter"><a class="viewcode-back" href="../../../../api/network_gym_client/adapter/rmcat.html#network_gym_client.envs.rmcat.Adapter">[docs]</a><span class="k">class</span> <span class="nc">Adapter</span><span class="p">(</span><span class="n">network_gym_client</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">Adapter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;rmcat env adapter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        Adapter (network_gym_client.adapter.Adapter): base class.</span>
@@ -280,107 +279,104 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config_json</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;num_users&#39;</span><span class="p">])</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;nada_flows&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;env&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;[ERROR] wrong environment Adapter. Configured environment: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;env&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; != Launched environment: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">get_action_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get action space for the nqos_split env.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get action space for the rmcat env.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            spaces: action spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">RMCAT_CC_DEFAULT_RMIN</span> <span class="o">=</span> <span class="mi">150000</span>  <span class="c1"># in bps: 150Kbps </span>
+        <span class="n">RMCAT_CC_DEFAULT_RMAX</span> <span class="o">=</span> <span class="mf">1500000.</span> <span class="c1"># in bps: 1.5Mbps</span>
+        <span class="k">return</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">RMCAT_CC_DEFAULT_RMIN</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">RMCAT_CC_DEFAULT_RMAX</span><span class="p">,</span>
                                         <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
     <span class="c1">#consistent with the get_observation function.</span>
     <span class="k">def</span> <span class="nf">get_observation_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the observation space for nqos_split env.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the observation space for rmcat env.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            spaces: observation spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                             <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">get_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare observation for nqos_split env.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare observation for rmcat env.</span>
 
 <span class="sd">        This function should return the same number of features defined in the :meth:`get_observation_space`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            df (pd.DataFrame): network stats measurement</span>
+<span class="sd">            df (pd.dataframe): network stats measurement</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            spaces: observation spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1">#print (df)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">row_loglen</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_qdel</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_rtt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_ploss</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_plr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_xcurr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_rrate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">row_srate</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="n">rtt_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">xcurr_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">rrate_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-        <span class="n">df_rate</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_wifi_traffic_ratio</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_x_loc</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_y_loc</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_phy_wifi_max_rate</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_phy_lte_max_rate</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="n">rate_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
-        <span class="n">wifi_max_rate_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
-        <span class="n">lte_max_rate_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;gma&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::rate&#39;</span><span class="p">:</span>
-                    <span class="n">df_rate</span> <span class="o">=</span> <span class="n">row</span>
+            <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rmcat&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;loglen&#39;</span><span class="p">:</span>
+                    <span class="n">row_loglen</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;qdel&#39;</span><span class="p">:</span>
+                    <span class="n">row_qdel</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rtt&#39;</span><span class="p">:</span>
+                    <span class="n">row_rtt</span> <span class="o">=</span> <span class="n">row</span>
+                    <span class="n">rtt_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">action_data_format</span> <span class="o">=</span> <span class="n">row</span>
-                    <span class="n">rate_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;wifi::dl::traffic_ratio&#39;</span><span class="p">:</span>
-                    <span class="n">df_wifi_traffic_ratio</span> <span class="o">=</span> <span class="n">row</span>
-                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;x_loc&#39;</span><span class="p">:</span>
-                    <span class="n">df_x_loc</span> <span class="o">=</span> <span class="n">row</span>
-                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;y_loc&#39;</span><span class="p">:</span>
-                    <span class="n">df_y_loc</span> <span class="o">=</span> <span class="n">row</span>
-            <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;wifi&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::max_rate&#39;</span><span class="p">:</span>
-                    <span class="n">df_phy_wifi_max_rate</span> <span class="o">=</span> <span class="n">row</span>
-                    <span class="n">wifi_max_rate_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;lte&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::max_rate&#39;</span><span class="p">:</span>
-                    <span class="n">df_phy_lte_max_rate</span> <span class="o">=</span> <span class="n">row</span>
-                    <span class="n">lte_max_rate_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-        <span class="c1">#print(df_rate)</span>
-        <span class="c1">#print(df_phy_lte_max_rate)</span>
-        <span class="c1">#print(df_phy_wifi_max_rate)</span>
-        <span class="c1">#print(df_wifi_split_ratio)</span>
-        <span class="c1">#print(df_x_loc)</span>
-        <span class="c1">#Print(df_y_loc)</span>
-
-        <span class="c1"># if not empty and send to wanDB database</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_phy_wifi_max_rate</span><span class="p">))</span>
-    
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_phy_lte_max_rate</span><span class="p">))</span>
-
-        <span class="n">dict_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_rate</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">df_rate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">dict_rate</span><span class="p">[</span><span class="s2">&quot;sum_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df_rate</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="n">dict_rate</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_wifi_traffic_ratio</span><span class="p">))</span> 
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ploss&#39;</span><span class="p">:</span>
+                    <span class="n">row_ploss</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;plr&#39;</span><span class="p">:</span>
+                    <span class="n">row_plr</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;xcurr&#39;</span><span class="p">:</span>
+                    <span class="n">row_xcurr</span> <span class="o">=</span> <span class="n">row</span>
+                    <span class="n">xcurr_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rrate&#39;</span><span class="p">:</span>
+                    <span class="n">row_rrate</span> <span class="o">=</span> <span class="n">row</span>
+                    <span class="n">rrate_value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;srate&#39;</span><span class="p">:</span>
+                    <span class="n">row_srate</span> <span class="o">=</span> <span class="n">row</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_x_loc</span><span class="p">))</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_y_loc</span><span class="p">))</span>
         
-        <span class="n">observation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">lte_max_rate_value</span><span class="p">,</span> <span class="n">wifi_max_rate_value</span><span class="p">,</span> <span class="n">rate_value</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_loglen</span><span class="p">))</span> 
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_qdel</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_rtt</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_ploss</span><span class="p">))</span> 
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_plr</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_xcurr</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_rrate</span><span class="p">))</span> 
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">row_srate</span><span class="p">))</span>
+
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">rtt_value</span><span class="p">,</span> <span class="n">rrate_value</span><span class="p">,</span> <span class="n">xcurr_value</span><span class="p">])</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Observation --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">observation</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">observation</span>
 
     <span class="k">def</span> <span class="nf">get_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare policy for the nqos_split env.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare policy for the rmcat env.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            action (spaces): action from the RL agent</span>
@@ -388,20 +384,17 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            json: network policy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># you may also check other constraints for action... e.g., min, max.</span>
-        <span class="c1"># make sure you convert the action to list, e.g., using tolist(), before adding to policy[&quot;value&quot;].</span>
 
         <span class="n">policy1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_data_format</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
-        <span class="n">policy1</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wifi::dl::split_ratio&quot;</span>
-        <span class="n">policy1</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="c1">#convert to list type</span>
+        <span class="n">policy1</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;srate&quot;</span>
+        <span class="n">policy1</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-        <span class="n">policy</span> <span class="o">=</span> <span class="n">policy1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Action --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">policy</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">policy</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Action --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">policy1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">policy1</span>
 
     <span class="k">def</span> <span class="nf">get_reward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare reward for the nqos_split env.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare reward for the rmcat env.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            df (pd.DataFrame): network stats</span>
@@ -410,60 +403,13 @@
 <span class="sd">            spaces: reward spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">df_rate</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">df_owd</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;gma&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::rate&#39;</span><span class="p">:</span>
-                    <span class="n">df_rate</span> <span class="o">=</span> <span class="n">row</span>
-                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::owd&#39;</span><span class="p">:</span>
-                    <span class="n">df_owd</span> <span class="o">=</span> <span class="n">row</span>
-        
-        <span class="n">ave_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df_rate</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-        <span class="n">avg_delay</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df_owd</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-        <span class="n">max_delay</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">df_owd</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-
+        <span class="c1">#TODO: add a reward function for you rmcat env</span>
         <span class="n">reward</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;rl_config&quot;</span><span class="p">][</span><span class="s2">&quot;reward_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;utility&quot;</span><span class="p">:</span>
-            <span class="n">reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">netowrk_util</span><span class="p">(</span><span class="n">ave_rate</span><span class="p">,</span> <span class="n">avg_delay</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;[ERROR] reward type not supported yet&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_to_dict</span><span class="p">(</span><span class="n">df_owd</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">({</span><span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">,</span> <span class="s2">&quot;avg_delay&quot;</span><span class="p">:</span> <span class="n">avg_delay</span><span class="p">,</span> <span class="s2">&quot;max_delay&quot;</span><span class="p">:</span> <span class="n">max_delay</span><span class="p">})</span>
+        <span class="c1"># send info to wandb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">({</span><span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">})</span>
 
-        <span class="k">return</span> <span class="n">reward</span>
-
-    <span class="k">def</span> <span class="nf">netowrk_util</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throughput</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates a network utility function based on throughput and delay, with a specified alpha value for balancing. Default Reward function.</span>
-<span class="sd">        </span>
-<span class="sd">        Args:</span>
-<span class="sd">            throughput: a float representing the network throughput in bits per second</span>
-<span class="sd">            delay: a float representing the network delay in seconds</span>
-<span class="sd">            alpha: a float representing the alpha value for balancing (default is 0.5)</span>
-<span class="sd">        </span>
-<span class="sd">        Returns:</span>
-<span class="sd">            a float representing the alpha-balanced metric</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Calculate the logarithm of the delay in milliseconds</span>
-        <span class="n">log_delay</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
-        <span class="k">if</span> <span class="n">delay</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">log_delay</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
-
-        <span class="c1"># Calculate the logarithm of the throughput in mb per second</span>
-        <span class="n">log_throughput</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
-        <span class="k">if</span> <span class="n">throughput</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">log_throughput</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">throughput</span><span class="p">)</span>
-
-        <span class="c1">#print(&quot;delay:&quot;+str(delay) +&quot; log(owd):&quot;+str(log_delay) + &quot; throughput:&quot; + str(throughput)+ &quot; log(throughput):&quot; + str(log_throughput))</span>
-        
-        <span class="c1"># Calculate the alpha-balanced metric</span>
-        <span class="n">alpha_balanced_metric</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">log_throughput</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">log_delay</span>
-
-        <span class="n">alpha_balanced_metric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">alpha_balanced_metric</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="n">alpha_balanced_metric</span></div>
+        <span class="k">return</span> <span class="n">reward</span></div>
 </pre></div>
         </article>
       </div>

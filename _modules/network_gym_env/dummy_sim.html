@@ -171,6 +171,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/rmcat.html">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
@@ -195,16 +196,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/congestion_control.html">Congestion Control</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Congestion Control</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../environments/congestion_control/rmcat.html">RMCAT</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Third-Party Agents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3 and CleanRL</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3/CleanRL</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -352,7 +357,7 @@
                 <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
                 <span class="n">env_sim</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="k">break</span>
-            
+        <span class="n">poller</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">env_sim</span><span class="p">)</span>
         <span class="n">env_sim</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">env_identity</span> <span class="o">+</span> <span class="s1">&#39;: env_sim socket closed.&#39;</span><span class="p">)</span>
     
@@ -366,42 +371,17 @@
         <span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># all tags are optional</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;mbps&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;start_ts&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;end_ts&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span>
+        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;ts&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_ts</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;DL&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;GMA&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;All&#39;</span>
-        
+        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>        
 
-        <span class="n">output1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;Wi-Fi&#39;</span>
-        <span class="n">output2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-        <span class="n">output3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;qos_rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
+        <span class="n">output1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;measurement_1&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
+        <span class="n">output2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;measurement_2&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
+        <span class="n">output3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;measurement_3&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
+        <span class="n">output4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;measurement_4&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
 
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;LTE&#39;</span>
-        <span class="n">output4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;PHY&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;LTE&#39;</span>
-        <span class="n">output5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;max_rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;Wi-Fi&#39;</span>
-        <span class="n">output6</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;max_rate&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;GMA&#39;</span>
-        <span class="n">output7</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;split_ratio&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-
-
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;GMA&#39;</span>
-        <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;All&#39;</span>
-        <span class="n">output8</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_dummy_measurement</span><span class="p">(</span><span class="s1">&#39;owd&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_users</span><span class="p">);</span>
-
-        <span class="n">merged_list</span> <span class="o">=</span> <span class="n">output1</span> <span class="o">+</span> <span class="n">output2</span> <span class="o">+</span> <span class="n">output3</span> <span class="o">+</span> <span class="n">output4</span> <span class="o">+</span> <span class="n">output5</span> <span class="o">+</span> <span class="n">output6</span> <span class="o">+</span> <span class="n">output7</span> <span class="o">+</span> <span class="n">output8</span>
+        <span class="n">merged_list</span> <span class="o">=</span> <span class="n">output1</span> <span class="o">+</span> <span class="n">output2</span> <span class="o">+</span> <span class="n">output3</span> <span class="o">+</span> <span class="n">output4</span>
 
         <span class="c1">#print(terminated)</span>
         <span class="c1">#print(merged_list)</span>
@@ -435,7 +415,7 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_users</span><span class="p">):</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">id</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)])</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">tags</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -445,7 +425,7 @@
         <span class="n">group_by_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tags</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">group_by_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">json_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_list</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">))</span>
                 <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
                 <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">})</span>
                 <span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">))</span>

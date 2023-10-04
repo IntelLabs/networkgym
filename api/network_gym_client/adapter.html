@@ -172,6 +172,7 @@
 <li class="toctree-l3"><a class="reference internal" href="adapter/nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adapter/qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adapter/rmcat.html">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="northbound_interface.html">NorthBound</a></li>
@@ -196,16 +197,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/congestion_control.html">Congestion Control</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Congestion Control</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../environments/congestion_control/rmcat.html">RMCAT</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Third-Party Agents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3 and CleanRL</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3/CleanRL</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -289,7 +294,7 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
 
 <dl class="py function">
 <dt class="sig sig-object py" id="network_gym_client.Adapter.df_to_dict">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.Adapter.</span></span><span class="sig-name descname"><span class="pre">df_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.Adapter.df_to_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">network_gym_client.Adapter.</span></span><span class="sig-name descname"><span class="pre">df_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.Adapter.df_to_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>Transform datatype from pandas.dataframe to dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -317,24 +322,6 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>list</strong> – results after replace missing measurements with value</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="network_gym_client.Adapter.get_nested_json_policy">
-<span class="sig-prename descclassname"><span class="pre">network_gym_client.Adapter.</span></span><span class="sig-name descname"><span class="pre">get_nested_json_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_gym_client.Adapter.get_nested_json_policy" title="Permalink to this definition">#</a></dt>
-<dd><p>Convert the gymnasium action space to nested json format</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>action_name</strong> (<em>str</em>) – name of the action</p></li>
-<li><p><strong>tags</strong> (<em>dict</em>) – custom tags for this action</p></li>
-<li><p><strong>action</strong> (<em>Spaces</em>) – action from the rl agent</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>json</strong> – a nested json policy for the network</p>
 </dd>
 </dl>
 </dd></dl>
@@ -409,7 +396,6 @@ It also transforms the action (Spaces) to a policy (json) that can be applied to
 <li><a class="reference internal" href="#network_gym_client.Adapter.wandb_log"><code class="docutils literal notranslate"><span class="pre">wandb_log()</span></code></a></li>
 <li><a class="reference internal" href="#network_gym_client.Adapter.df_to_dict"><code class="docutils literal notranslate"><span class="pre">df_to_dict()</span></code></a></li>
 <li><a class="reference internal" href="#network_gym_client.Adapter.fill_empty_feature"><code class="docutils literal notranslate"><span class="pre">fill_empty_feature()</span></code></a></li>
-<li><a class="reference internal" href="#network_gym_client.Adapter.get_nested_json_policy"><code class="docutils literal notranslate"><span class="pre">get_nested_json_policy()</span></code></a></li>
 </ul>
 </li>
 </ul>

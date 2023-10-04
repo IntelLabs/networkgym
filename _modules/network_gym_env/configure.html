@@ -171,6 +171,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/network_gym_client/adapter/rmcat.html">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
@@ -195,16 +196,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../environments/congestion_control.html">Congestion Control</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Congestion Control</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../environments/congestion_control/rmcat.html">RMCAT</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Third-Party Agents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3 and CleanRL</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3/CleanRL</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -323,74 +328,82 @@
         <span class="n">poller</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Poller</span><span class="p">()</span>
         <span class="n">poller</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">env_config</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">zmq</span><span class="o">.</span><span class="n">POLLIN</span><span class="p">)</span>
         
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># Send Hello msg.</span>
+                <span class="n">hello_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-hello&quot;}&#39;</span><span class="p">)</span>
+                <span class="n">hello_msg</span><span class="p">[</span><span class="s2">&quot;env_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span> <span class="c1"># add supported env_list to hello msg</span>
+                <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">hello_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Hello msg does not include client</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: send env-hello msg.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">hello_msg</span><span class="p">)</span>
 
-            <span class="c1"># Send Hello msg.</span>
-            <span class="n">hello_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-hello&quot;}&#39;</span><span class="p">)</span>
-            <span class="n">hello_msg</span><span class="p">[</span><span class="s2">&quot;env_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span> <span class="c1"># add supported env_list to hello msg</span>
-            <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">hello_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Hello msg does not include client</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: send env-hello msg.&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">hello_msg</span><span class="p">)</span>
+                <span class="c1"># resend hello msg after 5 seconds if no msg is received.</span>
+                <span class="c1"># [Warning] always use a poll with timeout before receiving a msg (recv_multipart)! otherwise, it may stuck forever!</span>
+                <span class="k">if</span> <span class="n">poller</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="mi">1000</span><span class="p">):</span>
 
-            <span class="c1"># resend hello msg after 5 seconds if no msg is received.</span>
-            <span class="c1"># [Warning] always use a poll with timeout before receiving a msg (recv_multipart)! otherwise, it may stuck forever!</span>
-            <span class="k">if</span> <span class="n">poller</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="mi">1000</span><span class="p">):</span>
+                    <span class="c1"># received a new msg</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">env_config</span><span class="o">.</span><span class="n">recv_multipart</span><span class="p">()</span>
 
-                <span class="c1"># received a new msg</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">env_config</span><span class="o">.</span><span class="n">recv_multipart</span><span class="p">()</span>
-                <span class="n">msg_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
-                <span class="k">if</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;env-start&quot;</span><span class="p">:</span>
-                    <span class="c1"># In idle mode (periodic sending env-hello msg), the first msg should be &quot;env-start&quot;</span>
-
-                    <span class="c1"># check if the env is supported (in the env_list)</span>
-                    <span class="k">if</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span><span class="p">:</span>
-                        <span class="c1"># not supported env</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown Environment!&quot;</span><span class="p">)</span>
-                        <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;, &quot;error_msg&quot;: &quot;Unkown Environment!&quot;}&#39;</span><span class="p">)</span>
-                        <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                        <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;[Error] Ignore msg with wrong size:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)))</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                         <span class="k">continue</span>
 
-                    <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: Recv.&#39;</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">msg_json</span><span class="p">)</span>
-                    <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="n">msg_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">msg_json</span> <span class="ow">and</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;env-start&quot;</span><span class="p">:</span>
+                        <span class="c1"># In idle mode (periodic sending env-hello msg), the first msg should be &quot;env-start&quot;</span>
+                        <span class="c1"># check if the env is supported (in the env_list)</span>
+                        <span class="k">if</span> <span class="s2">&quot;env&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msg_json</span> <span class="ow">or</span> <span class="n">msg_json</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span><span class="p">:</span>
+                            <span class="c1"># not supported env</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown Environment!&quot;</span><span class="p">)</span>
+                            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;, &quot;error_msg&quot;: &quot;Unkown Environment!&quot;}&#39;</span><span class="p">)</span>
+                            <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                            <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                            <span class="k">continue</span>
 
-                    <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket closed.&#39;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: Recv.&#39;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg_json</span><span class="p">)</span>
+                        <span class="n">poller</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">env_config</span><span class="p">)</span>
+                        <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-                    <span class="c1"># start simulator -------------------&gt;</span>
-                    <span class="c1"># The simulator will start a new socket to send measurement and receive action.</span>
-                    <span class="c1"># use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.</span>
-                    <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">msg_json</span><span class="p">)</span> <span class="c1"># replace it with your own simulator.</span>
-                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
-                        <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
-                    <span class="c1"># simulator terminated &lt;-------------------</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket closed.&#39;</span><span class="p">)</span>
 
-                    <span class="c1"># env_config reconnect the server.</span>
-                    <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
+                        <span class="c1"># start simulator -------------------&gt;</span>
+                        <span class="c1"># The simulator will start a new socket to send measurement and receive action.</span>
+                        <span class="c1"># use try except such that if there is an error in the simulator, the thread will not stop and we can report the error to the client.</span>
+                        <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">msg_json</span><span class="p">)</span> <span class="c1"># replace it with your own simulator.</span>
+                        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+                            <span class="n">sim_error_msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+                        <span class="c1"># simulator terminated &lt;-------------------</span>
 
-                    <span class="n">poller</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">env_config</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">zmq</span><span class="o">.</span><span class="n">POLLIN</span><span class="p">)</span>
+                        <span class="c1"># env_config reconnect the server.</span>
+                        <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
+                        
+                        <span class="n">poller</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">env_config</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">zmq</span><span class="o">.</span><span class="n">POLLIN</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">sim_error_msg</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-                        <span class="c1"># simualtor crashed with error msg, relay to error msg to client</span>
-                        <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;}&#39;</span><span class="p">)</span>
-                        <span class="n">error_msg</span><span class="p">[</span><span class="s2">&quot;error_msg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_error_msg</span>
-                        <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                        <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="c1"># Env End msg</span>
+                        <span class="k">if</span> <span class="n">sim_error_msg</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                            <span class="c1"># simualtor crashed with error msg, relay to error msg to client</span>
+                            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;}&#39;</span><span class="p">)</span>
+                            <span class="n">error_msg</span><span class="p">[</span><span class="s2">&quot;error_msg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_error_msg</span>
+                            <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                            <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="c1"># Env End msg</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># no error, send env-end to terminate client to env worker mapping</span>
+                            <span class="n">end_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-end&quot;}&#39;</span><span class="p">)</span>
+                            <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">end_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Env End msg</span>
+
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># no error, send env-end to terminate client to env worker mapping</span>
-                        <span class="n">end_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-end&quot;}&#39;</span><span class="p">)</span>
-                        <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">([</span><span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">end_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)])</span><span class="c1"># Env End msg</span>
-
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown MSG type, Expecting env-start!&quot;</span><span class="p">)</span>
-                    <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;, &quot;error_msg&quot;: &quot;Unkown MSG type, Expecting env-start!&quot;}&#39;</span><span class="p">)</span>
-                    <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                    <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unkown MSG type, Expecting env-start!&quot;</span><span class="p">)</span>
+                        <span class="n">error_msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;env-error&quot;, &quot;error_msg&quot;: &quot;Unkown MSG type, Expecting env-start!&quot;}&#39;</span><span class="p">)</span>
+                        <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                        <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">poller</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">env_config</span><span class="p">)</span>
+            <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 </pre></div>
         </article>
       </div>

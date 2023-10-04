@@ -9,6 +9,7 @@ title: Adapter
 adapter/nqos_split
 adapter/qos_steer
 adapter/network_slicing
+adapter/rmcat
 
 ```
 
@@ -25,5 +26,4 @@ adapter/network_slicing
 .. autofunction:: network_gym_client.Adapter.wandb_log
 .. autofunction:: network_gym_client.Adapter.df_to_dict
 .. autofunction:: network_gym_client.Adapter.fill_empty_feature
-.. autofunction:: network_gym_client.Adapter.get_nested_json_policy
 ```

@@ -9,6 +9,7 @@ title: Multi-Access QoS Traffic Steering
 width: 70%
 ---
 ```
+[config.json]: https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/qos_steer/config.json
 
 The Multi-Access (MX) QoS Traffic Steering environment is part of the multi-access traffic management environments and provides general information about the environment.
 In this environment, the agent performs periodic actions to select a link to steer traffic over for each user, considering both Wi-Fi and LTE connections.
@@ -17,16 +18,14 @@ In this environment, the agent performs periodic actions to select a link to ste
 | ----- | ---- |
 | Observation Space | `Box(0, Inf, (3, N,), float32)`  |
 | Action Space |  `MultiDiscrete([2, 2, ..., 2]) # N dimension`  |
-| Arguments | [config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/qos_steer/config.json)  |
+| Arguments | [config.json] |
 | Select Environment | `config_json = load_config_file('qos_steer')` <br> `env = NetworkGymEnv(client_id, config_json)`  |
 
 ## Description
 
 The Multi-Access (MX) QoS Traffic Steering scenario presents the challenge of efficiently managing traffic for multiple users distributed randomly across a 2D plane. Each user has access to both Cellular and Wi-Fi links. The primary goal of traffic management is to intelligently direct the traffic through either of these links, aiming to achieve the best Quality of Service (QoS).
 
-Regarding the Cellular link, there is a bandwidth constraint, and the scheduler will halt the admission of users when the bandwidth capacity is reached. For instance, if 10 users are directed over the Cellular link, but only 5 of them can be accommodated with the required QoS, the Cellular link will prioritize serving the first 5 users with QoS and will drop the remaining 5 users.
-
-On the other hand, the Wi-Fi link operates differently as it lacks admission control. All users contend for available bandwidth without any restrictions on user admission.
+If `enable_dynamic_flow_prioritization` is false, all users contend for available bandwidth over Cellular and WiFi without any restrictions on user admission. However, if `enable_dynamic_flow_prioritization` is true, GMA dynamically selects a subset of users to assign high priority with DSCP marking. Both Cellular and WiFi prioritize users with high priority.
 
 We can adjust the following QoS parameters:
 ```json
@@ -54,28 +53,11 @@ The observation is an `ndarray` with shape `(3,N,)` representing three features 
 | 1 | MAX Wi-Fi rate  (mbps) | 0.0 | Inf |
 | 2 | throughput (mbps) | 0.0 | Inf|
 
-
-````{Note}
-
-```{eval-rst}
-The Observation Space can be customized in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_observation` function.
-```
-Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
-````
-
-```{tip}
-The Observation Space can be normalized using the [NormalizeObservation](https://gymnasium.farama.org/_modules/gymnasium/wrappers/normalize/#NormalizeObservation) wrapper.
-```
-
 ## Action Space
 
 The action is a `ndarray` with shape `(N,)` which can take values {0, 1} indicating the link to transmit data. N is the number of users.
 - 0: Steer traffic over Cellular
 - 1: Steer traffic over Wi-Fi
-
-```{tip}
-The Action Space can be rescaled using the [RescaleAction](https://gymnasium.farama.org/_modules/gymnasium/wrappers/rescale_action/) wrapper.
-```
 
 ## Reward
 
@@ -85,25 +67,93 @@ We computes the number of Quality of Service (QoS) users over Wi-Fi as reward fu
 
 ```
 
-````{Note}
+## Custom Observation Space and Reward
+1. Edit the "subscribed_network_stats" in the [config.json] to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of 'unused' data and reduces overhead. 
+To subscribe to a specific measurement, add its `source`::`name` combination to the "subscribed_network_stats" list. For example, appending `gma::wifi::dl::traffic_ratio` to the list would enable receiving measurements with the name `wifi::dl::traffic_ratio` from the source `gma`.
+
+:::{dropdown} Click to view a demo of all measurements for this environment.
+
+Refer to [Working with Measurements](../../tutorials/working_with_measurements.md) for further elaboration of the following measurements.
+
+```
+                          id                        name source     ts                                              value
+0   [1, 2, 3, 4, 5, 6, 7, 8]                dl::max_rate    lte  11000   [18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0, 18.0]
+1   [1, 2, 3, 4, 5, 6, 7, 8]                     cell_id    lte  11000           [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+2   [1, 2, 3, 4, 5, 6, 7, 8]                    slice_id    lte  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+3   [1, 2, 3, 4, 5, 6, 7, 8]                dl::rb_usage    lte  11000  [5.091666666666667, 0.09166666666666666, 4.016...
+4                        [1]          dl::cell::max_rate    lte  11000                  [{'slice': [0], 'value': [18.0]}]
+5                        [1]          dl::cell::rb_usage    lte  11000    [{'slice': [0], 'value': [54.983333333333334]}]
+6   [1, 2, 3, 4, 5, 6, 7, 8]           ul::missed_action    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+7   [1, 2, 3, 4, 5, 6, 7, 8]          ul::measurement_ok    gma  11000           [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+8   [1, 2, 3, 4, 5, 6, 7, 8]                    ul::rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+9   [1, 2, 3, 4, 5, 6, 7, 8]                ul::qos_rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+10  [1, 2, 3, 4, 5, 6, 7, 8]         ul::delay_violation    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+11  [1, 2, 3, 4, 5, 6, 7, 8]  ul::delay_test_1_violation    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+12  [1, 2, 3, 4, 5, 6, 7, 8]  ul::delay_test_2_violation    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+13  [1, 2, 3, 4, 5, 6, 7, 8]                     ul::owd    gma  11000   [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
+14  [1, 2, 3, 4, 5, 6, 7, 8]                 ul::max_owd    gma  11000   [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
+15  [1, 2, 3, 4, 5, 6, 7, 8]                 dl::tx_rate    gma  11000  [3.05, 2.033, 3.061, 3.061, 2.044, 2.044, 2.03...
+16  [1, 2, 3, 4, 5, 6, 7, 8]          wifi::dl::priority    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+17  [1, 2, 3, 4, 5, 6, 7, 8]              wifi::ul::rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+18  [1, 2, 3, 4, 5, 6, 7, 8]          wifi::ul::qos_rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+19  [1, 2, 3, 4, 5, 6, 7, 8]     wifi::ul::traffic_ratio    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+20  [1, 2, 3, 4, 5, 6, 7, 8]               wifi::ul::owd    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+21  [1, 2, 3, 4, 5, 6, 7, 8]           wifi::ul::max_owd    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+22  [1, 2, 3, 4, 5, 6, 7, 8]           lte::dl::priority    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+23  [1, 2, 3, 4, 5, 6, 7, 8]               lte::ul::rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+24  [1, 2, 3, 4, 5, 6, 7, 8]           lte::ul::qos_rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+25  [1, 2, 3, 4, 5, 6, 7, 8]      lte::ul::traffic_ratio    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+26  [1, 2, 3, 4, 5, 6, 7, 8]                lte::ul::owd    gma  11000   [11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0]
+27  [1, 2, 3, 4, 5, 6, 7, 8]            lte::ul::max_owd    gma  11000   [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0]
+28  [1, 2, 3, 4, 5, 6, 7, 8]       wifi::dl::split_ratio    gma  11000           [1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0]
+29  [1, 2, 3, 4, 5, 6, 7, 8]        lte::dl::split_ratio    gma  11000           [0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0]
+30  [1, 2, 3, 4, 5, 6, 7, 8]           dl::missed_action    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+31  [1, 2, 3, 4, 5, 6, 7, 8]          dl::measurement_ok    gma  11000           [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+32  [1, 2, 3, 4, 5, 6, 7, 8]                    dl::rate    gma  11000  [3.928, 2.04, 3.752, 3.728, 2.032, 2.04, 2.04,...
+33  [1, 2, 3, 4, 5, 6, 7, 8]                dl::qos_rate    gma  11000     [0.0, 2.04, 0.0, 0.0, 2.032, 2.04, 2.04, 2.04]
+34  [1, 2, 3, 4, 5, 6, 7, 8]         dl::delay_violation    gma  11000     [29.36, 0.0, 23.708, 26.3, 0.0, 0.0, 0.0, 0.0]
+35  [1, 2, 3, 4, 5, 6, 7, 8]  dl::delay_test_1_violation    gma  11000     [20.93, 0.0, 7.599, 7.645, 0.0, 0.0, 0.0, 0.0]
+36  [1, 2, 3, 4, 5, 6, 7, 8]  dl::delay_test_2_violation    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+37  [1, 2, 3, 4, 5, 6, 7, 8]                     dl::owd    gma  11000        [69.0, 0.0, 47.0, 53.0, 3.0, 0.0, 3.0, 0.0]
+38  [1, 2, 3, 4, 5, 6, 7, 8]                 dl::max_owd    gma  11000     [288.0, 3.0, 229.0, 229.0, 3.0, 3.0, 3.0, 4.0]
+39  [1, 2, 3, 4, 5, 6, 7, 8]                 ul::tx_rate    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+40  [1, 2, 3, 4, 5, 6, 7, 8]                       x_loc    gma  11000  [17.205, 11.659, 79.389, 55.285, 23.856, 30.13...
+41  [1, 2, 3, 4, 5, 6, 7, 8]                       y_loc    gma  11000  [7.294, 3.042, 3.656, 9.48, 4.126, 8.449, 1.69...
+42  [1, 2, 3, 4, 5, 6, 7, 8]          wifi::ul::priority    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+43  [1, 2, 3, 4, 5, 6, 7, 8]              wifi::dl::rate    gma  11000  [3.048, 2.032, 3.056, 0.0, 0.0, 2.032, 0.0, 2....
+44  [1, 2, 3, 4, 5, 6, 7, 8]          wifi::dl::qos_rate    gma  11000     [0.0, 2.032, 0.0, 0.0, 0.0, 2.032, 0.0, 2.032]
+45  [1, 2, 3, 4, 5, 6, 7, 8]     wifi::dl::traffic_ratio    gma  11000      [78.0, 99.0, 81.0, 0.0, 0.0, 99.0, 0.0, 99.0]
+46  [1, 2, 3, 4, 5, 6, 7, 8]               wifi::dl::owd    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+47  [1, 2, 3, 4, 5, 6, 7, 8]           wifi::dl::max_owd    gma  11000           [4.0, 3.0, 3.0, 0.0, 0.0, 3.0, 2.0, 3.0]
+48  [1, 2, 3, 4, 5, 6, 7, 8]           lte::ul::priority    gma  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+49  [1, 2, 3, 4, 5, 6, 7, 8]               lte::dl::rate    gma  11000  [0.872, 0.008, 0.696, 3.728, 2.032, 0.008, 2.0...
+50  [1, 2, 3, 4, 5, 6, 7, 8]           lte::dl::qos_rate    gma  11000  [0.0, 0.008, 0.0, 0.0, 2.032, 0.008, 2.04, 0.008]
+51  [1, 2, 3, 4, 5, 6, 7, 8]      lte::dl::traffic_ratio    gma  11000   [22.0, 1.0, 19.0, 100.0, 100.0, 1.0, 100.0, 1.0]
+52  [1, 2, 3, 4, 5, 6, 7, 8]                lte::dl::owd    gma  11000      [239.0, 3.0, 187.0, 53.0, 3.0, 3.0, 3.0, 3.0]
+53  [1, 2, 3, 4, 5, 6, 7, 8]            lte::dl::max_owd    gma  11000     [288.0, 3.0, 229.0, 229.0, 3.0, 3.0, 3.0, 4.0]
+54  [1, 2, 3, 4, 5, 6, 7, 8]                     cell_id   wifi  11000           [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+55  [1, 2, 3, 4, 5, 6, 7, 8]                dl::max_rate   wifi  11000   [65.0, 65.0, 39.0, 78.0, 78.0, 78.0, 78.0, 78.0]
+56  [1, 2, 3, 4, 5, 6, 7, 8]                ul::max_rate   wifi  11000   [52.0, 65.0, 52.0, 78.0, 78.0, 78.0, 65.0, 65.0]
+```
+
+:::
 
 ```{eval-rst}
-The Reward can be customized in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_reward` function.
+2. Customize Observation Space in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_observation` function.
+3. Customize Reward in the :meth:`network_gym_client.envs.qos_steer.Adapter.get_reward` function.
 ```
-Refer to [Customizing Observation and Reward](../../tutorials/customizing_observation_and_reward.md) for further elaboration, along with a list of network statistics measurements.
-````
+
 
 ## Arguments
 
-All the network configurable parameters are defined in the JSON files. When the client starts, the JSON files will be loaded and transmitted to the server to configure the environment.
+All the network configurable parameters are defined in the [config.json]. When the client starts, the JSON file will be loaded and transmitted to the server to configure the environment.
 See the [NetworkGym GitHub Repo](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
 
 ## Starting State
 The position of the users is assigned by a uniform random value in a 2D plane with configurable (x, y) boundaries. Every user installs a [random walk mobility model](https://www.nsnam.org/docs/release/3.20/doxygen/classns3_1_1_random_walk2d_mobility_model.html).The mobility parameters can also be configured in the JSON file.
 
 ## Episode End
-
-A NetworkGym environment operates for a specified number of episodes, denoted as episodes_per_session (E), and each episode is truncated after a certain number of time steps, denoted as steps_per_episode (L). Resulting in E*L time steps per environment session. Both E and L can be customized through JSON configuration files.
+A NetworkGym environment operates for a specified number of episodes, denoted as episodes_per_session (E), and each episode is truncated after a certain number of time steps, denoted as steps_per_episode (L). Resulting in E*L time steps per environment session. Both E and L can be customized through [config.json].
 The episode ends if either of the following happens:
 1. Truncation: The length of each episode is L steps. Once an episode is truncated, the environment continues to run, generating results for the subsequent episode. It’s important to note that the environment parameters cannot be reconfigured after the end of a truncated episode.
 2. Termination: The environment terminates after E episodes. At this point, the agent has the option to reconfigure the environment to continue training or to exit the program entirely.

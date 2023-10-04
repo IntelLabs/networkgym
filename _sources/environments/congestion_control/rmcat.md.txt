@@ -1,0 +1,93 @@
+---
+title: RMCAT
+---
+(cards-rmcat)=
+# RMCAT
+```{figure} rmcat.png
+---
+width: 50%
+---
+```
+
+[config.json]: https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/rmcat/config.json
+
+The RMCAT environment is part of the congestion control environments and provides general information about the environment.
+In this environment, the agent performs periodic actions to control the sending rate of a real-time traffic RMCAT (NADA) flow.
+
+| | |
+| ----- | ---- |
+| Observation Space | `Box(0, Inf, (3,), float32)`  |
+| Action Space |  `Box(150000.0, 1500000.0, (1,), float32)`  |
+| Arguments | [config.json]  |
+| Select Environment | `config_json = load_config_file('rmcat')` <br> `env = NetworkGymEnv(client_id, config_json)`  |
+
+## Description
+
+The RMCAT environment represents a congestion control problem for real-time traffic. The goal of congestion control is to strategically controls sending rate, aiming to achieve high throughput, low latency and low loss.
+
+## Prerequisite
+
+Ensure that you have access to the NetworkGym Server on [vLab](https://registration.intel-research.net/) machines and have downloaded the [NetworkGym](https://github.com/IntelLabs/networkgym).
+
+## Observation Space
+
+The observation is an `ndarray` with shape `(3,)` representing three features. The first feature is `rtt`, representing the round trip time. The second feature is `xcurr`, represeting the congestion level. The third feature is the received throughput `rrate`.
+
+| Feature | Observation | Min | Max |
+| ----- | ---- | ----- | ---- |
+| 0 | rtt (ms) | 0.0 | Inf |
+| 1 | xcurr | 0.0 | 500.0 |
+| 2 | rrate (bps) | 0.0 | Inf|
+
+## Action Space
+The action space is a `ndarray` with shape `(1,)` representing the sending rate of rmcat flow. The min value is 150000 and max value is 1500000.
+
+
+## Reward
+
+TODO
+
+## Custom Observation Space and Reward
+1. Edit the "subscribed_network_stats" in the [config.json] to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of 'unused' data and reduces overhead. 
+To subscribe to a specific measurement, add its `source`::`name` combination to the "subscribed_network_stats" list. For example, appending `rmcat::rtt` to the list would enable receiving measurements with the name `rtt` from the source `rmcat`.
+
+:::{dropdown} Click to view a demo of all measurements for this environment.
+
+Refer to [Working with Measurements](../../tutorials/working_with_measurements.md) for further elaboration of the following measurements.
+
+```
+     id        name source      ts                value
+0   [0]      loglen  rmcat  100710               [58.0]
+1   [0]        qdel  rmcat  100710               [30.0]
+2   [0]         rtt  rmcat  100710               [55.0]
+3   [0]       ploss  rmcat  100710                [0.0]
+4   [0]         plr  rmcat  100710                [0.0]
+5   [0]       xcurr  rmcat  100710  [30.17099952697754]
+6   [0]       rrate  rmcat  100710         [774531.375]
+7   [0]       srate  rmcat  100710           [585416.0]
+8   [0]  nada_srate  rmcat  100710        [557536.1875]
+9   [0]      avgint  rmcat  100710                [0.0]
+10  [0]      curint  rmcat  100710                [0.0]
+```
+
+:::
+
+```{eval-rst}
+2. Customize Observation Space in the :meth:`network_gym_client.envs.rmcat.Adapter.get_observation` function.
+3. Customize Reward in the :meth:`network_gym_client.envs.rmcat.Adapter.get_reward` function.
+```
+
+## Arguments
+
+All the network configurable parameters are defined in the [config.json]. When the client starts, the JSON file will be loaded and transmitted to the server to configure the environment.
+See the [NetworkGym GitHub Repo](https://github.com/IntelLabs/networkgym#%EF%B8%8F-configurable-file-format) for more details.
+
+## Episode End
+A NetworkGym environment operates for a specified number of episodes, denoted as episodes_per_session (E), and each episode is truncated after a certain number of time steps, denoted as steps_per_episode (L). Resulting in E*L time steps per environment session. Both E and L can be customized through [config.json].
+The episode ends if either of the following happens:
+1. Truncation: The length of each episode is L steps. Once an episode is truncated, the environment continues to run, generating results for the subsequent episode. It’s important to note that the environment parameters cannot be reconfigured after the end of a truncated episode.
+2. Termination: The environment terminates after E episodes. At this point, the agent has the option to reconfigure the environment to continue training or to exit the program entirely.
+
+```{tip}
+See [Handling Time Limits](../../tutorials/handling_time_limits.md) for more details about Episode End.
+```

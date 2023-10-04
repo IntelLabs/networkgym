@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contact" href="../contact.html" /><link rel="prev" title="Customizing Observation and Reward" href="customizing_observation_and_reward.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contact" href="../contact.html" /><link rel="prev" title="Working with Measurements" href="working_with_measurements.html" />
 
     <!-- Generated with Sphinx 6.2.1 and Furo 2023.07.26 -->
         <title>Implementing Custom Environment - NetworkGym Docs</title>
@@ -172,6 +172,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/nqos_split.html">nqos_split Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/qos_steer.html">qos_steer Adapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/network_slicing.html">network_slicing Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/network_gym_client/adapter/rmcat.html">rmcat Adapter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/network_gym_client/northbound_interface.html">NorthBound</a></li>
@@ -196,16 +197,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../environments/mx_network_slicing/cellular_network_slicing.html">Cellular Network Slicing</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../environments/congestion_control.html">Congestion Control</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Congestion Control</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../environments/congestion_control/rmcat.html">RMCAT</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Third-Party Agents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3 and CleanRL</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pinyaras/GMAClient">Stable-Baselines3/CleanRL</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="handling_time_limits.html">Handling Time Limits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="customizing_observation_and_reward.html">Customizing Observation and Reward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -303,7 +308,7 @@
 </section>
 <section id="substituting-the-dummy-simulator">
 <h2>Substituting the Dummy Simulator<a class="headerlink" href="#substituting-the-dummy-simulator" title="Permalink to this heading">#</a></h2>
-<p>Once you’ve successfully established a connection between your client and the custom environment, you’re ready to substitute the dummy simulator with your proprietary simulator or testbed. Utilize the dummy simulator as a reference for interacting with the server via the southbound interface. Essentially, your task involves utilizing the southbound interface to establish a connection with the server, transmitting measurement data in JSON format, and receiving action instructions, mirroring the processes demonstrated by the <code class="docutils literal notranslate"><span class="pre">Env_Sim</span></code> Entity in the <a class="reference internal" href="../api/network_gym_env.html#networkgym-uml-sequence-diagram"><span class="std std-ref">networkgym-uml-sequence-diagram</span></a>.</p>
+<p>Once you’ve successfully established a connection between your client and the custom environment, you’re ready to substitute the dummy simulator with your proprietary simulator or testbed. Utilize the dummy simulator as a reference for interacting with the server via the southbound interface. Essentially, your task involves utilizing the southbound interface to establish a connection with the server, transmitting measurement data in JSON format, and receiving action instructions, mirroring the processes demonstrated by the <code class="docutils literal notranslate"><span class="pre">Env_Sim</span></code> Entity in the <a class="reference internal" href="../api/network_gym_env.html#networkgym-uml-sequence-diagram"><span class="std std-ref">NetworkGym UML Sequence Diagram</span></a>.</p>
 <p>Additionally, it’s essential to modify the Adapter class located in <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/custom/adapter.py">envs/custom/adapter.py</a> to align with the measurements and tags generated by your proprietary simulator or testbed.</p>
 </section>
 <section id="releasing-your-custom-environment">
@@ -326,14 +331,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="customizing_observation_and_reward.html">
+          <a class="prev-page" href="working_with_measurements.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Customizing Observation and Reward</div>
+                <div class="title">Working with Measurements</div>
                 
               </div>
             </a>
