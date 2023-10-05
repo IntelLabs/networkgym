@@ -16,7 +16,7 @@ congestion_control/rmcat
 :link: cards-rmcat
 :link-type: ref
 
-In this environment, the agent performs periodic actions to control the sending rate of a real-time traffic RMCAT (NADA) flow.
+In this environment, the agent performs periodic actions to adjust the sending rate of a real-time traffic flow using RTP Media Congestion Avoidance Techniques (RMCAT).
 :::
 
 ::::

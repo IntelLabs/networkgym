@@ -33,53 +33,9 @@ Ensure that you have access to the NetworkGym Server on [vLab](https://registrat
 
 ## Observation Space
 
-The observation space is represented by a multidimensional array (`ndarray`) with a shape of `(5, N)`, where each of the `N` slices contains five distinct features:
-1. **Total Throughput**: This measures the total data rate for each slice in Mbps, ranging from `0` to `Inf`.
-2. **Resource Block Usage Rate**: It represents the fraction of resource blocks utilized by each slice, expressed as a percentage in the range of `[0, 1]`, with the sum across all slices equal to 1.
-3. **Average Delay Violation Rate**: Initially measured user-wise and then averaged for each slice, this rate indicates the average proportion of delay violations, expressed as a percentage in the range of `[0, 1]`.
-4. **Maximum Delay**: This records the maximum delay experienced by a slice at a specific moment, expressed in milliseconds and ranging from `0` to `Inf`.
-5. **Average Delay**: It computes the average delay experienced by a slice, expressed in milliseconds and ranging from `0` to `Inf`.
+The observation space is represented by a multidimensional array (`ndarray`) with a shape of `(5, N)`, where each of the `N` slices contains five distinct features selected from the available measurements for this environment:
 
-| Feature | Observation | Min | Max |
-| --- | --- | --- | --- |
-| 0 | Total Throughput per slice (mbps) | 0.0 | Inf |
-| 1 | Resource Block Usage Rate per slice | 0.0 | 1.0 |
-| 2 | Average Delay Violation Rate per slice | 0.0 | 1.0 |
-| 3 | Maximum Delay per slice (ms) | 0.0 | Inf |
-| 4 | Average Delay per slice (ms) | 0.0 | Inf |
-
-
-## Action Space
-
-The action space is an `ndarray` with a shape of `(N,)`, indicating the allocation of resource blocks to `N` slices. It is important to note that the sum of the actions in this allocation should not exceed one. In case the sum surpasses one, the actions will be appropriately scaled down using the softmax function to ensure adherence to the constraint. This can be expressed mathematically as follows:
-```{eval-rst}
-if :math:`\sum_{i=1}^{N}a_i > 1, \quad a_i = \frac{e^{a_i}}{\sum_{j}e^{a_j}}.`
-```
-
-| Num | Action | Min | Max |
-| --- | --- | --- | --- |
-| 0 | Prioritized Rb allocated to slice 0 | 0.0 |  1.0 |
-| 1 | Prioritized Rb allocated to slice 1 | 0.0 | 1.0 |
-| ... |  |  | |
-| N | Prioritized Rb allocated to slice N | 0.0 | 1.0 |
-
-## Reward
-
-The reward function in our system takes into account three factors: throughput, delay violation rate, and resource cost. It is formulated as follows:
-
-```{eval-rst}
-:math:`R(t) = \sum_{i = 1}^N \left( \frac{{\text{throughput}_i}}{{\text{load}_i}} - \lambda \cdot \text{delay_violation_rate}_i - \gamma \cdot \text{rb_usage_rate}_i \right)`
-```
-
-```{eval-rst}
-In this formulation, we can adjust the emphasis given to the delay violation rate and the resource block usage rate using the parameters (:math:`\lambda`) and (:math:`\gamma`) respectively. By default, (:math:`\lambda=1.5`) and (:math:`\gamma = 0.5`), which prioritize delay considerations.
-```
-
-## Custom Observation Space and Reward
-1. Edit the "subscribed_network_stats" in the [config.json] to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of 'unused' data and reduces overhead. 
-To subscribe to a specific measurement, add its `source`::`name` combination to the "subscribed_network_stats" list. For example, appending `gma::wifi::dl::traffic_ratio` to the list would enable receiving measurements with the name `wifi::dl::traffic_ratio` from the source `gma`.
-
-:::{dropdown} Click to view a demo of all measurements for this environment.
+:::{dropdown} Click to view available measurements for this environment.
 
 Refer to [Working with Measurements](../../tutorials/working_with_measurements.md) for further elaboration of the following measurements.
 
@@ -129,6 +85,50 @@ Refer to [Working with Measurements](../../tutorials/working_with_measurements.m
 
 :::
 
+1. **Total Throughput**: This measures the total data rate for each slice in Mbps, ranging from `0` to `Inf`.
+2. **Resource Block Usage Rate**: It represents the fraction of resource blocks utilized by each slice, expressed as a percentage in the range of `[0, 1]`, with the sum across all slices equal to 1.
+3. **Average Delay Violation Rate**: Initially measured user-wise and then averaged for each slice, this rate indicates the average proportion of delay violations, expressed as a percentage in the range of `[0, 1]`.
+4. **Maximum Delay**: This records the maximum delay experienced by a slice at a specific moment, expressed in milliseconds and ranging from `0` to `Inf`.
+5. **Average Delay**: It computes the average delay experienced by a slice, expressed in milliseconds and ranging from `0` to `Inf`.
+
+| Feature | Observation | Min | Max |
+| --- | --- | --- | --- |
+| 0 | Total Throughput per slice (mbps) | 0.0 | Inf |
+| 1 | Resource Block Usage Rate per slice | 0.0 | 1.0 |
+| 2 | Average Delay Violation Rate per slice | 0.0 | 1.0 |
+| 3 | Maximum Delay per slice (ms) | 0.0 | Inf |
+| 4 | Average Delay per slice (ms) | 0.0 | Inf |
+
+
+## Action Space
+
+The action space is an `ndarray` with a shape of `(N,)`, indicating the allocation of resource blocks to `N` slices. It is important to note that the sum of the actions in this allocation should not exceed one. In case the sum surpasses one, the actions will be appropriately scaled down using the softmax function to ensure adherence to the constraint. This can be expressed mathematically as follows:
+```{eval-rst}
+if :math:`\sum_{i=1}^{N}a_i > 1, \quad a_i = \frac{e^{a_i}}{\sum_{j}e^{a_j}}.`
+```
+
+| Num | Action | Min | Max |
+| --- | --- | --- | --- |
+| 0 | Prioritized Rb allocated to slice 0 | 0.0 |  1.0 |
+| 1 | Prioritized Rb allocated to slice 1 | 0.0 | 1.0 |
+| ... |  |  | |
+| N | Prioritized Rb allocated to slice N | 0.0 | 1.0 |
+
+## Reward
+
+The reward function in our system takes into account three factors: throughput, delay violation rate, and resource cost. It is formulated as follows:
+
+```{eval-rst}
+:math:`R(t) = \sum_{i = 1}^N \left( \frac{{\text{throughput}_i}}{{\text{load}_i}} - \lambda \cdot \text{delay_violation_rate}_i - \gamma \cdot \text{rb_usage_rate}_i \right)`
+```
+
+```{eval-rst}
+In this formulation, we can adjust the emphasis given to the delay violation rate and the resource block usage rate using the parameters (:math:`\lambda`) and (:math:`\gamma`) respectively. By default, (:math:`\lambda=1.5`) and (:math:`\gamma = 0.5`), which prioritize delay considerations.
+```
+
+## Custom Observation Space and Reward
+1. Edit the "subscribed_network_stats" in the [config.json] to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of 'unused' data and reduces overhead. 
+To subscribe to a specific measurement, add its `source`::`name` combination to the "subscribed_network_stats" list. For example, appending `gma::lte::dl::rate` to the list would enable receiving measurements with the name `lte::dl::rate` from the source `gma`.
 ```{eval-rst}
 2. Customize Observation Space in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_observation` function.
 3. Customize Reward in the :meth:`network_gym_client.envs.network_slicing.Adapter.get_reward` function.

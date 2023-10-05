@@ -255,10 +255,11 @@
           <section id="rmcat">
 <span id="cards-rmcat"></span><h1>RMCAT<a class="headerlink" href="#rmcat" title="Permalink to this heading">#</a></h1>
 <figure class="align-default">
-<a class="reference internal image-reference" href="../../_images/rmcat.png"><img alt="../../_images/rmcat.png" src="../../_images/rmcat.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="../../_images/rmcat.png"><img alt="../../_images/rmcat.png" src="../../_images/rmcat.png" style="width: 100%;" /></a>
 </figure>
 <p>The RMCAT environment is part of the congestion control environments and provides general information about the environment.
-In this environment, the agent performs periodic actions to control the sending rate of a real-time traffic RMCAT (NADA) flow.</p>
+In this environment, the agent performs periodic actions to adjust the sending rate of a real-time traffic flow using RTP Media Congestion Avoidance Techniques (RMCAT).
+This environment is based on the GitHub Repo: <a class="reference external" href="https://github.com/cisco/ns3-rmcat">cisco/ns3-rmcat</a>.</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -284,7 +285,7 @@ In this environment, the agent performs periodic actions to control the sending 
 </div>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">#</a></h2>
-<p>The RMCAT environment represents a congestion control problem for real-time traffic. The goal of congestion control is to strategically controls sending rate, aiming to achieve high throughput, low latency and low loss.</p>
+<p>The RMCAT environment represents a congestion control problem for real-time traffic. The goal of congestion control is to strategically control the sending rate, aiming to achieve high throughput, low latency, and low loss. If no action is given to the environment, RMCAT uses <a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-ietf-rmcat-nada-05">NADA</a> as its default algorithm.</p>
 </section>
 <section id="prerequisite">
 <h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this heading">#</a></h2>
@@ -292,7 +293,31 @@ In this environment, the agent performs periodic actions to control the sending 
 </section>
 <section id="observation-space">
 <h2>Observation Space<a class="headerlink" href="#observation-space" title="Permalink to this heading">#</a></h2>
-<p>The observation is an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(3,)</span></code> representing three features. The first feature is <code class="docutils literal notranslate"><span class="pre">rtt</span></code>, representing the round trip time. The second feature is <code class="docutils literal notranslate"><span class="pre">xcurr</span></code>, represeting the congestion level. The third feature is the received throughput <code class="docutils literal notranslate"><span class="pre">rrate</span></code>.</p>
+<p>The observation is an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(3,)</span></code> representing three features selected from the available measurements for this environment.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Click to view available measurements for this environment.<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Refer to <a class="reference internal" href="../../tutorials/working_with_measurements.html"><span class="std std-doc">Working with Measurements</span></a> for further elaboration of the following measurements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="nb">id</span>        <span class="n">name</span> <span class="n">source</span>      <span class="n">ts</span>                <span class="n">value</span>
+<span class="mi">0</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">loglen</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">58.0</span><span class="p">]</span>
+<span class="mi">1</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>        <span class="n">qdel</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">30.0</span><span class="p">]</span>
+<span class="mi">2</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>         <span class="n">rtt</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">55.0</span><span class="p">]</span>
+<span class="mi">3</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">ploss</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="mi">4</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>         <span class="n">plr</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="mi">5</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">xcurr</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>  <span class="p">[</span><span class="mf">30.17099952697754</span><span class="p">]</span>
+<span class="mi">6</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">rrate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>         <span class="p">[</span><span class="mf">774531.375</span><span class="p">]</span>
+<span class="mi">7</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">srate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>           <span class="p">[</span><span class="mf">585416.0</span><span class="p">]</span>
+<span class="mi">8</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="n">nada_srate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>        <span class="p">[</span><span class="mf">557536.1875</span><span class="p">]</span>
+<span class="mi">9</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">avgint</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="mi">10</span>  <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">curint</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details><p>The first feature is <code class="docutils literal notranslate"><span class="pre">rtt</span></code>, representing the round trip time. The second feature is <code class="docutils literal notranslate"><span class="pre">xcurr</span></code>, represeting the congestion level. The third feature is the received throughput <code class="docutils literal notranslate"><span class="pre">rrate</span></code>.</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -328,38 +353,14 @@ In this environment, the agent performs periodic actions to control the sending 
 </section>
 <section id="reward">
 <h2>Reward<a class="headerlink" href="#reward" title="Permalink to this heading">#</a></h2>
-<p>TODO</p>
+<p>Not implemented yet.</p>
 </section>
-<section id="custom-observation-space-and-reward">
-<h2>Custom Observation Space and Reward<a class="headerlink" href="#custom-observation-space-and-reward" title="Permalink to this heading">#</a></h2>
+<section id="customize-observation-space-and-reward">
+<h2>Customize Observation Space and Reward<a class="headerlink" href="#customize-observation-space-and-reward" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Edit the “subscribed_network_stats” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/rmcat/config.json">config.json</a> to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of ‘unused’ data and reduces overhead.
-To subscribe to a specific measurement, add its <code class="docutils literal notranslate"><span class="pre">source</span></code>::<code class="docutils literal notranslate"><span class="pre">name</span></code> combination to the “subscribed_network_stats” list. For example, appending <code class="docutils literal notranslate"><span class="pre">rmcat::rtt</span></code> to the list would enable receiving measurements with the name <code class="docutils literal notranslate"><span class="pre">rtt</span></code> from the source <code class="docutils literal notranslate"><span class="pre">rmcat</span></code>.</p></li>
+<li><p>Edit the “subscribed_network_stats” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/rmcat/config.json">config.json</a> to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of ‘unused’ data and reduces overhead. To subscribe to a specific measurement, add its <code class="docutils literal notranslate"><span class="pre">source</span></code>::<code class="docutils literal notranslate"><span class="pre">name</span></code> combination to the “subscribed_network_stats” list. For example, appending <code class="docutils literal notranslate"><span class="pre">rmcat::rtt</span></code> to the list would enable receiving measurements with the name <code class="docutils literal notranslate"><span class="pre">rtt</span></code> from the source <code class="docutils literal notranslate"><span class="pre">rmcat</span></code>.</p></li>
 </ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-Click to view a demo of all measurements for this environment.<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Refer to <a class="reference internal" href="../../tutorials/working_with_measurements.html"><span class="std std-doc">Working with Measurements</span></a> for further elaboration of the following measurements.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="nb">id</span>        <span class="n">name</span> <span class="n">source</span>      <span class="n">ts</span>                <span class="n">value</span>
-<span class="mi">0</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">loglen</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">58.0</span><span class="p">]</span>
-<span class="mi">1</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>        <span class="n">qdel</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">30.0</span><span class="p">]</span>
-<span class="mi">2</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>         <span class="n">rtt</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>               <span class="p">[</span><span class="mf">55.0</span><span class="p">]</span>
-<span class="mi">3</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">ploss</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
-<span class="mi">4</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>         <span class="n">plr</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
-<span class="mi">5</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">xcurr</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>  <span class="p">[</span><span class="mf">30.17099952697754</span><span class="p">]</span>
-<span class="mi">6</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">rrate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>         <span class="p">[</span><span class="mf">774531.375</span><span class="p">]</span>
-<span class="mi">7</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="n">srate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>           <span class="p">[</span><span class="mf">585416.0</span><span class="p">]</span>
-<span class="mi">8</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="n">nada_srate</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>        <span class="p">[</span><span class="mf">557536.1875</span><span class="p">]</span>
-<span class="mi">9</span>   <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">avgint</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
-<span class="mi">10</span>  <span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="n">curint</span>  <span class="n">rmcat</span>  <span class="mi">100710</span>                <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</details><ol class="arabic simple" start="2">
+<ol class="arabic simple" start="2">
 <li><p>Customize Observation Space in the <a class="reference internal" href="../../api/network_gym_client/adapter/rmcat.html#network_gym_client.envs.rmcat.Adapter.get_observation" title="network_gym_client.envs.rmcat.Adapter.get_observation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.rmcat.Adapter.get_observation()</span></code></a> function.</p></li>
 <li><p>Customize Reward in the <a class="reference internal" href="../../api/network_gym_client/adapter/rmcat.html#network_gym_client.envs.rmcat.Adapter.get_reward" title="network_gym_client.envs.rmcat.Adapter.get_reward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.rmcat.Adapter.get_reward()</span></code></a> function.</p></li>
 </ol>
@@ -448,7 +449,7 @@ The episode ends if either of the following happens:</p>
 <li><a class="reference internal" href="#observation-space">Observation Space</a></li>
 <li><a class="reference internal" href="#action-space">Action Space</a></li>
 <li><a class="reference internal" href="#reward">Reward</a></li>
-<li><a class="reference internal" href="#custom-observation-space-and-reward">Custom Observation Space and Reward</a></li>
+<li><a class="reference internal" href="#customize-observation-space-and-reward">Customize Observation Space and Reward</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
 <li><a class="reference internal" href="#episode-end">Episode End</a></li>
 </ul>

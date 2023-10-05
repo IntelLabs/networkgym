@@ -303,57 +303,10 @@ In this environment, the agent performs periodic actions to select a link to ste
 </section>
 <section id="observation-space">
 <h2>Observation Space<a class="headerlink" href="#observation-space" title="Permalink to this heading">#</a></h2>
-<p>The observation is an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(3,N,)</span></code> representing three features for N users. The first feature is MAX LTE rate, representing the user’s estimation of channel capacity (e.g., the max rate if the user utilizes all resources). The second feature is the Max Wi-Fi rate, and the third feature is the received throughput, combining both links.</p>
-<div class="table-wrapper colwidths-auto docutils container">
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Feature</p></th>
-<th class="head"><p>Observation</p></th>
-<th class="head"><p>Min</p></th>
-<th class="head"><p>Max</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>0</p></td>
-<td><p>MAX LTE rate (mbps)</p></td>
-<td><p>0.0</p></td>
-<td><p>Inf</p></td>
-</tr>
-<tr class="row-odd"><td><p>1</p></td>
-<td><p>MAX Wi-Fi rate  (mbps)</p></td>
-<td><p>0.0</p></td>
-<td><p>Inf</p></td>
-</tr>
-<tr class="row-even"><td><p>2</p></td>
-<td><p>throughput (mbps)</p></td>
-<td><p>0.0</p></td>
-<td><p>Inf</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="action-space">
-<h2>Action Space<a class="headerlink" href="#action-space" title="Permalink to this heading">#</a></h2>
-<p>The action is a <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> which can take values {0, 1} indicating the link to transmit data. N is the number of users.</p>
-<ul class="simple">
-<li><p>0: Steer traffic over Cellular</p></li>
-<li><p>1: Steer traffic over Wi-Fi</p></li>
-</ul>
-</section>
-<section id="reward">
-<h2>Reward<a class="headerlink" href="#reward" title="Permalink to this heading">#</a></h2>
-<p>We computes the number of Quality of Service (QoS) users over Wi-Fi as reward function <a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html#network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num" title="network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num()</span></code></a>. Given that Cellular already implements an admission control mechanism to support the maximum number of QoS users, maximizing the QoS users over Wi-Fi also leads to the maximization of the total number of users in the network that meet the QoS requirements. In essence, optimizing the QoS users over Wi-Fi indirectly ensures the best possible overall network performance with the desired QoS levels for all users.</p>
-</section>
-<section id="custom-observation-space-and-reward">
-<h2>Custom Observation Space and Reward<a class="headerlink" href="#custom-observation-space-and-reward" title="Permalink to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Edit the “subscribed_network_stats” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/qos_steer/config.json">config.json</a> to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of ‘unused’ data and reduces overhead.
-To subscribe to a specific measurement, add its <code class="docutils literal notranslate"><span class="pre">source</span></code>::<code class="docutils literal notranslate"><span class="pre">name</span></code> combination to the “subscribed_network_stats” list. For example, appending <code class="docutils literal notranslate"><span class="pre">gma::wifi::dl::traffic_ratio</span></code> to the list would enable receiving measurements with the name <code class="docutils literal notranslate"><span class="pre">wifi::dl::traffic_ratio</span></code> from the source <code class="docutils literal notranslate"><span class="pre">gma</span></code>.</p></li>
-</ol>
+<p>The observation is an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(3,N,)</span></code> representing three features for N users selected from the available measurement for this environment.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
-Click to view a demo of all measurements for this environment.<div class="sd-summary-down docutils">
+Click to view available measurements for this environment.<div class="sd-summary-down docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
 <div class="sd-summary-up docutils">
 <svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
@@ -420,7 +373,55 @@ Click to view a demo of all measurements for this environment.<div class="sd-sum
 </pre></div>
 </div>
 </div>
-</details><ol class="arabic simple" start="2">
+</details><p>The first feature is MAX LTE rate, representing the user’s estimation of channel capacity (e.g., the max rate if the user utilizes all resources). The second feature is the Max Wi-Fi rate, and the third feature is the received throughput, combining both links.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Observation</p></th>
+<th class="head"><p>Min</p></th>
+<th class="head"><p>Max</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>MAX LTE rate (mbps)</p></td>
+<td><p>0.0</p></td>
+<td><p>Inf</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>MAX Wi-Fi rate  (mbps)</p></td>
+<td><p>0.0</p></td>
+<td><p>Inf</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>throughput (mbps)</p></td>
+<td><p>0.0</p></td>
+<td><p>Inf</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="action-space">
+<h2>Action Space<a class="headerlink" href="#action-space" title="Permalink to this heading">#</a></h2>
+<p>The action is a <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> which can take values {0, 1} indicating the link to transmit data. N is the number of users.</p>
+<ul class="simple">
+<li><p>0: Steer traffic over Cellular</p></li>
+<li><p>1: Steer traffic over Wi-Fi</p></li>
+</ul>
+</section>
+<section id="reward">
+<h2>Reward<a class="headerlink" href="#reward" title="Permalink to this heading">#</a></h2>
+<p>We computes the number of Quality of Service (QoS) users over Wi-Fi as reward function <a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html#network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num" title="network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.qos_steer.Adapter.calculate_wifi_qos_user_num()</span></code></a>. Given that Cellular already implements an admission control mechanism to support the maximum number of QoS users, maximizing the QoS users over Wi-Fi also leads to the maximization of the total number of users in the network that meet the QoS requirements. In essence, optimizing the QoS users over Wi-Fi indirectly ensures the best possible overall network performance with the desired QoS levels for all users.</p>
+</section>
+<section id="custom-observation-space-and-reward">
+<h2>Custom Observation Space and Reward<a class="headerlink" href="#custom-observation-space-and-reward" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Edit the “subscribed_network_stats” in the <a class="reference external" href="https://github.com/IntelLabs/networkgym/blob/main/network_gym_client/envs/qos_steer/config.json">config.json</a> to include only the necessary measurements required for computing observations and rewards. This minimizes the transmission of ‘unused’ data and reduces overhead.
+To subscribe to a specific measurement, add its <code class="docutils literal notranslate"><span class="pre">source</span></code>::<code class="docutils literal notranslate"><span class="pre">name</span></code> combination to the “subscribed_network_stats” list. For example, appending <code class="docutils literal notranslate"><span class="pre">gma::wifi::dl::traffic_ratio</span></code> to the list would enable receiving measurements with the name <code class="docutils literal notranslate"><span class="pre">wifi::dl::traffic_ratio</span></code> from the source <code class="docutils literal notranslate"><span class="pre">gma</span></code>.</p></li>
+</ol>
+<ol class="arabic simple" start="2">
 <li><p>Customize Observation Space in the <a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html#network_gym_client.envs.qos_steer.Adapter.get_observation" title="network_gym_client.envs.qos_steer.Adapter.get_observation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.qos_steer.Adapter.get_observation()</span></code></a> function.</p></li>
 <li><p>Customize Reward in the <a class="reference internal" href="../../api/network_gym_client/adapter/qos_steer.html#network_gym_client.envs.qos_steer.Adapter.get_reward" title="network_gym_client.envs.qos_steer.Adapter.get_reward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">network_gym_client.envs.qos_steer.Adapter.get_reward()</span></code></a> function.</p></li>
 </ol>
