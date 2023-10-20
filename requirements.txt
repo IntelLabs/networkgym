@@ -8,7 +8,7 @@ cloudpickle==2.2.1
 docker-pycreds==0.4.0
 Farama-Notifications==0.0.4
 gitdb==4.0.10
-GitPython==3.1.32
+GitPython==3.1.37
 google-auth==2.22.0
 google-auth-oauthlib==1.0.0
 grpcio==1.57.0
@@ -39,6 +39,6 @@ tensorboard==2.14.0
 tensorboard-data-server==0.7.1
 typing_extensions==4.7.1
 tzdata==2023.3
-urllib3==1.26.16
+urllib3==1.26.18
 wandb==0.15.8
 Werkzeug==2.3.7
