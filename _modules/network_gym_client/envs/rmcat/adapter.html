@@ -207,9 +207,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/networkgym_basics.html">NetworkGym Basics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of NetworkGym Basics</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/networkgym_basics/handling_time_limits.html">Handling Time Limits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/networkgym_basics/working_with_measurements.html">Working with Measurements</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -264,6 +267,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">csv</span>
 
 <div class="viewcode-block" id="Adapter"><a class="viewcode-back" href="../../../../api/network_gym_client/adapter/rmcat.html#network_gym_client.envs.rmcat.Adapter">[docs]</a><span class="k">class</span> <span class="nc">Adapter</span><span class="p">(</span><span class="n">network_gym_client</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">Adapter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;rmcat env adapter.</span>
@@ -284,6 +288,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;nada_flows&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;env&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;[ERROR] wrong environment Adapter. Configured environment: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;env&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; != Launched environment: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">))</span>
+        
+        <span class="n">FILE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+        <span class="c1">#Append the bw_trace to json file.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Open a csv reader called DictReader</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">FILE_PATH</span> <span class="o">/</span> <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;bw_trace_file&#39;</span><span class="p">],</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvf</span><span class="p">:</span>
+            <span class="n">csvReader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">csvf</span><span class="p">)</span>
+            <span class="c1"># Convert each row into a dictionary </span>
+            <span class="c1"># and add it to data</span>
+            <span class="k">for</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">csvReader</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">rows</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+               
+            <span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;bw_trace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
     <span class="k">def</span> <span class="nf">get_action_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get action space for the rmcat env.</span>
@@ -317,7 +338,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            spaces: observation spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span> <span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="c1">#print (df)</span>
         <span class="n">row_loglen</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">row_qdel</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">row_rtt</span> <span class="o">=</span> <span class="kc">None</span>

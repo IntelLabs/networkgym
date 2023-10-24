@@ -93,10 +93,8 @@ Stable-Baselines3/CleanRL <https://github.com/pinyaras/GMAClient>
 ```{toctree}
 :hidden:
 :caption: Tutorials
-
-tutorials/handling_time_limits
+tutorials/networkgym_basics
 tutorials/training_agents
-tutorials/working_with_measurements
 tutorials/implementing_custom_environment
 Gymnasium Tutorial <https://gymnasium.farama.org/tutorials/gymnasium_basics/>
 

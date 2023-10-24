@@ -207,9 +207,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/handling_time_limits.html">Handling Time Limits</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/networkgym_basics.html">NetworkGym Basics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of NetworkGym Basics</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/networkgym_basics/handling_time_limits.html">Handling Time Limits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/networkgym_basics/working_with_measurements.html">Working with Measurements</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/training_agents.html">Training Agents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/working_with_measurements.html">Working with Measurements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/implementing_custom_environment.html">Implementing Custom Environment</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://gymnasium.farama.org/tutorials/gymnasium_basics/">Gymnasium Tutorial</a></li>
 </ul>
@@ -291,7 +294,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">wandb</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
             <span class="c1"># name=rl_alg + &quot;_&quot; + str(config_json[&#39;env_config&#39;][&#39;num_users&#39;]) + &quot;_LTE_&quot; +  str(config_json[&#39;env_config&#39;][&#39;LTE&#39;][&#39;resource_block_num&#39;]),</span>
             <span class="c1">#name=rl_alg + &quot;_&quot; + str(config_json[&#39;env_config&#39;][&#39;num_users&#39;]) + &quot;_&quot; +  str(config_json[&#39;env_config&#39;][&#39;LTE&#39;][&#39;resource_block_num&#39;]),</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">rl_alg</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;env&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;::&quot;</span> <span class="o">+</span> <span class="n">rl_alg</span><span class="p">,</span>
             <span class="n">project</span><span class="o">=</span><span class="s2">&quot;network_gym_client&quot;</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="n">sync_tensorboard</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># auto-upload sb3&#39;s tensorboard metrics</span>
