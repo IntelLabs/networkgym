@@ -7,7 +7,7 @@
   "env_config":{
     "type": "env-start",
     "subscribed_network_stats":["wifi::dl::max_rate","wifi::ul::max_rate", "wifi::cell_id",
-                                "lte::dl::max_rate","lte::cell_id","lte::slice_id","lte::rb_usage","lte::dl::cell::max_rate","lte::dl::cell::rb_usage",
+                                "lte::dl::max_rate","lte::cell_id","lte::slice_id","lte::dl::rb_usage","lte::dl::cell::max_rate","lte::dl::cell::rb_usage",
                                 "gma::x_loc","gma::y_loc",
 
                                 "gma::dl::missed_action","gma::dl::measurement_ok",
@@ -19,6 +19,7 @@
                                 "gma::dl::max_owd","gma::wifi::dl::max_owd","gma::lte::dl::max_owd",
                                 "gma::wifi::dl::priority","gma::lte::dl::priority",
                                 "gma::wifi::dl::traffic_ratio","gma::lte::dl::traffic_ratio",
+                                "gma::wifi::dl::split_ratio","gma::lte::dl::split_ratio",
 
                                 "gma::ul::missed_action","gma::ul::measurement_ok",
                                 "gma::ul::tx_rate",
@@ -28,7 +29,8 @@
                                 "gma::ul::owd","gma::wifi::ul::owd","gma::lte::ul::owd",
                                 "gma::ul::max_owd","gma::wifi::ul::max_owd","gma::lte::ul::max_owd",
                                 "gma::wifi::ul::priority","gma::lte::ul::priority",
-                                "gma::wifi::ul::traffic_ratio","gma::lte::ul::traffic_ratio"
+                                "gma::wifi::ul::traffic_ratio","gma::lte::ul::traffic_ratio",
+                                "gma::wifi::ul::split_ratio","gma::lte::ul::split_ratio"
 
                               ],
     "steps_per_episode": 10,

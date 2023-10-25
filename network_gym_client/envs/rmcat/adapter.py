@@ -11,9 +11,10 @@ import pandas as pd
 import json
 from pathlib import Path
 import json
+import csv
 
 class Adapter(network_gym_client.adapter.Adapter):
-    """Custom env adapter.
+    """rmcat env adapter.
 
     Args:
         Adapter (network_gym_client.adapter.Adapter): base class.
@@ -31,9 +32,26 @@ class Adapter(network_gym_client.adapter.Adapter):
         self.size_per_feature = int(self.config_json['env_config']['nada_flows'])
         if config_json['env_config']['env'] != self.env:
             sys.exit("[ERROR] wrong environment Adapter. Configured environment: " + str(config_json['env_config']['env']) + " != Launched environment: " + str(self.env))
+        
+        FILE_PATH = Path(__file__).parent
+        #Append the bw_trace to json file.
+        data = {}
+        # Open a csv reader called DictReader
+        with open(FILE_PATH / config_json['env_config']['bw_trace_file'], encoding='utf-8') as csvf:
+            csvReader = csv.DictReader(csvf)
+            # Convert each row into a dictionary 
+            # and add it to data
+            for rows in csvReader:
+                for key, value in rows.items():
+                    if key not in data:
+                        data[key] = [float(value)]
+                    else:
+                        data[key].append(float(value))
+               
+            config_json['env_config']['bw_trace'] = data
 
     def get_action_space(self):
-        """Get action space for the custom env.
+        """Get action space for the rmcat env.
 
         Returns:
             spaces: action spaces
@@ -45,7 +63,7 @@ class Adapter(network_gym_client.adapter.Adapter):
 
     #consistent with the get_observation function.
     def get_observation_space(self):
-        """Get the observation space for custom env.
+        """Get the observation space for rmcat env.
 
         Returns:
             spaces: observation spaces
@@ -54,7 +72,7 @@ class Adapter(network_gym_client.adapter.Adapter):
                                             shape=(self.num_features, self.size_per_feature), dtype=np.float32)
     
     def get_observation(self, df):
-        """Prepare observation for custom env.
+        """Prepare observation for rmcat env.
 
         This function should return the same number of features defined in the :meth:`get_observation_space`.
 
@@ -64,7 +82,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        print (df)
+        #print (df)
         row_loglen = None
         row_qdel = None
         row_rtt = None
@@ -123,7 +141,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         return observation
 
     def get_policy(self, action):
-        """Prepare policy for the custom env.
+        """Prepare policy for the rmcat env.
 
         Args:
             action (spaces): action from the RL agent
@@ -141,7 +159,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         return policy1
 
     def get_reward(self, df):
-        """Prepare reward for the custom env.
+        """Prepare reward for the rmcat env.
 
         Args:
             df (pd.DataFrame): network stats
@@ -150,7 +168,7 @@ class Adapter(network_gym_client.adapter.Adapter):
             spaces: reward spaces
         """
 
-        #TODO: add a reward function for you customized env
+        #TODO: add a reward function for you rmcat env
         reward = 0
 
         # send info to wandb

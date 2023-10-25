@@ -6,7 +6,33 @@
 
   "env_config":{
     "type": "env-start",
-    "subscribed_network_stats":["lte::dl::max_rate", "lte::cell_id", "lte::slice_id", "lte::rb_usage", "lte::dl::cell::max_rate", "lte::dl::cell::rb_usage"],
+    "subscribed_network_stats":["lte::dl::max_rate", "lte::cell_id", "lte::slice_id", "lte::dl::rb_usage", "lte::dl::cell::max_rate", "lte::dl::cell::rb_usage",
+
+                                "gma::x_loc","gma::y_loc",
+
+                                "gma::dl::missed_action","gma::dl::measurement_ok",
+                                "gma::dl::tx_rate",
+                                "gma::dl::delay_violation","gma::dl::delay_test_1_violation","gma::dl::delay_test_2_violation",
+                                "gma::dl::rate","gma::lte::dl::rate",
+                                "gma::dl::qos_rate","gma::lte::dl::qos_rate",
+                                "gma::dl::owd","gma::lte::dl::owd",
+                                "gma::dl::max_owd","gma::lte::dl::max_owd",
+                                "gma::lte::dl::priority",
+                                "gma::lte::dl::traffic_ratio",
+                                "gma::lte::dl::split_ratio",
+
+                                "gma::ul::missed_action","gma::ul::measurement_ok",
+                                "gma::ul::tx_rate",
+                                "gma::ul::delay_violation","gma::ul::delay_test_1_violation","gma::ul::delay_test_2_violation",
+                                "gma::ul::rate","gma::lte::ul::rate",
+                                "gma::ul::qos_rate","gma::lte::ul::qos_rate",
+                                "gma::ul::owd","gma::lte::ul::owd",
+                                "gma::ul::max_owd","gma::lte::ul::max_owd",
+                                "gma::lte::ul::priority",
+                                "gma::lte::ul::traffic_ratio",
+                                "gma::lte::ul::split_ratio"
+
+                              ],
     "steps_per_episode": 10,
     "episodes_per_session": 2,
     "random_seed": 2,

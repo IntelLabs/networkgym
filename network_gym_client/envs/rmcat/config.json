@@ -6,7 +6,18 @@
 
   "env_config":{
     "type": "env-start",
-    "subscribed_network_stats":["rmcat::loglen", "rmcat::qdel", "rmcat::rtt", "rmcat::ploss", "rmcat::plr", "rmcat::xcurr", "rmcat::rrate", "rmcat::srate"],
+    "subscribed_network_stats":["rmcat::loglen",
+                                "rmcat::qdel",
+                                "rmcat::rtt",
+                                "rmcat::ploss",
+                                "rmcat::plr",
+                                "rmcat::xcurr",
+                                "rmcat::rrate",
+                                "rmcat::srate",
+                                "rmcat::nada_srate",
+                                "rmcat::avgint",
+                                "rmcat::curint"
+                              ],
     "steps_per_episode": 100,
     "episodes_per_session": 10,
     "nada_flows": 1,
@@ -19,7 +30,8 @@
     "measurement_start_time_ms": 1000,
     "measurement_interval_ms": 100,
     "topo_default_bw_kbps": 1000,
-    "topo_default_delay_ms": 10
+    "topo_default_delay_ms": 10,
+    "bw_trace_file": "bw_trace.csv"
   }
 
 }

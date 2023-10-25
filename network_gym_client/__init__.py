@@ -2,6 +2,6 @@
 #SPDX-License-Identifier: Apache-2.0
 #File : __init__.py
 
-from network_gym_client.env import *
-from network_gym_client.northbound_interface import NorthBoundClient
-from network_gym_client.adapter import Adapter
+from .env import *
+from .northbound_interface import NorthBoundClient
+from .adapter import Adapter

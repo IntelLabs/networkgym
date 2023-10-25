@@ -39,6 +39,7 @@ The NetworkGym Environment comprises two core components: the **environment conf
 - The **environment configure** module keeps the connection alive by periodically dispatching an "Env Hello" message to the server. Upon receiving a "Env Start" request, it disengages from the server and initiates the simulator.
 - Upon activation, the ns-3 based **NetworkGym smulator** establishes a connection with the server and instigates the exchange of measurements. Plans for incorporating an emulator and testbed alternative are earmarked for future release.
 
+(NetworkGym_UML_Sequence_Diagram)=
 ## NetworkGym UML Sequence Diagram
 
 ```{figure} network_gym_uml.png
