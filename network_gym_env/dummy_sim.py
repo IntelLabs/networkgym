@@ -47,7 +47,7 @@ class DummySim:
         self.interval = msg_json['measurement_interval_ms'] + msg_json['measurement_guard_interval_ms'] # measurement interval
         self.start_ts = msg_json['measurement_start_time_ms'] # start timestamp of a measurement
         self.end_ts = self.start_ts + self.interval # end timestamp of a measurement
-        self.sim_end_ts = self.start_ts + msg_json['env_end_time_ms']
+        self.sim_end_ts = msg_json['env_end_time_ms']
         self.num_users = msg_json['num_users']
         self.start_simulation(env_identity, config_json, client_identity)
 
@@ -104,7 +104,7 @@ class DummySim:
                 msg[1]=json.dumps(error_msg, indent=2).encode('utf-8')
                 env_sim.send_multipart(msg)
                 break
-            
+        poller.unregister(env_sim)
         env_sim.close()
         print(env_identity + ': env_sim socket closed.')
     
@@ -118,42 +118,17 @@ class DummySim:
         tags = {}
 
         # all tags are optional
-        tags['unit']='mbps'
-        tags['start_ts']=self.start_ts
         self.start_ts += self.interval
-        tags['end_ts']=self.end_ts
+        tags['ts']=self.end_ts
         self.end_ts = self.start_ts + self.interval
-        tags['direction']='DL'
-        tags['group']='GMA'
-        tags['cid']='All'
-        
+        tags['source']='test'        
 
-        output1 = self.generate_dummy_measurement('rate', tags, self.num_users);
-        tags['cid']='Wi-Fi'
-        output2 = self.generate_dummy_measurement('rate', tags, self.num_users);
-        output3 = self.generate_dummy_measurement('qos_rate', tags, self.num_users);
+        output1 = self.generate_dummy_measurement('measurement_1', tags, self.num_users);
+        output2 = self.generate_dummy_measurement('measurement_2', tags, self.num_users);
+        output3 = self.generate_dummy_measurement('measurement_3', tags, self.num_users);
+        output4 = self.generate_dummy_measurement('measurement_4', tags, self.num_users);
 
-        tags['cid']='LTE'
-        output4 = self.generate_dummy_measurement('rate', tags, self.num_users);
-
-        tags['group']='PHY'
-        tags['cid']='LTE'
-        output5 = self.generate_dummy_measurement('max_rate', tags, self.num_users);
-
-        tags['cid']='Wi-Fi'
-        output6 = self.generate_dummy_measurement('max_rate', tags, self.num_users);
-
-        tags['unit']=''
-        tags['group']='GMA'
-        output7 = self.generate_dummy_measurement('split_ratio', tags, self.num_users);
-
-
-        tags['unit']='ms'
-        tags['group']='GMA'
-        tags['cid']='All'
-        output8 = self.generate_dummy_measurement('owd', tags, self.num_users);
-
-        merged_list = output1 + output2 + output3 + output4 + output5 + output6 + output7 + output8
+        merged_list = output1 + output2 + output3 + output4
 
         #print(terminated)
         #print(merged_list)
@@ -187,7 +162,7 @@ class DummySim:
         data = []
         for id in range(num_users):
             data.append([id, random.randint(3, 9)])
-        df = pd.DataFrame(data, columns=['user', 'value'])
+        df = pd.DataFrame(data, columns=['id', 'value'])
         for key, value in reversed(tags.items()):
             df.insert(0, key, value)
         df.insert(0,'name', name)
@@ -197,7 +172,7 @@ class DummySim:
         group_by_list = list(tags.keys())
         group_by_list.insert(0, 'name')
         json_data = (df.groupby(group_by_list)
-                .apply(lambda x: x[['user', 'value', ]].to_dict(orient='list'))
+                .apply(lambda x: x[['id', 'value', ]].to_dict(orient='list'))
                 .reset_index()
                 .rename(columns={0: ''})
                 .to_json(orient='records'))

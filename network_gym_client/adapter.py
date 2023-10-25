@@ -25,6 +25,7 @@ class Adapter:
         self.wandb_log_buffer = None
         self.wandb = wandb
         self.config_json = config_json
+        self.action_data_format = None
 
         rl_alg = config_json['rl_config']['agent'] 
 
@@ -37,7 +38,7 @@ class Adapter:
         self.wandb.init(
             # name=rl_alg + "_" + str(config_json['env_config']['num_users']) + "_LTE_" +  str(config_json['env_config']['LTE']['resource_block_num']),
             #name=rl_alg + "_" + str(config_json['env_config']['num_users']) + "_" +  str(config_json['env_config']['LTE']['resource_block_num']),
-            name=rl_alg,
+            name=config_json['env_config']['env'] + "::" + rl_alg,
             project="network_gym_client",
             config=config,
             sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
@@ -65,7 +66,7 @@ class Adapter:
         self.wandb.log(self.wandb_log_buffer)
         self.wandb_log_buffer = None
 
-    def df_to_dict(self, df, description):
+    def df_to_dict(self, df, id_name='id'):
         """Transform datatype from pandas.dataframe to dictionary.
 
         Args:
@@ -77,14 +78,16 @@ class Adapter:
         """
         if df is None:
             return {}
-        get_key = lambda u: f'UE_{u}_'+description
-        dict_key = list(map(get_key, df['user']))
+        description = df['source'] + "::" + df['name']
+        get_key = lambda u: description+"::"+id_name+f'={u}'
+        dict_key = list(map(get_key, df['id']))
         dict_value = df['value']
 
         #print(dict_key)
         #print(dict_value)
 
         data = dict(zip(dict_key, dict_value))
+        #print(data)
         return data
 
     def fill_empty_feature(self, feature, value):
@@ -135,22 +138,3 @@ class Adapter:
             emptyFeatureArray = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
             emptyFeatureArray.fill(value)
             return emptyFeatureArray
-    def get_nested_json_policy (self, action_name, tags, action, index_name='user'):
-        """Convert the gymnasium action space to nested json format
-
-        Args:
-            action_name (str): name of the action
-            tags (dict): custom tags for this action
-            action (Spaces): action from the rl agent
-
-        Returns:
-            json: a nested json policy for the network
-        """
-
-        policy = tags.copy()
-        policy['name'] = action_name
-        policy['']={}
-        policy[''][index_name] = list(range(len(action)))
-        policy['']['value'] = action.tolist()
-        #print(policy)
-        return policy

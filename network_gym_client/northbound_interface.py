@@ -56,15 +56,13 @@ class NorthBoundClient():
         Args:
             policy (json): network policy
         """
-
-        if self.config_json['env_config']['respond_action_after_measurement']:
-            action_json = self.config_json["action_template"] #load the action format from template
-
-            action_json["action_list"] = policy
-            #print(action_json)
-            json_str = json.dumps(action_json, indent=2)
-            #print(identity +" Send: "+ json_str)
-            self.socket.send(json_str.encode('utf-8')) #send action
+        action_json = {}
+        action_json["type"] = "env-action"
+        action_json["action_list"] = policy
+        #print(action_json)
+        json_str = json.dumps(action_json, indent=2)
+        #print(identity +" Send: "+ json_str)
+        self.socket.send(json_str.encode('utf-8')) #send action
 
     #receive a msg from network gym server
     def recv (self):
@@ -116,10 +114,14 @@ class NorthBoundClient():
         Returns:
             pd.DataFrame: the processed network stats measurement
         """
+        #print(reply_json)
+        if(not reply_json['network_stats']):
+            return None
+        
         network_stats = pd.json_normalize(reply_json['network_stats']) 
         if "workload_stats" in reply_json:
             # workload measurement available
-            print('Env Measurement --> ' + str(reply_json['workload_stats']))
+            print('Env (workload_stats) --> ' + str(reply_json['workload_stats']))
             #if "sim_time_lapse_ms" and "time_lapse_ms" in reply_json['workload_stats']:
             #    if reply_json['workload_stats']['time_lapse_ms']>0:
             #        print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')

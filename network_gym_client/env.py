@@ -99,7 +99,7 @@ class Env(gym.Env):
 
 
         # compute the simulation time based on setting
-        config_json['env_config']['env_end_time_ms'] = int(config_json['env_config']['measurement_start_time_ms'] + step_length * (self.steps_per_episode) * self.episodes_per_session)
+        config_json['env_config']['env_end_time_ms'] = int(config_json['env_config']['measurement_start_time_ms'] + step_length * (self.steps_per_episode * self.episodes_per_session + 1))
         print("Environment duration: " + str(config_json['env_config']['env_end_time_ms']) + " ms")
         #Define config params
         module_path = 'network_gym_client.envs.'+config_json['env_config']['env']+'.adapter'
@@ -119,8 +119,7 @@ class Env(gym.Env):
         self.current_step = 0
         self.current_ep = 0
         self.first_episode = True
-
-        self.last_policy = []
+        self.last_action = np.array([])
 
         
     def reset(self, seed=None, options=None):
@@ -153,14 +152,15 @@ class Env(gym.Env):
         if self.first_episode:
             self.northbound_interface_client.connect()
         else:
-            self.northbound_interface_client.send(self.last_policy) #send action to network gym server
+            policy = self.adapter.get_policy(self.last_action) # calling this function updates the timestamp
+            self.northbound_interface_client.send(policy) #send network policy to network gym server
 
         network_stats = self.northbound_interface_client.recv()#first measurement
 
         observation = self.adapter.get_observation(network_stats)
-
+        if (observation.shape != self.adapter.get_observation_space().shape):
+            sys.exit("The shape of the observation and self.get_observation is not the same!")
         # print(observation.shape)
-
 
         return observation.astype(np.float32), {"network_stats": network_stats}
 
@@ -196,20 +196,24 @@ class Env(gym.Env):
         print("----------| step() at episode:" + str(self.current_ep) + ", step:" + str(self.current_step) + " |----------")
 
         #1.) Get action from RL agent and send to network gym server
-        if not self.enable_rl_agent or action.size == 0:
+        if not self.enable_rl_agent or len(action) == 0:
             #empty action
-            self.northbound_interface_client.send([]) #send empty action to network gym server
+            policy = self.adapter.get_policy(np.array([]))#send empty action to network gym server
+            self.northbound_interface_client.send(policy) #send network policy to network gym server
         else:
             # TODO: we need to have the same action format... e.g., [0, 1]
+            if (action.shape != self.adapter.get_action_space().shape):
+                sys.exit("The shape of the observation and self.get_observation is not the same!")
+            self.last_action = action
             policy = self.adapter.get_policy(action)
-            self.last_policy = policy
             self.northbound_interface_client.send(policy) #send network policy to network gym server
 
         #2.) Get measurements from gamsim and obs and reward
         network_stats = self.northbound_interface_client.recv()
         
         observation = self.adapter.get_observation(network_stats)
-
+        if (observation.shape != self.adapter.get_observation_space().shape):
+            sys.exit("The shape of the observation and self.get_observation is not the same!")
         # print(observation)
 
         #Get reward

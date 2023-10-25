@@ -4,7 +4,7 @@ firstpage:
 lastpage:
 ---
 
-# NetworkGym: Democratizing Network AI
+# NetworkGym: Democratizing Network AI via Sim-aaS.
 NetworkGym is an innovative Simulation-as-a-Service (Sim-aaS) framework to democratize Network AI research and development, based on the streamlined concept of "agent-environment loop" as seen in reinforcement learning.
 
 ```{figure} network_gym_intro.png
@@ -80,15 +80,21 @@ api/network_gym_env
 
 environments/mx_traffic_management
 environments/mx_network_slicing
+environments/congestion_control
+```
+
+```{toctree}
+:hidden:
+:caption: Third-Party Agents
+
+Stable-Baselines3/CleanRL <https://github.com/pinyaras/GMAClient>
 ```
 
 ```{toctree}
 :hidden:
 :caption: Tutorials
-
-tutorials/handling_time_limits
+tutorials/networkgym_basics
 tutorials/training_agents
-tutorials/customizing_observation_and_reward
 tutorials/implementing_custom_environment
 Gymnasium Tutorial <https://gymnasium.farama.org/tutorials/gymnasium_basics/>
 

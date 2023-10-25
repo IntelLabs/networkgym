@@ -91,7 +91,7 @@ First, the configuration file is loaded using the `load_config_file` function by
 
 Next, the agent performs an action in the environment, `step`. As a result, the agent receives a new observation from the updated environment along with a reward for taking the action. One such action-observation exchange is referred to as a timestep.
 
-In NetworkGym, an environment includes multiple episodes. The terminal state for an episode and environment is signaled using the truncated and terminated signals returned by `step`. For example, after a fixed number of timesteps, an episode is ended by issuing a truncated signal. After multiple episodes, the environment terminates with a terminated signal. If `truncated` is `True`, then reset should be called next to restart the episode. If the `terminated` is `True`, then the client needs to restart the environment. For scenarios where sequential training is essential, the agent can initiate multiple environment sessions in succession. Further insights into effectively managing time constraints can be found in the [Handling Time Limits](../tutorials/handling_time_limits.md). An illustrative example is presented below.
+In NetworkGym, an environment includes multiple episodes. The terminal state for an episode and environment is signaled using the truncated and terminated signals returned by `step`. For example, after a fixed number of timesteps, an episode is ended by issuing a truncated signal. After multiple episodes, the environment terminates with a terminated signal. If `truncated` is `True`, then reset should be called next to restart the episode. If the `terminated` is `True`, then the client needs to restart the environment. For scenarios where sequential training is essential, the agent can initiate multiple environment sessions in succession. Further insights into effectively managing time constraints can be found in the [Handling Time Limits](../tutorials/networkgym_basics/handling_time_limits.md). An illustrative example is presented below.
 
 ```{mermaid}
 sequenceDiagram
@@ -115,8 +115,7 @@ In the provided example, we sampled random actions via `env.action_space.sample(
 
 ```python
     # No action from the RL agent -> the environment will use the system default policy
-    action = np.array([])
-    obs, reward, terminated, truncated, info = env.step(action)
+    obs, reward, terminated, truncated, info = env.step([])
 ```
 
 Every environment should have the attributes `action_space` and `observation_space`, both of which should be instances of classes that inherit from `Space`. Gymnasium supports a majority of possible spaces users might need:
