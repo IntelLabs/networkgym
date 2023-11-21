@@ -104,7 +104,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         #print(df_phy_wifi_max_rate)
         #print(df_wifi_split_ratio)
         #print(df_x_loc)
-        #Print(df_y_loc)
+        #print(df_y_loc)
 
         # if not empty and send to wanDB database
         self.wandb_log_buffer_append(self.df_to_dict(df_phy_wifi_max_rate))

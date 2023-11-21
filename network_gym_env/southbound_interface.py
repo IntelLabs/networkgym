@@ -5,7 +5,7 @@
 import zmq
 import json
 
-def southbound_connect(identity, config_json):
+def southbound_connect(identity, config_json, context):
     """Connect to the server via southbound interface.
 
     Args:
@@ -15,7 +15,6 @@ def southbound_connect(identity, config_json):
     Returns:
         socket: zmq socket for southbound
     """
-    context = zmq.Context()
     sb_socket = context.socket(zmq.DEALER)
     sb_socket.plain_username = bytes(config_json["session_name"], 'utf-8')
     sb_socket.plain_password = bytes(config_json["session_key"], 'utf-8')

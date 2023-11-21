@@ -62,6 +62,7 @@ class Configure(threading.Thread):
         self.identity = u'%s-%d-%s' % (self.config_json["session_name"], id, socket.gethostname())
         self.env_list = env_list
         self.NetworkGymSim = NetworkGymSim
+        self.context = zmq.Context()
 
     def run(self):
         """Run the environement configure.
@@ -69,7 +70,7 @@ class Configure(threading.Thread):
 
         # connect to server via southbound Interface
         identity = str(self.identity)
-        env_config = southbound_connect(identity, self.config_json)
+        env_config = southbound_connect(identity, self.config_json, self.context)
         print(identity + ': env_config socket connected.')
 
         poller = zmq.Poller()
@@ -127,7 +128,7 @@ class Configure(threading.Thread):
                         # simulator terminated <-------------------
 
                         # env_config reconnect the server.
-                        env_config = southbound_connect(identity, self.config_json)
+                        env_config = southbound_connect(identity, self.config_json, self.context)
                         print(identity + ': env_config socket connected.')
                         
                         poller.register(env_config, flags=zmq.POLLIN)
@@ -151,3 +152,4 @@ class Configure(threading.Thread):
         except:
             poller.unregister(env_config)
             env_config.close()
+            self.context.term()

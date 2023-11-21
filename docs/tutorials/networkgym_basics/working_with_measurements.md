@@ -24,14 +24,15 @@ The network statistics measurement contains 5 columns, with each field's explana
 | value | Stores the value of the measurement. The value is stored as a list, and its size matches that of the corresponding `id`. Elements can be numerical, or JSON objects to store more complex data structure. |
 
 
-## Supported Measurements per Source
+## Supported Measurements by Source
 Click a source to view the available measurements. A measurement can be identified as `source`::`name`, e.g., `gma::ul::rate`.
 
 ::::{tab-set}
 
 :::{tab-item} gma
-Measurements from Generic Multi-Accee (GMA). 
+### Measurements from Generic Multi-Accee (GMA). 
 
+🔽 user measurement
 | Name | Description |
 | ---- | ---- |
 | ul::missed_action | Count of missed agent actions in uplink by the environment. *(NOTE: Applicable in testbed environment where RL agent might take too long to compute an action. Simulator waits for action by default in simulations, therefore should always be 0.)* |
@@ -85,25 +86,43 @@ Measurements from Generic Multi-Accee (GMA).
 | x_loc | x coordinate per user in meters. |
 | y_loc | y coordinate per user in meters. |
 
+🔽 base station (cell) measurement
+| Name | Description |
+| ---- | ---- |
+| ul::cell::rate | Uplink delivery rate (output traffic throughput) per slice as measured by each base station in Mbps.|
+| ul::cell::qos_rate | Uplink QoS delivery rate (output traffic throughput meeting QoS requirement) per slice as measured by each base station in Mbps. |
+| ul::cell::tx_rate | Uplink load (input traffic throughput) per slice as measured by each base station in Mbps. |
+| ul::cell::delay_violation | Uplink one-way delay violation percentage (%) as measured by each base station; delay bound (delay_bound_ms) can be configured in the JSON file. *(NOTE: Only for QoS use case)* |
+| dl::cell::rate | Downlink delivery rate (output traffic throughput) per slice as measured by each base station in Mbps.|
+| dl::cell::qos_rate | Downlink QoS delivery rate (output traffic throughput meeting QoS requirement) per slice as measured by each base station in Mbps. |
+| dl::cell::tx_rate | Downlink load (input traffic throughput) per slice as measured by each base station in Mbps. |
+| dl::cell::delay_violation | Downlink one-way delay violation percentage (%) as measured by each base station; delay bound (delay_bound_ms) can be configured in the JSON file. *(NOTE: Only for QoS use case)* |
+
 :::
 
 :::{tab-item} lte
-Measurements from LTE.
+### Measurements from LTE.
 
+🔽 user measurement
 | Name | Description |
 | ---- | ---- |
 | cell_id | LTE cell ID as measured by each user. *(NOTE: 255 is the default value, representing no measurement.)*|
 | slice_id | LTE slice ID as measured by each user. |
 | dl::max_rate | LTE downlink link capacity as measured by each user in Mbps. |
-| dl::cell::max_rate | LTE downlink link capacity as measured by the base station for each slice in Mbps. *(NOTE: if a slice includes multiple users, the link capacity is computed as the sum of the per user capacity divided by the number of users.)*|
 | dl::rb_usage | LTE downlink link resource block usage/utilization (%) as measured by each user. |
-| dl::cell::rb_usage | LTE downlink link resource block usage/utilization (%) as measured by the base staion for each slice. *(NOTE: if a slice includes multiple users, the usage is computed as the sum of the per user usage.)*|
+
+🔽 base station (cell) measurement
+| Name | Description |
+| ---- | ---- |
+| dl::cell::max_rate | LTE downlink link capacity as measured by the base station for each slice in Mbps. *(NOTE: if a slice includes multiple users, the link capacity is computed as the sum of the per user capacity divided by the number of users.)*|
+| dl::cell::rb_usage | LTE downlink link resource block usage/utilization (%) as measured by the base staion for each slice. *(NOTE: if a slice includes multiple users, the usage is computed as the sum of the per user usage.)*|:::
 
 :::
 
 :::{tab-item} wifi
-Measurements from WiFi.
+### Measurements from WiFi.
 
+🔽 user measurement
 | Name | Description |
 | ---- | ---- |
 | cell_id | LTE cell/Access Point ID as measured by each user. *(NOTE: 255 is the default value, representing no measurement.)*|
@@ -113,8 +132,9 @@ Measurements from WiFi.
 :::
 
 :::{tab-item} rmcat
-Measurements from RTP Media Congestion Avoidance Techniques (RMCAT).
+### Measurements from RTP Media Congestion Avoidance Techniques (RMCAT).
 
+🔽 flow measurement
 | Name | Description |
 | ---- | ---- |
 | loglen, | packet history size. |
@@ -130,7 +150,6 @@ Measurements from RTP Media Congestion Avoidance Techniques (RMCAT).
 | curint | most recent (currently growing) inter-loss interval in packets. |
 
 :::
-
 
 ::::
 

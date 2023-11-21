@@ -38,37 +38,8 @@ pip install wandb
 pip install tensorboard
 pip install rich
 ```
-- Request access to the [vLab](https://registration.intel-research.net/) machine.
-
-## 🔗 Setup Port Forwarding to vLab Server:
-
-**Skip this section if you plan to deploy the client on the mlwins-v01 vlab server.** Otherwise, follow the following steps to set up port forwarding from you local machine to the stable version of vlab Server. **Change the port number from 8088 to 8092 to access dev version.**
-- First, setup port forwarding from the local port 8088 to the mlwins-v01 external server port 8088 via the SSH gateway using the following command in a screen session, e.g., `screen -S port8088`.
-``` 
-ssh -L 8088:mlwins-v01.research.intel-research.net:8088 ssh.intel-research.net
-```
-- If the previous command does not work, add your user account before the `ssh.intel-research.net` as follows.
-```
-ssh -L 8088:mlwins-v01.research.intel-research.net:8088 [YOUR_USER_NAME]@ssh.intel-research.net
-```
- - If the previous command also does not work, add the following instructions to your ssh configure file, replace **[YOUR_USER_NAME]** with your user name and update **[PATH_TO_SSH]** accordingly.
-```
-# COMMAND: ssh mlwins
-
-Host gateway
-  HostName ssh.intel-research.net
-  User [YOUR_USER_NAME]
-  Port 22
-  IdentityFile /home/[PATH_TO_SSH]/.ssh/id_rsa
-
-Host mlwins
-  HostName mlwins-v01.research.intel-research.net
-  User [YOUR_USER_NAME]
-  Port 22
-  IdentityFile /home/[PATH_TO_SSH]/.ssh/id_rsa
-  ProxyJump gateway
-  LocalForward 8088 localhost:8088
-```
+- For Intel users, connect to Intel VPN and make sure you can ping the "server_ip" in the common_config.json file.
+- For external users (or no Intel VPN), [set up port fowrading to vLab machine](network_gym_client/README.md).
 
 ## 🚀 Start NetworkGym Client:
 
@@ -76,7 +47,8 @@ Host mlwins
 
 ```json
 {
-  "algorithm_client_port": 8088 or 8092,//do not change
+  "server_ip": "gmasim-v01.jf.intel.com", //do not change (for internal users only).
+  "server_port": 8088, //set to 8088 to access stable version or 8092 to access dev version.
   "session_name": "test",//Make sure to change the "session_name" to your assgined session name. Cannot use '-' in the name!!!!
   "session_key": "test",//Make sure to change the "session_key" to your assgined keys.
 }

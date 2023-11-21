@@ -50,7 +50,7 @@ The arguements for this environment can be customized in the [config.json] file.
     "type": "env-start", //do not change
     "subscribed_network_stats":[], //the environment will only report the subscribed measurements.
     "steps_per_episode": 10, //the number of steps for each episode. Episode end is indicated by truncated signal.
-    "episodes_per_session": 2, //the number of episodes per environment session. Environment session end is indicated by terminated signal.
+    "episodes_per_session": 5, //the number of episodes per environment session. Environment session end is indicated by terminated signal.
     "random_seed": 2, //change the random seed for this simulation run
     "downlink_traffic": true, //set to true to simulate downlink data flow, set to false to simulate uplink data flow.
     "max_wait_time_for_action_ms": -1, //the max time the network gym worker will wait for an action. set to -1 will cap the wait time to 600*1000 milliseconds.
@@ -92,7 +92,7 @@ The arguements for this environment can be customized in the [config.json] file.
     "GMA": {
       "downlink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
       "uplink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
-      "enable_dynamic_flow_prioritization": false, //When DFP is enabled, for each cell, mark 70%~90% of traffic or users to high priority.
+      "enable_dynamic_flow_prioritization": false, //When DFP is enabled, for each cell, mark 70%~90% of traffic or users to high priority. We recommand to only use this feature for UDP traffic with QoS requirement.
       "measurement_interval_ms": 100, //duration of a measurement interval.
       "measurement_guard_interval_ms": 0 //gap between 2 measurement interval
     },
@@ -103,7 +103,7 @@ The arguements for this environment can be customized in the [config.json] file.
       "measurement_guard_interval_ms": 0
     },
     "LTE": {
-      "resource_block_num": 25, //number of resouce blocks for LTE, 25 for 5 MHZ, 50 for 10 MHZ, 75 for 15 MHZ and 100 for 20 MHZ.
+      "resource_block_num": 100, //number of resouce blocks for LTE, 25 for 5 MHZ, 50 for 10 MHZ, 75 for 15 MHZ and 100 for 20 MHZ.
       "measurement_interval_ms": 100,
       "measurement_guard_interval_ms": 0
     }
@@ -121,46 +121,54 @@ Edit the "subscribed_network_stats" in the [config.json] to include only the nec
 
 ```
                  id                        name source    ts                                              value
-0   [1, 2, 3, 4, 5]                dl::max_rate    lte  3000                     [75.0, 55.0, 55.0, 75.0, 75.0]
-1   [1, 2, 3, 4, 5]                     cell_id    lte  3000                          [1.0, 1.0, 1.0, 1.0, 1.0]
-2   [1, 2, 3, 4, 5]                    slice_id    lte  3000                          [0.0, 0.0, 1.0, 1.0, 1.0]
-3   [1, 2, 3, 4, 5]                dl::rb_usage    lte  3000                     [2.88, 4.08, 4.32, 2.88, 2.88]
-4               [1]          dl::cell::max_rate    lte  3000  [{'slice': [0, 1], 'value': [65.0, 68.33333333...
-5               [1]          dl::cell::rb_usage    lte  3000        [{'slice': [0, 1], 'value': [6.96, 10.08]}]
-6   [1, 2, 3, 4, 5]           ul::missed_action    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-7   [1, 2, 3, 4, 5]          ul::measurement_ok    gma  3000                          [1.0, 1.0, 1.0, 1.0, 1.0]
-8   [1, 2, 3, 4, 5]                    ul::rate    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-9   [1, 2, 3, 4, 5]                ul::qos_rate    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-10  [1, 2, 3, 4, 5]         ul::delay_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-11  [1, 2, 3, 4, 5]  ul::delay_test_1_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-12  [1, 2, 3, 4, 5]  ul::delay_test_2_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-13  [1, 2, 3, 4, 5]                     ul::owd    gma  3000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
-14  [1, 2, 3, 4, 5]                 ul::max_owd    gma  3000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
-15  [1, 2, 3, 4, 5]                 dl::tx_rate    gma  3000                [2.056, 2.056, 1.942, 2.056, 2.056]
-16  [1, 2, 3, 4, 5]           lte::dl::priority    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-17  [1, 2, 3, 4, 5]               lte::ul::rate    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-18  [1, 2, 3, 4, 5]           lte::ul::qos_rate    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-19  [1, 2, 3, 4, 5]      lte::ul::traffic_ratio    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-20  [1, 2, 3, 4, 5]                lte::ul::owd    gma  3000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
-21  [1, 2, 3, 4, 5]            lte::ul::max_owd    gma  3000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
-22  [1, 2, 3, 4, 5]           dl::missed_action    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-23  [1, 2, 3, 4, 5]          dl::measurement_ok    gma  3000                          [1.0, 1.0, 1.0, 1.0, 1.0]
-24  [1, 2, 3, 4, 5]                    dl::rate    gma  3000                [2.056, 2.056, 2.056, 2.056, 2.056]
-25  [1, 2, 3, 4, 5]                dl::qos_rate    gma  3000                [2.056, 2.056, 2.056, 2.056, 2.056]
-26  [1, 2, 3, 4, 5]         dl::delay_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-27  [1, 2, 3, 4, 5]  dl::delay_test_1_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-28  [1, 2, 3, 4, 5]  dl::delay_test_2_violation    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-29  [1, 2, 3, 4, 5]                     dl::owd    gma  3000                          [3.0, 3.0, 3.0, 3.0, 3.0]
-30  [1, 2, 3, 4, 5]                 dl::max_owd    gma  3000                          [3.0, 3.0, 3.0, 3.0, 3.0]
-31  [1, 2, 3, 4, 5]                 ul::tx_rate    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-32  [1, 2, 3, 4, 5]                       x_loc    gma  3000              [19.83, 2.836, 78.31, 46.913, 27.607]
-33  [1, 2, 3, 4, 5]                       y_loc    gma  3000                [8.645, 0.388, 7.493, 4.089, 2.242]
-34  [1, 2, 3, 4, 5]           lte::ul::priority    gma  3000                          [0.0, 0.0, 0.0, 0.0, 0.0]
-35  [1, 2, 3, 4, 5]               lte::dl::rate    gma  3000                [2.056, 2.056, 2.056, 2.056, 2.056]
-36  [1, 2, 3, 4, 5]           lte::dl::qos_rate    gma  3000                [2.056, 2.056, 2.056, 2.056, 2.056]
-37  [1, 2, 3, 4, 5]      lte::dl::traffic_ratio    gma  3000                [100.0, 100.0, 100.0, 100.0, 100.0]
-38  [1, 2, 3, 4, 5]                lte::dl::owd    gma  3000                          [3.0, 3.0, 3.0, 3.0, 3.0]
-39  [1, 2, 3, 4, 5]            lte::dl::max_owd    gma  3000                          [3.0, 3.0, 3.0, 3.0, 3.0]
+0   [1, 2, 3, 4, 5]                dl::max_rate    lte  6000                     [75.0, 55.0, 55.0, 75.0, 75.0]
+1   [1, 2, 3, 4, 5]                     cell_id    lte  6000                          [1.0, 1.0, 1.0, 1.0, 1.0]
+2   [1, 2, 3, 4, 5]                    slice_id    lte  6000                          [0.0, 0.0, 1.0, 1.0, 1.0]
+3   [1, 2, 3, 4, 5]                dl::rb_usage    lte  6000                     [2.72, 4.32, 4.32, 2.88, 2.88]
+4               [1]          dl::cell::max_rate    lte  6000  [{'slice': [0, 1], 'value': [65.0, 68.33333333...
+5               [1]          dl::cell::rb_usage    lte  6000  [{'slice': [0, 1], 'value': [7.040000000000001...
+6   [1, 2, 3, 4, 5]           ul::missed_action    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+7   [1, 2, 3, 4, 5]          ul::measurement_ok    gma  6000                          [1.0, 1.0, 1.0, 1.0, 1.0]
+8   [1, 2, 3, 4, 5]                    ul::rate    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+9   [1, 2, 3, 4, 5]                ul::qos_rate    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+10  [1, 2, 3, 4, 5]         ul::delay_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+11  [1, 2, 3, 4, 5]  ul::delay_test_1_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+12  [1, 2, 3, 4, 5]  ul::delay_test_2_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+13  [1, 2, 3, 4, 5]                     ul::owd    gma  6000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
+14  [1, 2, 3, 4, 5]                 ul::max_owd    gma  6000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
+15  [1, 2, 3, 4, 5]                 dl::tx_rate    gma  6000                [2.056, 1.942, 2.056, 2.056, 2.056]
+16  [1, 2, 3, 4, 5]           lte::dl::priority    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+17  [1, 2, 3, 4, 5]               lte::ul::rate    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+18  [1, 2, 3, 4, 5]           lte::ul::qos_rate    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+19  [1, 2, 3, 4, 5]      lte::ul::traffic_ratio    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+20  [1, 2, 3, 4, 5]                lte::ul::owd    gma  6000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
+21  [1, 2, 3, 4, 5]            lte::ul::max_owd    gma  6000                     [-1.0, -1.0, -1.0, -1.0, -1.0]
+22  [1, 2, 3, 4, 5]           dl::missed_action    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+23  [1, 2, 3, 4, 5]          dl::measurement_ok    gma  6000                          [1.0, 1.0, 1.0, 1.0, 1.0]
+24  [1, 2, 3, 4, 5]                    dl::rate    gma  6000                [2.056, 2.056, 2.056, 1.936, 2.056]
+25  [1, 2, 3, 4, 5]                dl::qos_rate    gma  6000                [2.056, 2.056, 2.056, 1.936, 2.056]
+26  [1, 2, 3, 4, 5]         dl::delay_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+27  [1, 2, 3, 4, 5]  dl::delay_test_1_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+28  [1, 2, 3, 4, 5]  dl::delay_test_2_violation    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+29  [1, 2, 3, 4, 5]                     dl::owd    gma  6000                          [3.0, 3.0, 3.0, 3.0, 3.0]
+30  [1, 2, 3, 4, 5]                 dl::max_owd    gma  6000                          [3.0, 3.0, 3.0, 3.0, 3.0]
+31  [1, 2, 3, 4, 5]                 ul::tx_rate    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+32  [1, 2, 3, 4, 5]                       x_loc    gma  6000             [21.07, 1.522, 79.016, 50.161, 28.117]
+33  [1, 2, 3, 4, 5]                       y_loc    gma  6000                [6.816, 3.647, 6.772, 4.199, 2.721]
+34  [1, 2, 3, 4, 5]           lte::ul::priority    gma  6000                          [0.0, 0.0, 0.0, 0.0, 0.0]
+35  [1, 2, 3, 4, 5]               lte::dl::rate    gma  6000                [2.056, 2.056, 2.056, 1.936, 2.056]
+36  [1, 2, 3, 4, 5]           lte::dl::qos_rate    gma  6000                [2.056, 2.056, 2.056, 1.936, 2.056]
+37  [1, 2, 3, 4, 5]      lte::dl::traffic_ratio    gma  6000                [100.0, 100.0, 100.0, 100.0, 100.0]
+38  [1, 2, 3, 4, 5]                lte::dl::owd    gma  6000                          [3.0, 3.0, 3.0, 3.0, 3.0]
+39  [1, 2, 3, 4, 5]            lte::dl::max_owd    gma  6000                          [3.0, 3.0, 3.0, 3.0, 3.0]
+40              [1]              ul::cell::rate    gma  6000           [{'slice': [0, 1], 'value': [0.0, 0.0]}]
+41              [1]          ul::cell::qos_rate    gma  6000           [{'slice': [0, 1], 'value': [0.0, 0.0]}]
+42              [1]           dl::cell::tx_rate    gma  6000       [{'slice': [0, 1], 'value': [3.998, 6.168]}]
+43              [1]   ul::cell::delay_violation    gma  6000           [{'slice': [0, 1], 'value': [0.0, 0.0]}]
+44              [1]              dl::cell::rate    gma  6000       [{'slice': [0, 1], 'value': [4.112, 6.048]}]
+45              [1]          dl::cell::qos_rate    gma  6000       [{'slice': [0, 1], 'value': [4.112, 6.048]}]
+46              [1]           ul::cell::tx_rate    gma  6000           [{'slice': [0, 1], 'value': [0.0, 0.0]}]
+47              [1]   dl::cell::delay_violation    gma  6000           [{'slice': [0, 1], 'value': [0.0, 0.0]}]
 ```
 
 :::

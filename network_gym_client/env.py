@@ -234,7 +234,10 @@ class Env(gym.Env):
 
             if self.current_ep == self.episodes_per_session:
                 terminated = True
+                self.northbound_interface_client.close()
                 time.sleep(1) # sleep 1 second to let the server disconnect client and env worker. In case the client restart connection right after a env termination.
         #4.) return observation, reward, done, info
-        # print("terminated:" + str(terminated) + " truncated:" + str(truncated))
+        if terminated or truncated:
+            print("Episode End ---> terminated:" + str(terminated) + " truncated:" + str(truncated))
+        #print("Episode End ---> terminated:" + str(terminated) + " truncated:" + str(truncated))
         return observation.astype(np.float32), reward, terminated, truncated, {"network_stats": network_stats}

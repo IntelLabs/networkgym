@@ -26,7 +26,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         super().__init__(config_json)
         self.env = Path(__file__).resolve().parent.name
         self.size_per_feature = len(self.config_json['env_config']['slice_list'])
-        self.num_features = 2
+        self.num_features = 3
 
         num_users = 0
         for item in self.config_json['env_config']['slice_list']:
@@ -73,22 +73,38 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        #print (df)
+        print (df)
 
-        max_rate = np.empty(self.size_per_feature, dtype=object)
-        rb_usage = np.empty(self.size_per_feature, dtype=object)
+        dl_cell_rb_usage = None
+        dl_cell_tx_rate = None
+        dl_cell_rate = None
+        dl_cell_qos_rate = None
+        dl_cell_delay_violation = None
 
         for index, row in df.iterrows():
             if row['source'] == 'lte':
                 if row['name'] == 'dl::cell::max_rate':
-                    max_rate = row['value']
                     self.action_data_format = row
-
                 elif row['name'] == 'dl::cell::rb_usage':
-                    rb_usage = row['value']
+                    dl_cell_rb_usage = row
+            elif row['source'] == 'gma':
+                if row['name'] == 'dl::cell::tx_rate':
+                    dl_cell_tx_rate = row
+                elif row['name'] == 'dl::cell::rate':
+                    dl_cell_rate = row
+                elif row['name'] == 'dl::cell::qos_rate':
+                    dl_cell_qos_rate = row
+                elif row['name'] == 'dl::cell::delay_violation':
+                    dl_cell_delay_violation = row
+
+        self.wandb_log_buffer_append(self.slice_df_to_dict(dl_cell_rb_usage))
+        self.wandb_log_buffer_append(self.slice_df_to_dict(dl_cell_tx_rate))
+        self.wandb_log_buffer_append(self.slice_df_to_dict(dl_cell_rate))
+        self.wandb_log_buffer_append(self.slice_df_to_dict(dl_cell_qos_rate))
+        self.wandb_log_buffer_append(self.slice_df_to_dict(dl_cell_delay_violation))
 
         #warning, need to modify the following if use more than one base stations.
-        observation = np.vstack([pd.json_normalize(max_rate)["value"].to_list(), pd.json_normalize(rb_usage)["value"].to_list()])
+        observation = np.vstack([pd.json_normalize(dl_cell_rate["value"])["value"].to_list(), pd.json_normalize(dl_cell_rb_usage["value"])["value"].to_list(), pd.json_normalize(dl_cell_delay_violation["value"])["value"].to_list()])
         print('Observation --> ' + str(observation))
         return observation
 
@@ -148,22 +164,41 @@ class Adapter(network_gym_client.adapter.Adapter):
 
         return reward
 
-    def slice_df_to_dict(self, df, description):
-        """Convert the dataformat from dataframe to dict.
+    def slice_df_to_dict(self, df, id_name='id'):
+        """Transform datatype from pandas.dataframe to dictionary.
 
         Args:
-            df (pandas.DataFrame): input dataframe
-            description (str): description for the data
+            df (pandas.dataframe): a pandas.dataframe object
+            description (string): a descritption for the data
 
         Returns:
-            dict: output data
+            dict : converted data with dictionary format
         """
-        df_cp = df.copy()
-        df_cp['slice_id'] = df_cp['slice_id'].map(lambda u: f'slice_{int(u)}_'+description)
-        # Set the index to the 'user' column
-        df_cp = df_cp.set_index('slice_id')
-        # Convert the DataFrame to a dictionary
-        data = df_cp['slice_value'].to_dict()
+        if df is None:
+            return {}
+        description = df['source'] + "::" + df['name']
+        get_key = lambda u, v: description+"::"+id_name+f'={u}'+"::slice"+f'={v}'
+
+        id_list = []
+        slice_list = []
+        value_list= []
+        for i, item in enumerate(df['id']):
+            for j, sub in enumerate(df['value'][i]['slice']):
+                id_list.append(item)
+                slice_list.append(sub)
+                value_list.append(df['value'][i]['value'][j])
+
+        #print(id_list)
+        #print(slice_list)
+        #print(value_list)
+
+        dict_key = list(map(get_key, id_list, slice_list))
+
+        #print(dict_key)
+        #print(value_list)
+
+        data = dict(zip(dict_key, value_list))
+        #print(data)
         return data
     
     def get_rbg_size (self, bandwidth):

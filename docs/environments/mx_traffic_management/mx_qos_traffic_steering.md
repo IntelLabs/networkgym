@@ -105,7 +105,7 @@ The arguements for this environment can be customized in the [config.json] file.
     "GMA": {
       "downlink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
       "uplink_mode": "auto", //"auto", "split", or "steer". "auto" will config UDP and TCP ACK as steer and TCP data as split.
-      "enable_dynamic_flow_prioritization": false, //When DFP is enabled, for each cell, mark 70%~90% of traffic or users to high priority.
+      "enable_dynamic_flow_prioritization": false, //When DFP is enabled, for each cell, mark 70%~90% of traffic or users to high priority. We recommand to only use this feature for UDP traffic with QoS requirement.
       "measurement_interval_ms": 1000, //duration of a measurement interval.
       "measurement_guard_interval_ms": 0 //gap between 2 measurement interval
     },

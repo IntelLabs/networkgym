@@ -27,27 +27,25 @@ class NorthBoundClient():
         self.identity = u'%s-%d' % (config_json["session_name"], id)
         self.config_json=config_json
         self.socket = None
+        self.local_port = True
+        self.context = zmq.Context()
 
     #connect to network gym server using ZMQ socket
     def connect(self):
         """Connect to the network gym server. Send the Start Env request, where the configuration is loaded from json file.
         """
-        context = zmq.Context()
-        self.socket = context.socket(zmq.DEALER)
+        self.socket = self.context.socket(zmq.DEALER)
         self.socket.plain_username = bytes(self.config_json["session_name"], 'utf-8')
         self.socket.plain_password = bytes(self.config_json["session_key"], 'utf-8')
         self.socket.identity = self.identity.encode('utf-8')
-        self.socket.connect('tcp://localhost:'+str(self.config_json["algorithm_client_port"]))
+        self.socket.connect('tcp://localhost:'+str(self.config_json["server_port"]))
+        #self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
+
         print('%s started' % (self.identity))
-        print(self.identity + " Sending GMASim Start Request…")
-        if self.config_json["session_name"] == "test":
-            print("If no reposne after sending the start requst, the port forwarding may be broken...")
-        else:
-            print("If no response from the server, it could be the session_name and session_key is wrong or the port forwardng is broken. "
-             +"You may change the 'session_name' and 'session_key' to 'test' to test port fowarding")
+        print(self.identity + " send start request to local port (or forwarded port). Wait 5 seconds before trying the remote server.")
             
-        gma_start_request = self.config_json["env_config"]
-        self.socket.send(json.dumps(gma_start_request, indent=2).encode('utf-8'))#send start simulation request
+        self.gma_start_request = self.config_json["env_config"]
+        self.socket.send(json.dumps(self.gma_start_request, indent=2).encode('utf-8'))#send start simulation request
 
     #send action to network gym server
     def send (self, policy):
@@ -72,7 +70,44 @@ class NorthBoundClient():
             pd.DataFrame: the network stats measurement from the environment
         """
 
-        reply = self.socket.recv()
+        if self.local_port:
+           
+            # listen to local port or port forwarding, if timeout, change to the remote server ip.
+            poller = zmq.Poller()
+            poller.register(self.socket, flags=zmq.POLLIN)
+            if poller.poll(timeout=5000):
+                reply = self.socket.recv()
+                poller.unregister(self.socket)
+            else:
+                poller.unregister(self.socket)
+
+                #raise IOError("Timeout processing auth request")
+
+                #zmq_Response = {'test': 'test'}
+                self.socket.close()
+                self.socket = self.context.socket(zmq.DEALER)
+                self.socket.plain_username = bytes(self.config_json["session_name"], 'utf-8')
+                self.socket.plain_password = bytes(self.config_json["session_key"], 'utf-8')
+                self.socket.identity = self.identity.encode('utf-8')
+
+                self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
+                #gma_start_request = self.config_json["env_config"]
+                #self.socket.send(json.dumps(gma_start_request, indent=2).encode('utf-8'))#send start simulation request
+                print(self.identity + " local port (or forwarded port) start request timeout.")
+
+                print(self.identity + " send start request to remote server: "+str(self.config_json["server_ip"]))
+
+                self.socket.send(json.dumps(self.gma_start_request, indent=2).encode('utf-8'))#send start simulation request
+
+                poller.register(self.socket, flags=zmq.POLLIN)
+                if poller.poll(timeout=5000):
+                    reply = self.socket.recv()
+                    poller.unregister(self.socket)
+                else:
+                    raise IOError("Cannot connect to local port, forwarded port, or the remote server! Check the parameters in common_config.json and the port forwarding.")
+
+
+        #reply = self.socket.recv()
         relay_json = json.loads(reply)
 
         #print(relay_json)        
@@ -81,6 +116,8 @@ class NorthBoundClient():
             # no available network gym worker, retry the request later
             print(self.identity+" Receive: "+reply.decode())
             print(self.identity+" "+"retry later...")
+            self.socket.close()
+            self.context.term()
             quit()
 
         #elif relay_json["type"] == "env-end":
@@ -98,11 +135,15 @@ class NorthBoundClient():
             # error happened. Check the error msg.
             print(self.identity +" Receive: "+ reply.decode())
             print(self.identity +" "+ "Simulation Stopped with ***[Error]***!")
+            self.socket.close()
+            self.context.term()
             quit()
         else:
             # Unkown msg type, please check.This should not happen. 
             print(self.identity +" Receive: "+ reply.decode())
             print(self.identity +" "+ "***[ERROR]*** unkown msg type!")
+            self.socket.close()
+            self.context.term()
             quit()
      
     def process_measurement (self, reply_json):
@@ -126,3 +167,7 @@ class NorthBoundClient():
             #    if reply_json['workload_stats']['time_lapse_ms']>0:
             #        print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')
         return network_stats
+
+    def close(self):
+        self.socket.close()
+        self.context.term()
