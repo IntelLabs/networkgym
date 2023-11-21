@@ -27,8 +27,9 @@ class NorthBoundClient():
         self.identity = u'%s-%d' % (config_json["session_name"], id)
         self.config_json=config_json
         self.socket = None
-        self.local_port = True
+        self.first_recv = True
         self.context = zmq.Context()
+        self.context.setsockopt(zmq.LINGER, 500)
 
     #connect to network gym server using ZMQ socket
     def connect(self):
@@ -70,14 +71,14 @@ class NorthBoundClient():
             pd.DataFrame: the network stats measurement from the environment
         """
 
-        if self.local_port:
-           
+        if self.first_recv:
+
             # listen to local port or port forwarding, if timeout, change to the remote server ip.
             poller = zmq.Poller()
             poller.register(self.socket, flags=zmq.POLLIN)
             if poller.poll(timeout=5000):
-                reply = self.socket.recv()
                 poller.unregister(self.socket)
+                # recv will be called later
             else:
                 poller.unregister(self.socket)
 
@@ -101,13 +102,12 @@ class NorthBoundClient():
 
                 poller.register(self.socket, flags=zmq.POLLIN)
                 if poller.poll(timeout=5000):
-                    reply = self.socket.recv()
                     poller.unregister(self.socket)
+                    # recv will be called later
                 else:
                     raise IOError("Cannot connect to local port, forwarded port, or the remote server! Check the parameters in common_config.json and the port forwarding.")
-
-
-        #reply = self.socket.recv()
+        self.first_recv = False
+        reply = self.socket.recv()
         relay_json = json.loads(reply)
 
         #print(relay_json)        
