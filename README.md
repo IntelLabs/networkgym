@@ -22,7 +22,7 @@ This repository includes the network_gym_client components. The network_gym_serv
 ## ⌛ Installation:
 1.  Clone this repository.
 ```
-https://github.com/IntelLabs/networkgym.git
+git clone https://github.com/IntelLabs/networkgym.git
 ```
 2. (Optional) Create a new virtual python environment.
 ```
@@ -40,6 +40,7 @@ pip install -r requirements.txt
 ## 🚀 Start NetworkGym Client:
 - Start the demo client using the following command:
 ```
+cd networkgym
 python3 start_client_demo.py
 ```
 - When the program terminates, visualize the output using the returned WanDB website.
