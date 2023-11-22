@@ -1,7 +1,10 @@
+ We currently host two networkgym versions in **external** vlab servers: a stable version updated less frequently (accessible via port 8088) and a development version with more frequent updates for new features (accessible via port 8092).
+  - To switch to the stable version branch, use the following command: `git checkout mlwins-v01-8088`.
+  - To switch to the development version branch, use the following command: `git checkout mlwins-v01-8092`.
 
-## 1. Request access to the [vLab](https://registration.intel-research.net/) machine.
+First, request access to the [vLab](https://registration.intel-research.net/) machine.
 
-## 2. Setup Port Forwarding to vLab Server:
+## Setup Port Forwarding to vLab Server
 
 **Skip this section if you plan to deploy the client on the mlwins-v01 vlab server.** Otherwise, follow the following steps to set up port forwarding from you local machine to the stable version of vlab Server. **Change the port number from 8092 to 8088 to access stable version.**
 - First, setup port forwarding from the local port 8092 to the mlwins-v01 external server port 8092 via the SSH gateway using the following command in a screen session, e.g., `screen -S port8092`.

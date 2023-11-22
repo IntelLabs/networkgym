@@ -1,6 +1,8 @@
 {
+  "connect_via_server_ip_and_server_port": true,
   "server_ip": "gmasim-v01.jf.intel.com",
   "server_port": 8092,
+  "local_fowarded_port": 8092,
   "session_name": "test",
   "session_key": "test"
 }

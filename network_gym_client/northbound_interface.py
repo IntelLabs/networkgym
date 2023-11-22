@@ -27,9 +27,8 @@ class NorthBoundClient():
         self.identity = u'%s-%d' % (config_json["session_name"], id)
         self.config_json=config_json
         self.socket = None
-        self.first_recv = True
         self.context = zmq.Context()
-        self.context.setsockopt(zmq.LINGER, 500)
+        self.context.setsockopt(zmq.LINGER, 10000)
 
     #connect to network gym server using ZMQ socket
     def connect(self):
@@ -39,11 +38,14 @@ class NorthBoundClient():
         self.socket.plain_username = bytes(self.config_json["session_name"], 'utf-8')
         self.socket.plain_password = bytes(self.config_json["session_key"], 'utf-8')
         self.socket.identity = self.identity.encode('utf-8')
-        self.socket.connect('tcp://localhost:'+str(self.config_json["server_port"]))
-        #self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
-
-        print('%s started' % (self.identity))
-        print(self.identity + " send start request to local port (or forwarded port). Wait 5 seconds before trying the remote server.")
+        if self.config_json["connect_via_server_ip_and_server_port"]:
+            self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
+            print(self.identity + " send start request to server: " + str(self.config_json["server_ip"])+" via port: "+str(self.config_json["server_port"]) + ".")
+            print("[TIP]: Set connect_via_server_ip_and_server_port to false to connect via port forwarding.")
+        else:
+            self.socket.connect('tcp://localhost:'+str(self.config_json["local_fowarded_port"]))
+            print(self.identity + " send start request to localhost via port: "+str(self.config_json["local_fowarded_port"]) + ".")
+            print ("[TIP]: Set connect_via_server_ip_and_server_port to true to connect via server ip and port.")
             
         self.gma_start_request = self.config_json["env_config"]
         self.socket.send(json.dumps(self.gma_start_request, indent=2).encode('utf-8'))#send start simulation request
@@ -71,42 +73,17 @@ class NorthBoundClient():
             pd.DataFrame: the network stats measurement from the environment
         """
 
-        if self.first_recv:
-
-            # listen to local port or port forwarding, if timeout, change to the remote server ip.
-            poller = zmq.Poller()
-            poller.register(self.socket, flags=zmq.POLLIN)
-            if poller.poll(timeout=5000):
-                poller.unregister(self.socket)
-                # recv will be called later
+        # Set a timeout every time we receive from the server.
+        poller = zmq.Poller()
+        poller.register(self.socket, flags=zmq.POLLIN)
+        if poller.poll(timeout=60000):
+            poller.unregister(self.socket)
+            # recv will be called later
+        else:
+            if self.config_json["connect_via_server_ip_and_server_port"]:
+                raise IOError("Cannot connect to the server! Check the configure parameters in common_config.json. Make sure the server_ip and server_port is correct and you can ping server_ip.")
             else:
-                poller.unregister(self.socket)
-
-                #raise IOError("Timeout processing auth request")
-
-                #zmq_Response = {'test': 'test'}
-                self.socket.close()
-                self.socket = self.context.socket(zmq.DEALER)
-                self.socket.plain_username = bytes(self.config_json["session_name"], 'utf-8')
-                self.socket.plain_password = bytes(self.config_json["session_key"], 'utf-8')
-                self.socket.identity = self.identity.encode('utf-8')
-
-                self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
-                #gma_start_request = self.config_json["env_config"]
-                #self.socket.send(json.dumps(gma_start_request, indent=2).encode('utf-8'))#send start simulation request
-                print(self.identity + " local port (or forwarded port) start request timeout.")
-
-                print(self.identity + " send start request to remote server: "+str(self.config_json["server_ip"]))
-
-                self.socket.send(json.dumps(self.gma_start_request, indent=2).encode('utf-8'))#send start simulation request
-
-                poller.register(self.socket, flags=zmq.POLLIN)
-                if poller.poll(timeout=5000):
-                    poller.unregister(self.socket)
-                    # recv will be called later
-                else:
-                    raise IOError("Cannot connect to local port, forwarded port, or the remote server! Check the parameters in common_config.json and the port forwarding.")
-        self.first_recv = False
+                raise IOError("Cannot connect to the server! Check the configure parameters in common_config.json. Make sure the port forwarding to external server is up.")
         reply = self.socket.recv()
         relay_json = json.loads(reply)
 

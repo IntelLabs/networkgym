@@ -63,7 +63,7 @@ class Configure(threading.Thread):
         self.env_list = env_list
         self.NetworkGymSim = NetworkGymSim
         self.context = zmq.Context()
-        self.context.setsockopt(zmq.LINGER, 500)
+        self.context.setsockopt(zmq.LINGER, 10000)
     def run(self):
         """Run the environement configure.
         """
