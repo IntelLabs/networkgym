@@ -31,7 +31,8 @@ source network_venv/bin/activate
 ```
 3. Install Required Libraries.
 ```
-pip install -r requirements.txt
+cd networkgym
+pip3 install -r requirements.txt
 ```
 4. Network Requirement:
     - For Intel users, connect to Intel VPN and make sure you can ping the "server_ip" in the [common_config.json](network_gym_client/common_config.json).
@@ -40,7 +41,6 @@ pip install -r requirements.txt
 ## 🚀 Start NetworkGym Client:
 - Start the demo client using the following command:
 ```
-cd networkgym
 python3 start_client_demo.py
 ```
 - When the program terminates, visualize the output using the returned WanDB website.
