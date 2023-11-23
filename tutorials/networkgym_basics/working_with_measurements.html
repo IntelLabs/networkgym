@@ -292,14 +292,15 @@
 </table>
 </div>
 </section>
-<section id="supported-measurements-per-source">
-<h2>Supported Measurements per Source<a class="headerlink" href="#supported-measurements-per-source" title="Permalink to this heading">#</a></h2>
+<section id="supported-measurements-by-source">
+<h2>Supported Measurements by Source<a class="headerlink" href="#supported-measurements-by-source" title="Permalink to this heading">#</a></h2>
 <p>Click a source to view the available measurements. A measurement can be identified as <code class="docutils literal notranslate"><span class="pre">source</span></code>::<code class="docutils literal notranslate"><span class="pre">name</span></code>, e.g., <code class="docutils literal notranslate"><span class="pre">gma::ul::rate</span></code>.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-0">
 gma</label><div class="sd-tab-content docutils">
-<p>Measurements from Generic Multi-Accee (GMA).</p>
+<h3 class="rubric" id="measurements-from-generic-multi-accee-gma">Measurements from Generic Multi-Accee (GMA).</h3>
+<p>🔽 user measurement</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -461,11 +462,48 @@ gma</label><div class="sd-tab-content docutils">
 </tbody>
 </table>
 </div>
+<p>🔽 network measurement (the aggregated result for the entire network including all users)</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ul::network::rate</p></td>
+<td><p>Uplink delivery rate (output traffic throughput) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ul::network::qos_rate</p></td>
+<td><p>Uplink QoS delivery rate (output traffic throughput meeting QoS requirement) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-even"><td><p>ul::network::tx_rate</p></td>
+<td><p>Uplink load (input traffic throughput) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ul::network::delay_violation</p></td>
+<td><p>Uplink one-way delay violation percentage (%) as measured by the entire network; delay bound (delay_bound_ms) can be configured in the JSON file. <em>(NOTE: Only for QoS use case)</em></p></td>
+</tr>
+<tr class="row-even"><td><p>dl::network::rate</p></td>
+<td><p>Downlink delivery rate (output traffic throughput) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-odd"><td><p>dl::network::qos_rate</p></td>
+<td><p>Downlink QoS delivery rate (output traffic throughput meeting QoS requirement) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-even"><td><p>dl::network::tx_rate</p></td>
+<td><p>Downlink load (input traffic throughput) per slice as measured by the entire network in Mbps.</p></td>
+</tr>
+<tr class="row-odd"><td><p>dl::network::delay_violation</p></td>
+<td><p>Downlink one-way delay violation percentage (%) as measured by the entire network; delay bound (delay_bound_ms) can be configured in the JSON file. <em>(NOTE: Only for QoS use case)</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-1">
 lte</label><div class="sd-tab-content docutils">
-<p>Measurements from LTE.</p>
+<h3 class="rubric" id="measurements-from-lte">Measurements from LTE.</h3>
+<p>🔽 user measurement</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -483,11 +521,23 @@ lte</label><div class="sd-tab-content docutils">
 <tr class="row-even"><td><p>dl::max_rate</p></td>
 <td><p>LTE downlink link capacity as measured by each user in Mbps.</p></td>
 </tr>
-<tr class="row-odd"><td><p>dl::cell::max_rate</p></td>
-<td><p>LTE downlink link capacity as measured by the base station for each slice in Mbps. <em>(NOTE: if a slice includes multiple users, the link capacity is computed as the sum of the per user capacity divided by the number of users.)</em></p></td>
-</tr>
-<tr class="row-even"><td><p>dl::rb_usage</p></td>
+<tr class="row-odd"><td><p>dl::rb_usage</p></td>
 <td><p>LTE downlink link resource block usage/utilization (%) as measured by each user.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>🔽 base station (cell) measurement</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>dl::cell::max_rate</p></td>
+<td><p>LTE downlink link capacity as measured by the base station for each slice in Mbps. <em>(NOTE: if a slice includes multiple users, the link capacity is computed as the sum of the per user capacity divided by the number of users.)</em></p></td>
 </tr>
 <tr class="row-odd"><td><p>dl::cell::rb_usage</p></td>
 <td><p>LTE downlink link resource block usage/utilization (%) as measured by the base staion for each slice. <em>(NOTE: if a slice includes multiple users, the usage is computed as the sum of the per user usage.)</em></p></td>
@@ -499,7 +549,8 @@ lte</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-2">
 wifi</label><div class="sd-tab-content docutils">
-<p>Measurements from WiFi.</p>
+<h3 class="rubric" id="measurements-from-wifi">Measurements from WiFi.</h3>
+<p>🔽 user measurement</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -524,7 +575,8 @@ wifi</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-3">
 rmcat</label><div class="sd-tab-content docutils">
-<p>Measurements from RTP Media Congestion Avoidance Techniques (RMCAT).</p>
+<h3 class="rubric" id="measurements-from-rtp-media-congestion-avoidance-techniques-rmcat">Measurements from RTP Media Congestion Avoidance Techniques (RMCAT).</h3>
+<p>🔽 flow measurement</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -645,7 +697,7 @@ rmcat</label><div class="sd-tab-content docutils">
             <ul>
 <li><a class="reference internal" href="#">Working with Measurements</a><ul>
 <li><a class="reference internal" href="#measurement-columns">Measurement Columns</a></li>
-<li><a class="reference internal" href="#supported-measurements-per-source">Supported Measurements per Source</a></li>
+<li><a class="reference internal" href="#supported-measurements-by-source">Supported Measurements by Source</a></li>
 <li><a class="reference internal" href="#retrieving-a-measurement">Retrieving a Measurement</a></li>
 </ul>
 </li>

@@ -318,14 +318,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-</span><span class="si">%d</span><span class="s1">-</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s2">&quot;session_name&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env_list</span> <span class="o">=</span> <span class="n">env_list</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">NetworkGymSim</span> <span class="o">=</span> <span class="n">NetworkGymSim</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Context</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">zmq</span><span class="o">.</span><span class="n">LINGER</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the environement configure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># connect to server via southbound Interface</span>
         <span class="n">identity</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
-        <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">)</span>
+        <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
 
         <span class="n">poller</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Poller</span><span class="p">()</span>
@@ -383,7 +384,7 @@
                         <span class="c1"># simulator terminated &lt;-------------------</span>
 
                         <span class="c1"># env_config reconnect the server.</span>
-                        <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">)</span>
+                        <span class="n">env_config</span> <span class="o">=</span> <span class="n">southbound_connect</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
                         <span class="nb">print</span><span class="p">(</span><span class="n">identity</span> <span class="o">+</span> <span class="s1">&#39;: env_config socket connected.&#39;</span><span class="p">)</span>
                         
                         <span class="n">poller</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">env_config</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">zmq</span><span class="o">.</span><span class="n">POLLIN</span><span class="p">)</span>
@@ -406,7 +407,8 @@
                         <span class="n">env_config</span><span class="o">.</span><span class="n">send_multipart</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="n">poller</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">env_config</span><span class="p">)</span>
-            <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+            <span class="n">env_config</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">term</span><span class="p">()</span></div>
 </pre></div>
         </article>
       </div>

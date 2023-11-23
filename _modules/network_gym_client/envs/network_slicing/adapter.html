@@ -282,7 +282,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config_json</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;slice_list&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span> <span class="o">=</span> <span class="mi">3</span>
 
         <span class="n">num_users</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_json</span><span class="p">[</span><span class="s1">&#39;env_config&#39;</span><span class="p">][</span><span class="s1">&#39;slice_list&#39;</span><span class="p">]:</span>
@@ -329,22 +329,38 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            spaces: observation spaces</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1">#print (df)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-        <span class="n">max_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
-        <span class="n">rb_usage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size_per_feature</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">dl_cell_rb_usage</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dl_network_tx_rate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dl_network_rate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dl_network_qos_rate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dl_network_delay_violation</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;lte&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::cell::max_rate&#39;</span><span class="p">:</span>
-                    <span class="n">max_rate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">action_data_format</span> <span class="o">=</span> <span class="n">row</span>
-
                 <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::cell::rb_usage&#39;</span><span class="p">:</span>
-                    <span class="n">rb_usage</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                    <span class="n">dl_cell_rb_usage</span> <span class="o">=</span> <span class="n">row</span>
+            <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;gma&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::network::tx_rate&#39;</span><span class="p">:</span>
+                    <span class="n">dl_network_tx_rate</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::network::rate&#39;</span><span class="p">:</span>
+                    <span class="n">dl_network_rate</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::network::qos_rate&#39;</span><span class="p">:</span>
+                    <span class="n">dl_network_qos_rate</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dl::network::delay_violation&#39;</span><span class="p">:</span>
+                    <span class="n">dl_network_delay_violation</span> <span class="o">=</span> <span class="n">row</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slice_df_to_dict</span><span class="p">(</span><span class="n">dl_cell_rb_usage</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slice_df_to_dict</span><span class="p">(</span><span class="n">dl_network_tx_rate</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slice_df_to_dict</span><span class="p">(</span><span class="n">dl_network_rate</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slice_df_to_dict</span><span class="p">(</span><span class="n">dl_network_qos_rate</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wandb_log_buffer_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slice_df_to_dict</span><span class="p">(</span><span class="n">dl_network_delay_violation</span><span class="p">))</span>
 
         <span class="c1">#warning, need to modify the following if use more than one base stations.</span>
-        <span class="n">observation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">max_rate</span><span class="p">)[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">rb_usage</span><span class="p">)[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()])</span>
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">dl_network_rate</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">dl_cell_rb_usage</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">dl_network_delay_violation</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()])</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Observation --&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">observation</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">observation</span>
 
@@ -404,22 +420,41 @@
 
         <span class="k">return</span> <span class="n">reward</span>
 
-    <span class="k">def</span> <span class="nf">slice_df_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the dataformat from dataframe to dict.</span>
+    <span class="k">def</span> <span class="nf">slice_df_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">id_name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform datatype from pandas.dataframe to dictionary.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            df (pandas.DataFrame): input dataframe</span>
-<span class="sd">            description (str): description for the data</span>
+<span class="sd">            df (pandas.dataframe): a pandas.dataframe object</span>
+<span class="sd">            description (string): a descritption for the data</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            dict: output data</span>
+<span class="sd">            dict : converted data with dictionary format</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df_cp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">df_cp</span><span class="p">[</span><span class="s1">&#39;slice_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_cp</span><span class="p">[</span><span class="s1">&#39;slice_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;slice_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="si">}</span><span class="s1">_&#39;</span><span class="o">+</span><span class="n">description</span><span class="p">)</span>
-        <span class="c1"># Set the index to the &#39;user&#39; column</span>
-        <span class="n">df_cp</span> <span class="o">=</span> <span class="n">df_cp</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;slice_id&#39;</span><span class="p">)</span>
-        <span class="c1"># Convert the DataFrame to a dictionary</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">df_cp</span><span class="p">[</span><span class="s1">&#39;slice_value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;::&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">get_key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">description</span><span class="o">+</span><span class="s2">&quot;::&quot;</span><span class="o">+</span><span class="n">id_name</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;=</span><span class="si">{</span><span class="n">u</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">+</span><span class="s2">&quot;::slice&quot;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">id_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">slice_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_list</span><span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;slice&#39;</span><span class="p">]):</span>
+                <span class="n">id_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">slice_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+                <span class="n">value_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+
+        <span class="c1">#print(id_list)</span>
+        <span class="c1">#print(slice_list)</span>
+        <span class="c1">#print(value_list)</span>
+
+        <span class="n">dict_key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">get_key</span><span class="p">,</span> <span class="n">id_list</span><span class="p">,</span> <span class="n">slice_list</span><span class="p">))</span>
+
+        <span class="c1">#print(dict_key)</span>
+        <span class="c1">#print(value_list)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dict_key</span><span class="p">,</span> <span class="n">value_list</span><span class="p">))</span>
+        <span class="c1">#print(data)</span>
         <span class="k">return</span> <span class="n">data</span>
     
     <span class="k">def</span> <span class="nf">get_rbg_size</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandwidth</span><span class="p">):</span>
