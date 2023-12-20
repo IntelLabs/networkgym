@@ -114,6 +114,11 @@ for step in range(num_steps):
 - Update the environment dependent configuration file, e.g., [network_gym_client/envs/nqos_split/config.json](network_gym_client/envs/nqos_split/config.json).
   - View configuration suggestions for arguments at [NetworkGym Docs Website](https://intellabs.github.io/networkgym/environments/mx_traffic_management/mx_traffic_splitting.html#arguments).
 
+## 📚 How to reference "NetworkGym"?
+
+Please use the following to reference "NetworkGym" in your paper if it is used to generate data for the paper: 
+
+Menglei Zhang and Jing Zhu, "NetworkGym: Democratizing Network AI via Simulation-as-a-Service", https://github.com/IntelLabs/networkgym 
 
 
 
