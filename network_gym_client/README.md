@@ -3,7 +3,7 @@
 - Second, in the [common_config.json](common_config.json) file, change "connect_via_server_ip_and_server_port" to `false` to use port forwarding as connect method.
   
 ## Setup Port Forwarding to vLab Server
-**Skip this section if you plan to deploy the client on the mlwins-v01 vlab server.** Otherwise, follow the following steps to set up port forwarding from you local machine to the stable version of vlab Server. **Change the port number from 8092 to 8088 to access stable version.**
+**Skip this section if you plan to deploy the client on the mlwins-v01 vlab server.** Otherwise, follow the following steps to set up port forwarding from you local machine to the vlab Server.
 - First, setup port forwarding from the local port 8092 to the mlwins-v01 external server port 8092 via the SSH gateway using the following command in a screen session, e.g., `screen -S port8092`.
 ``` 
 ssh -L 8092:mlwins-v01.research.intel-research.net:8092 ssh.intel-research.net
