@@ -17,7 +17,7 @@ NetworkGym provides a diverse selection of standard network environments and add
 Linking your custom environment to the server follows the same procedure as connecting the client to the server.
 
 1. refer to the [Installation](https://github.com/IntelLabs/networkgym#-installation) instructions in the NetworkGym GitHub Repo to install dependencies.
-2. In the Setup Port Forwarding to vLab Server section, alter the port number to 8087. 
+2. For external users (without Intel VPN), make sure you forward both port #8092 for the client and port #8091 for the custom environment. 
 3. Adjust the values for "session_name" and "session_key" in the [network_gym_env/common_config.json](https://github.com/IntelLabs/networkgym/blob/main/network_gym_env/common_config.json) file according to your assignment.
 
 Once these steps are completed, you can launch your custom environment using the following command:
