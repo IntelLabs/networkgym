@@ -62,7 +62,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        #print (df)
+        print (df)
 
         df_measurement_1 = np.empty(self.size_per_feature, dtype=object)
         df_measurement_2 = np.empty(self.size_per_feature, dtype=object)
