@@ -13,7 +13,7 @@ google-auth==2.22.0
 google-auth-oauthlib==1.0.0
 grpcio==1.57.0
 gymnasium==0.29.1
-idna==3.4
+idna==3.7
 Markdown==3.4.4
 markdown-it-py==3.0.0
 MarkupSafe==2.1.3
