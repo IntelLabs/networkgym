@@ -7,6 +7,19 @@ import wandb
 import numpy as np
 import pandas as pd
 import json
+import time
+
+from threading import Thread
+from rich.live import Live
+from rich.layout import Layout
+
+from rich.ansi import AnsiDecoder
+from rich.console import Group
+from rich.jupyter import JupyterMixin
+from rich.text import Text
+from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn, TaskProgressColumn, TimeRemainingColumn
+
+import plotext as plt
 
 class Adapter:
     """The base class for environment data format adapter.
@@ -34,16 +47,21 @@ class Adapter:
             "env_id": "network_gym_client",
             "RL_algo" : rl_alg
         }
+        if config_json["enable_wandb"]:
+            self.wandb.init(
+                name=config_json['env_config']['env'] + "::" + rl_alg,
+                project="network_gym_client",
+                config=config,
+                sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
+                # save_code=True,  # optional
+            )
 
-        self.wandb.init(
-            # name=rl_alg + "_" + str(config_json['env_config']['num_users']) + "_LTE_" +  str(config_json['env_config']['LTE']['resource_block_num']),
-            #name=rl_alg + "_" + str(config_json['env_config']['num_users']) + "_" +  str(config_json['env_config']['LTE']['resource_block_num']),
-            name=config_json['env_config']['env'] + "::" + rl_alg,
-            project="network_gym_client",
-            config=config,
-            sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-            # save_code=True,  # optional
-        )
+    def initial_rich_thread(self):
+        self.layout = None
+        if self.config_json["enable_terminal_redering"]:
+            rich_thread = Thread(target=self.rich_live)
+            rich_thread.daemon = True  # Dies when main thread (only non-daemon thread) exits.
+            rich_thread.start()
     
     def wandb_log_buffer_append (self, info):
         """Add to wandb log buffer, the info will be send to wandb later in the :meth:`wandb_log` function
@@ -63,7 +81,8 @@ class Adapter:
         """
         # send info to wandb
         #print(self.wandb_log_buffer)
-        self.wandb.log(self.wandb_log_buffer)
+        if self.config_json["enable_wandb"]:
+            self.wandb.log(self.wandb_log_buffer)
         self.wandb_log_buffer = None
 
     def df_to_dict(self, df, id_name='id'):
@@ -138,3 +157,59 @@ class Adapter:
             emptyFeatureArray = np.empty([self.config_json['env_config']['num_users'],], dtype=int)
             emptyFeatureArray.fill(value)
             return emptyFeatureArray
+
+    def rich_live(self):
+        self.layout = self.make_layout()
+        header = self.layout['header']
+        title = plt.colorize(self.config_json['rl_config']['agent'], "cyan+", "bold" ) + " agent is interacting with NetworkGym's " + plt.colorize(self.config_json['env_config']['env'], "cyan+", "bold") + " env."
+        header.update(Text(title, justify = "left"))
+
+        overall_progress = Progress(
+            SpinnerColumn(finished_text="[Completed]"),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TaskProgressColumn(),
+            TimeRemainingColumn(),
+            TextColumn("env time: {task.completed}/{task.total} ms"),
+        )
+        overall_task = overall_progress.add_task("Progress", total=self.config_json['env_config']['env_end_time_ms'])
+
+        footer = self.layout["footer"]
+        footer.update(overall_progress)
+        
+        self.layout["main"].visible=False
+        step_length = self.config_json['env_config']['measurement_interval_ms']
+        if 'measurement_guard_interval_ms' in self.config_json['env_config']:
+            step_length = step_length + self.config_json['env_config']['measurement_guard_interval_ms']
+
+        with Live(self.layout, refresh_per_second=1, redirect_stderr=False) as live:
+            while True:
+                time.sleep(1.0)
+                if self.action_data_format is not None:
+                    overall_progress.update(overall_task, completed=self.action_data_format["ts"]+step_length)
+                #live.refresh()
+
+    def make_layout(self):
+        layout = Layout(name="root")
+        layout.split(
+            Layout(name="header", size=1),
+            Layout(name="main", ratio=1),
+            Layout(name="footer", size = 1),
+        )
+        layout["main"].split_row(
+            Layout(name="left", ratio = 1),
+            Layout(name="right", ratio = 1),
+        )
+        return layout
+
+    class plotextMixin(JupyterMixin):
+        def __init__(self, plot_function):
+            self.decoder = AnsiDecoder()
+            self.plot_function = plot_function
+
+        def __rich_console__(self, console, options):
+            self.width = options.max_width or console.width
+            self.height = options.height or console.height
+            canvas = self.plot_function(self.width, self.height)
+            self.rich_canvas = Group(*self.decoder.decode(canvas))
+            yield self.rich_canvas
