@@ -1,5 +1,5 @@
 {
   "env_port": 8091,
-  "session_name": "test",
-  "session_key": "test"
+  "session_name": "admin",
+  "session_key": "admin"
 }

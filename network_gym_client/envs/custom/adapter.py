@@ -62,7 +62,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         Returns:
             spaces: observation spaces
         """
-        print (df)
+        #print (df)
 
         df_measurement_1 = np.empty(self.size_per_feature, dtype=object)
         df_measurement_2 = np.empty(self.size_per_feature, dtype=object)
@@ -78,7 +78,7 @@ class Adapter(network_gym_client.adapter.Adapter):
                 elif row['name'] == 'measurement_3':
                     df_measurement_3 = row['value']
         observation = np.vstack([df_measurement_1, df_measurement_2, df_measurement_3])
-        print('Observation --> ' + str(observation))
+        # print('Observation --> ' + str(observation))
         return observation
 
     def get_policy(self, action):
@@ -96,7 +96,7 @@ class Adapter(network_gym_client.adapter.Adapter):
         policy1["name"] = "srate"
         policy1["value"] = action.tolist()
 
-        print('Action --> ' + str(policy1))
+        # print('Action --> ' + str(policy1))
         return policy1
 
     def get_reward(self, df):

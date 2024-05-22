@@ -1,6 +1,6 @@
 #Copyright(C) 2023 Intel Corporation
 #SPDX-License-Identifier: Apache-2.0
-#File : dummy_worker.py
+#File : southbound_interface.py
 
 import zmq
 import json

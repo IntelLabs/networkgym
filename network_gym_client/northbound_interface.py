@@ -29,26 +29,24 @@ class NorthBoundClient():
         self.socket = None
         self.context = zmq.Context()
         self.context.setsockopt(zmq.LINGER, 10000)
-
-    #connect to network gym server using ZMQ socket
-    def connect(self):
-        """Connect to the network gym server. Send the Start Env request, where the configuration is loaded from json file.
-        """
         self.socket = self.context.socket(zmq.DEALER)
         self.socket.plain_username = bytes(self.config_json["session_name"], 'utf-8')
         self.socket.plain_password = bytes(self.config_json["session_key"], 'utf-8')
         self.socket.identity = self.identity.encode('utf-8')
         if self.config_json["connect_via_server_ip_and_server_port"]:
             self.socket.connect('tcp://'+str(self.config_json["server_ip"])+':'+str(self.config_json["server_port"]))
-            print(self.identity + " send start request to server: " + str(self.config_json["server_ip"])+" via port: "+str(self.config_json["server_port"]) + ".")
-            print("[TIP]: Set connect_via_server_ip_and_server_port to false to connect via port forwarding.")
         else:
             self.socket.connect('tcp://localhost:'+str(self.config_json["local_fowarded_port"]))
+    #connect to network gym server using ZMQ socket
+    def connect(self):
+        """Connect to the network gym server. Send the Start Env request, where the configuration is loaded from json file.
+        """
+        if self.config_json["connect_via_server_ip_and_server_port"]:
+            print(self.identity + " send start request to server: " + str(self.config_json["server_ip"])+" via port: "+str(self.config_json["server_port"]) + ".")
+        else:
             print(self.identity + " send start request to localhost via port: "+str(self.config_json["local_fowarded_port"]) + ".")
-            print ("[TIP]: Set connect_via_server_ip_and_server_port to true to connect via server ip and port.")
-            
-        self.gma_start_request = self.config_json["env_config"]
-        self.socket.send(json.dumps(self.gma_start_request, indent=2).encode('utf-8'))#send start simulation request
+
+        self.socket.send(json.dumps(self.config_json["env_config"], indent=2).encode('utf-8'))#send start simulation request
 
     #send action to network gym server
     def send (self, policy):
@@ -92,10 +90,9 @@ class NorthBoundClient():
         if relay_json["type"] == "no-available-worker":
             # no available network gym worker, retry the request later
             print(self.identity+" Receive: "+reply.decode())
-            print(self.identity+" "+"retry later...")
             self.socket.close()
             self.context.term()
-            quit()
+            sys.exit(self.identity+" [Error] : No available worker, retry later.")
 
         #elif relay_json["type"] == "env-end":
         #    # simulation end from the network gym server
@@ -111,17 +108,16 @@ class NorthBoundClient():
         elif relay_json["type"] == "env-error":
             # error happened. Check the error msg.
             print(self.identity +" Receive: "+ reply.decode())
-            print(self.identity +" "+ "Simulation Stopped with ***[Error]***!")
-            self.socket.close()
-            self.context.term()
-            quit()
+            #self.socket.close()
+            #self.context.term()
+            #sys.exit(self.identity +" Simulation Stopped with ***[Error]***! MSG:" + reply.decode())
+            return None
         else:
             # Unkown msg type, please check.This should not happen. 
             print(self.identity +" Receive: "+ reply.decode())
-            print(self.identity +" "+ "***[ERROR]*** unkown msg type!")
             self.socket.close()
             self.context.term()
-            quit()
+            sys.exit(self.identity +" Simulation Stopped with ***[Error]***! MSG:"+ reply.decode())
      
     def process_measurement (self, reply_json):
         """Process the measurement.
@@ -140,9 +136,9 @@ class NorthBoundClient():
         if "workload_stats" in reply_json:
             # workload measurement available
             print('Env (workload_stats) --> ' + str(reply_json['workload_stats']))
-            #if "sim_time_lapse_ms" and "time_lapse_ms" in reply_json['workload_stats']:
-            #    if reply_json['workload_stats']['time_lapse_ms']>0:
-            #        print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')
+            if "sim_time_lapse_ms" and "time_lapse_ms" in reply_json['workload_stats']:
+                if reply_json['workload_stats']['time_lapse_ms']>0:
+                    print('Env Measurement --> Percentage of time spend on simulation: ' + str(int(100*reply_json['workload_stats']['sim_time_lapse_ms']/reply_json['workload_stats']['time_lapse_ms'])) + '%')
         return network_stats
 
     def close(self):

@@ -1,0 +1,6 @@
+{
+  "network_gym_client_port": 8088,
+  "network_gym_sim_port": 8087,
+  "official_session_name": "admin",
+  "custom_env_name": "custom"
+}
