@@ -46,9 +46,9 @@ pip3 install -r requirements.txt
 
 - Copy gma and networkgym module files:
   ```
-  cp ../network_gym_sim/scratch/unified-network-slicing.cc scratch/
-  cp ../network_gym_sim/network_gym_sim.py .
-  cp -r ../network_gym_sim/contrib/* contrib/
+  cp ../network_gym_ns3/scratch/unified-network-slicing.cc scratch/
+  cp ../network_gym_ns3/network_gym_sim.py .
+  cp -r ../network_gym_ns3/contrib/* contrib/
   ```
 - Install the ZeroMQ socket C++ library (required by networkgym module):
   ```
