@@ -1,6 +1,6 @@
-#Copyright(C) 2023 Intel Corporation
+#Copyright(C) 2024 Intel Corporation
 #SPDX-License-Identifier: Apache-2.0
-#File : start_dummy_worker.py
+#File : dummy_sim.py
 
 
 """
@@ -60,9 +60,8 @@ class DummySim:
             client_identity (str): the identity of the client socket who started the env
         """
         # open a socket with the same env_identity and connect to the same env_port.
-        context = zmq.Context()
-        context.setsockopt(zmq.LINGER, 10000)
-        env_sim = southbound_connect(env_identity, config_json, context)
+
+        env_sim = southbound_connect(env_identity, config_json)
         print(env_identity + ': env_sim socket connected.')
 
         poller = zmq.Poller()
@@ -107,7 +106,6 @@ class DummySim:
                 break
         poller.unregister(env_sim)
         env_sim.close()
-        context.term()
         print(env_identity + ': env_sim socket closed.')
     
     def run_one_interval(self):
