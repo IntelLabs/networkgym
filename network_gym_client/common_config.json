@@ -5,6 +5,6 @@
   "local_fowarded_port": 8092,
   "enable_wandb": false,
   "enable_terminal_redering": true,
-  "session_name": "test",
-  "session_key": "test"
+  "session_name": "admin",
+  "session_key": "admin"
 }
