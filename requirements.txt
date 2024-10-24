@@ -44,6 +44,6 @@ tensorboard==2.14.0
 tensorboard-data-server==0.7.1
 typing_extensions==4.7.1
 tzdata==2023.3
-urllib3==1.26.18
+urllib3==1.26.19
 wandb==0.15.8
 Werkzeug==3.0.3
