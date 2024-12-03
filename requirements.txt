@@ -1,7 +1,7 @@
 absl-py==1.4.0
 appdirs==1.4.4
 cachetools==5.3.1
-certifi==2023.7.22
+certifi==2024.7.4
 charset-normalizer==3.2.0
 click==8.1.7
 cloudpickle==2.2.1
