@@ -28,7 +28,7 @@ packaging==23.1
 pandas==2.0.3
 pandass==1.11.4
 pathtools==0.1.2
-protobuf==4.23.4
+protobuf==4.25.8
 psutil==5.9.5
 pydata-sphinx-theme==0.13.3
 Pygments==2.15.1
